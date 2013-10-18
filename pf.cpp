@@ -17,22 +17,35 @@ class PfNode
 
 class Pf
 {
-    private:
-    vector<PfNode*> *path;
 
     public:
+    int* dir;
+
+
     Pf(int startX, int startY, int endX, int endY)
     {
-        this->path = makeNodes(startX, startY, endX, endY);
-        step = 3;
+        //this->path = makeNodes(startX, startY, endX, endY);
+        //step = 3;
+
+        //this->dir[1] = 1;
     }
 
-    Point* getStep()
+    int* calc(int startX, int startY, int endX, int endY)
     {
-        cout << this->path->size() << endl;
-        return new Point(1,2);
-        step++;
-        return new Point(this->path->at(step)->x,this->path->at(step)->y);
+        vector<PfNode*> *path = makeNodes(startX, startY, endX, endY);
+        int* dir = new int[10];
+        for(int s=0; s<12; s++)
+        {
+            dir[s]=1+rand()%4;
+        }
+        return dir;
+    }
+
+    int getNextDir()
+    {
+        dir[0] = 1;
+        return 1;
+//        return dir[1];
     }
 
     private:

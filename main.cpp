@@ -129,6 +129,9 @@ string enemy;
 Enemy* enemy2;
 int main()
 {
+    Pf *pf = new Pf(1,1,10,10);
+    enemy2 = new Enemy();
+    enemy2->walkList = pf->calc(1,1,10,10);
 
     for(int y=0; y<30; y++)
     {
@@ -138,7 +141,6 @@ int main()
         }
     }
 
-    enemy2 = new Enemy();
 
     initscr();
 //    srand(time(NULL));
