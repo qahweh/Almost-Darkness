@@ -160,13 +160,17 @@ class Piece
     public int y;
     private Pf pf;
     private char[][] matris;
+    public boolean[][] canSee;
+    private World w;
 
-    public Piece(int x, int y, char[][] matris) throws Exception
+    public Piece(int x, int y, char[][] matris, World w) throws Exception
     {
+        this.w = w;
         if(matris==null)throw new Exception("Matris can not be null");
         this.x = x;
         this.y = y;
         this.matris = matris;
+        canSee = new boolean[w.width][w.height];
     }
 
     public void gotoPoint(int x, int y) throws Exception
@@ -175,8 +179,40 @@ class Piece
         pf = new Pf(this.x,this.y,x,y,matris);
     }
 
+    private void castRay()
+    {
+        int width = w.width;
+        int height = w.height;
+        Random r = new Random();
+
+        for(int x=0; x<width; x++)
+        {
+            for(int y=0; y<height; y++)
+            {
+               canSee[x][y]=false;
+            }
+        }
+
+        for(int i=0; i<160; i++)
+        {
+            double l = (Math.PI/80)*i;
+            double c = Math.cos(l);
+            double s = Math.sin(l);
+
+            for(int j=0; j<100; j++)
+            {
+                if(matris[x+(int)(j*s)][y+(int)(j*c)]=='.')
+                    canSee[x+(int)(j*s)][y+(int)(j*c)]=true;
+                else {canSee[x+(int)(j*s)][y+(int)(j*c)]=true; break;}
+            }
+
+        }        
+
+    }
+
     public void update() throws Exception
     {
+        
         if(matris[this.x][this.y]=='1')
         {
             Game.foundSpot[1]=true;
@@ -254,6 +290,7 @@ class Piece
         Point p = pf.getPoint();
         this.x = p.x;
         this.y = p.y;
+        castRay();
 
         if(pf.atGoal())
         {
@@ -384,11 +421,16 @@ class Game
     public static boolean[] foundSpot;
     public static void main(String[] args) throws Exception
     {
+
+
+
+        //if(true)return;
+
         foundSpot = new boolean[9];
-        findWorld();
+        World w = findWorld();
 
         Point p = findChar('.');
-        player = new Piece(p.x,p.y,matris);
+        player = new Piece(p.x,p.y,matris,w);
 
         JFrame f = new JFrame("Almost Darkness");
         f.addKeyListener(new KeyListener()
@@ -400,7 +442,7 @@ class Game
         f.setVisible(true);
     }
 
-    private static void findWorld()
+    private static World findWorld()
     { 
         World w = new World(60,25,6228);
         Point p = new Point(0,0);
@@ -416,7 +458,7 @@ class Game
                 w = new World(60,25,r3);
                 matris = w.matris;
                 p = findChar('1');
-                zombie = new Piece(8,15,matris);
+                zombie = new Piece(8,15,matris,w);
                 zombie.gotoPoint(p.x,p.y);
 
                 for(int i=0; i<2000; i++)
@@ -427,7 +469,7 @@ class Game
 
                     if(lll==8)
                     {
-                        return;
+                        return w;
                     }
                 }        
             }
@@ -461,14 +503,17 @@ class Game
         }
             if(player!=null)player.update();
             if(zombie!=null)zombie.update();
+
+            if(player!=null)if(matris[player.x][player.y]==';')matris[player.x][player.y]='.';
+
             if(draw)
             {
             for(int y=0; y<25; y++)
             {
                 for(int x=0; x<60; x++)
                 {
-
-                    if(player!=null && player.x==x && player.y==y)System.out.print('d');
+                    if(!player.canSee[x][y])System.out.print(' ');
+                    else if(player!=null && player.x==x && player.y==y)System.out.print('d');
                     else if(zombie!=null && zombie.x==x && zombie.y==y)System.out.print('z');
                    // else if(matris[x][y]==null)System.out.print(' ');                    
                     else System.out.print(matris[x][y]);
