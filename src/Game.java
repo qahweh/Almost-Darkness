@@ -3,9 +3,11 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.awt.Point;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
-
+import java.awt.Font;
 class PfNode
 {
     public int x;
@@ -321,6 +323,24 @@ class World
         makeRandomRoom(false,r);
         for(int i=0; i<8; i++) makeRandomRoom(true,r);
         for(int i=0; i<10; i++) makedoor(r);
+        for(int i=0; i<10; i++) putBox(r);
+    }
+
+    private void putBox(Random r)
+    {
+        while(true)
+        {
+            int x = r.nextInt(width);
+            int y = r.nextInt(height);
+
+            if(matris[x][y]=='.')
+            {
+                matris[x][y] = 'B';
+                if(r.nextInt(2)==0 && matris[x-1][y]=='.')matris[x-1][y] = 'B';
+                if(r.nextInt(2)==0 && matris[x][y-1]=='.')matris[x][y-1] = 'B';
+                return;
+            }
+        }
     }
 
     
@@ -410,15 +430,13 @@ class World
     }
 }
 
-
-
 class Game
 {
-
     static char[][] matris;
     static Piece player;
     static Piece zombie;
     public static boolean[] foundSpot;
+    static JLabel out;
     public static void main(String[] args) throws Exception
     {
 
@@ -427,12 +445,13 @@ class Game
         //if(true)return;
 
         foundSpot = new boolean[9];
-        World w = findWorld();
+        World w = findWorld(14);
 
         Point p = findChar('.');
         player = new Piece(p.x,p.y,matris,w);
 
         JFrame f = new JFrame("Almost Darkness");
+        f.setSize(600,400);
         f.addKeyListener(new KeyListener()
         {
             public void keyPressed(KeyEvent e){   try{update(e,true);}catch(Exception ex){ex.printStackTrace();}   }
@@ -440,13 +459,16 @@ class Game
             public void keyTyped(KeyEvent e){}
         });
         f.setVisible(true);
+        out = new JLabel();
+        out.setFont(new Font("Courier New",Font.PLAIN,12));
+        f.add(new JPanel().add(out));
     }
 
-    private static World findWorld()
+    private static World findWorld(int r4)
     { 
         World w = new World(60,25,6228);
         Point p = new Point(0,0);
-        Random r2 = new Random();
+        Random r2 = new Random(r4);
         while(true)
         {
             try
@@ -507,7 +529,7 @@ class Game
             if(player!=null)if(matris[player.x][player.y]==';')matris[player.x][player.y]='.';
 
             if(draw)
-            {
+            {/*
             for(int y=0; y<25; y++)
             {
                 for(int x=0; x<60; x++)
@@ -522,8 +544,31 @@ class Game
 
                 }
                 System.out.println("");
+            }*/
+
+            String toOut = "<html>";
+            for(int y=0; y<25; y++)
+            {
+                for(int x=0; x<60; x++)
+                {
+                    if(!player.canSee[x][y])toOut += " ";
+                    else if(player!=null && player.x==x && player.y==y)toOut += "d";
+                    else if(zombie!=null && zombie.x==x && zombie.y==y)toOut += "z";
+                   // else if(matris[x][y]==null)System.out.print(' ');                    
+                    else toOut += matris[x][y];
+                    
+//                    System.out.print(matris[x][y]);
+
+                }
+                toOut +="<br>";
             }
-            System.out.println("");
+            out.setText(toOut.replace(" ","&nbsp;")+"</html>");
+        
+
+
+
+
+            System.out.println();
             }
         
 
