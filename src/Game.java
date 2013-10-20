@@ -153,17 +153,17 @@ class Pf
         return (path.get(step).x==endX && path.get(step).y==endY);
     }
 
-
 }
 
 class Piece
 {
     public int x;
     public int y;
-    private Pf pf;
+    public Pf pf;
     private char[][] matris;
     public boolean[][] canSee;
     private World w;
+    public int ai = 0;
 
     public Piece(int x, int y, char[][] matris, World w) throws Exception
     {
@@ -173,6 +173,12 @@ class Piece
         this.y = y;
         this.matris = matris;
         canSee = new boolean[w.width][w.height];
+    }
+
+    public void goToRandomSpot() throws Exception
+    {
+        Point p = w.findRandomSpotOf('.');
+        gotoPoint(p.x,p.y);
     }
 
     public void gotoPoint(int x, int y) throws Exception
@@ -284,6 +290,7 @@ class Piece
             Game.foundSpot[8]=true;
             matris[this.x][this.y]='.';
         //    System.out.println("8");
+            ai=1;
         }
 
         if(pf!=null)
@@ -308,6 +315,21 @@ class World
     int width;
     int height;
     int currentRoomNumber = 1;
+
+    public Point findRandomSpotOf(char c)
+    {
+        Random r = new Random();
+
+        int x = r.nextInt(width);
+        int y = r.nextInt(height);
+        while(matris[x][y]!='.')
+        {
+            x = r.nextInt(width);
+            y = r.nextInt(height);
+        }
+
+        return new Point(x,y);
+    }
 
     public World(int width, int height, int random)
     {
@@ -524,7 +546,11 @@ class Game
         if(e.getKeyCode()==87 )player.gotoPoint(player.x,player.y-1);
         }
             if(player!=null)player.update();
-            if(zombie!=null)zombie.update();
+            if(zombie!=null)
+            {
+                if(zombie.ai==1 && ( zombie.pf==null || zombie.pf.atGoal() ) )zombie.goToRandomSpot();
+                zombie.update();
+            }
 
             if(player!=null)if(matris[player.x][player.y]==';')matris[player.x][player.y]='.';
 
