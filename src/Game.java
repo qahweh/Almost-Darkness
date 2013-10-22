@@ -116,6 +116,7 @@ class Pf
         if(matris[x][y]=='+')return true;
         if(matris[x][y]=='-')return true;
         if(matris[x][y]=='|')return true;
+        if(matris[x][y]=='B')return true;
         for(int i=0; i<nodes.size(); i++)
         {
             if(nodes.get(i).x == x && nodes.get(i).y == y )return true;
@@ -164,6 +165,7 @@ class Piece
     public boolean[][] canSee;
     private World w;
     public int ai = 0;
+    public Piece hero = null;
 
     public Piece(int x, int y, char[][] matris, World w) throws Exception
     {
@@ -183,7 +185,7 @@ class Piece
 
     public void gotoPoint(int x, int y) throws Exception
     {
-        if(!  (  matris[x][y]=='.'  || matris[x][y]==';' || matris[x][y]=='1' || matris[x][y]=='2' || matris[x][y]=='3' || matris[x][y]=='4' || matris[x][y]=='5' || matris[x][y]=='6' || matris[x][y]=='7' || matris[x][y]=='8'))return;
+        if(!  (  matris[x][y]=='.'  || matris[x][y]==';' || matris[x][y]=='1' || matris[x][y]=='2' || matris[x][y]=='3' || matris[x][y]=='4' || matris[x][y]=='5' || matris[x][y]=='6' || matris[x][y]=='7' || matris[x][y]=='8' ))return;
         pf = new Pf(this.x,this.y,x,y,matris);
     }
 
@@ -218,9 +220,21 @@ class Piece
 
     }
 
+    public Point seeHero()
+    {
+        if(hero==null)return null;
+        if(canSee[hero.x][hero.y]) return new Point(hero.x,hero.y);
+        return null;
+    }
+
     public void update() throws Exception
     {
-        
+        if(ai==1 && seeHero()!=null)
+        {
+            Point p = seeHero();
+            gotoPoint(p.x,p.y);
+        }
+
         if(matris[this.x][this.y]=='1')
         {
             Game.foundSpot[1]=true;
@@ -469,9 +483,9 @@ class Game
         foundSpot = new boolean[9];
         World w = findWorld(14);
 
-        Point p = findChar('.');
+        Point p = w.findRandomSpotOf('.');
         player = new Piece(p.x,p.y,matris,w);
-
+        zombie.hero = player;
         JFrame f = new JFrame("Almost Darkness");
         f.setSize(600,400);
         f.addKeyListener(new KeyListener()
@@ -535,8 +549,11 @@ class Game
         return null;
     }
 
+    private static boolean gameEnd = false;
+
     private static void update(KeyEvent e, boolean draw) throws Exception
     {
+        if(gameEnd){ out.setText("GAME OVER"); return;}
        // Thread.sleep(500);
         if(e!=null && player!=null)
         {
@@ -551,6 +568,8 @@ class Game
                 if(zombie.ai==1 && ( zombie.pf==null || zombie.pf.atGoal() ) )zombie.goToRandomSpot();
                 zombie.update();
             }
+
+            if(player!=null && zombie.x == player.x && zombie.y == player.y){gameEnd = true; return; }
 
             if(player!=null)if(matris[player.x][player.y]==';')matris[player.x][player.y]='.';
 
