@@ -166,7 +166,8 @@ class Piece
     private World w;
     public int ai = 0;
     public Piece hero = null;
-
+    int dir =0;
+    public int diff = 0;
     public Piece(int x, int y, char[][] matris, World w) throws Exception
     {
         this.w = w;
@@ -203,7 +204,32 @@ class Piece
             }
         }
 
-        for(int i=0; i<160; i++)
+        int fa=0;
+        int ta=160;
+
+        if(dir==0)
+        {
+            fa=10-diff;
+            ta=70+diff;
+        }
+        else if(dir==1)
+        {
+            fa=90-diff;
+            ta=150+diff;
+        }
+        else if(dir==2)
+        {
+            fa=-35-diff;
+            ta=35+diff;
+        }
+        else if(dir==3)
+        {
+            fa=-35+80-diff;
+            ta=35+80+diff;
+        }
+
+
+        for(int i=fa; i<ta; i++)
         {
             double l = (Math.PI/80)*i;
             double c = Math.cos(l);
@@ -311,6 +337,12 @@ class Piece
         {
 
         Point p = pf.getPoint();
+
+        if(this.x<p.x)dir = 0;
+        if(this.x>p.x)dir = 1;
+        if(this.y<p.y)dir = 2;
+        if(this.y>p.y)dir = 3;
+
         this.x = p.x;
         this.y = p.y;
         castRay();
@@ -486,6 +518,8 @@ class Game
         Point p = w.findRandomSpotOf('.');
         player = new Piece(p.x,p.y,matris,w);
         zombie.hero = player;
+        zombie.diff = -25;
+        player.diff = +20;
         JFrame f = new JFrame("Almost Darkness");
         f.setSize(600,400);
         f.addKeyListener(new KeyListener()
