@@ -9,6 +9,7 @@ public class AlmostDarkness implements GameCallBack
 {
     private UserInterface ui;
     private Game game;
+
     private AlmostDarkness()
     {
         ui = new UI1();
