@@ -14,8 +14,15 @@ public class UI1 implements UserInterface
 {
     private JFrame f;
     private JLabel out;
+    private UserInterfaceCallBack cb;
+
     public UI1()
     {
+    }
+
+    public void setCallBack(UserInterfaceCallBack cb)
+    {
+        this.cb = cb;
     }
 
     public void start()
@@ -24,13 +31,13 @@ public class UI1 implements UserInterface
         f.setSize(600,400);
         f.addKeyListener(new KeyListener()
         {
-            public void keyPressed(KeyEvent e){}
+            public void keyPressed(KeyEvent e){ cb.keyPressed(e.getKeyCode()); }
             public void keyReleased(KeyEvent e){}
             public void keyTyped(KeyEvent e){}
         });
         f.setVisible(true);
         out = new JLabel();
-        out.setFont(new Font("Monospace",Font.PLAIN,11));
+        out.setFont(new Font("Courier New",Font.PLAIN,12));
         f.add(new JPanel().add(out));
     }
 

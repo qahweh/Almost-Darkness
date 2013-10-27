@@ -2,10 +2,17 @@ package qahweh.almostdarkness;
 
 import qahweh.almostdarkness.ui.UserInterface;
 import qahweh.almostdarkness.ui.UI1;
+import qahweh.almostdarkness.ui.UserInterfaceCallBack;
 import qahweh.almostdarkness.gamelogic.Game;
 import qahweh.almostdarkness.gamelogic.GameCallBack;
+import qahweh.almostdarkness.gamelogic.piece.PieceI;
 
-public class AlmostDarkness implements GameCallBack
+import java.util.List;
+import java.awt.Point;
+import java.util.ArrayList;
+
+
+public class AlmostDarkness implements GameCallBack, UserInterfaceCallBack
 {
     private UserInterface ui;
     private Game game;
@@ -13,6 +20,7 @@ public class AlmostDarkness implements GameCallBack
     private AlmostDarkness()
     {
         ui = new UI1();
+        ui.setCallBack(this);
         game = new Game();
         game.setCallBack(this);
     }
@@ -46,7 +54,52 @@ public class AlmostDarkness implements GameCallBack
     @Override
     public void refresh(Game game)
     {
-        ui.draw(""+game.loop);
+        char[][] draw = new char[124][64];
+
+        for(int x=0; x<124; x++)
+        {
+            for(int y=0; y<64; y++)
+            {
+                draw[x][y] = '.';
+            }
+        }
+
+        List keys = new ArrayList(game.piecePositions.keySet());
+        for(int i=0; i<keys.size(); i++)
+        {
+            PieceI o = (PieceI)keys.get(i);
+            Point p = game.piecePositions.get(o);
+            if(p.x>-1 && p.y>-1)
+                draw[p.x][p.y] = 'e';
+        }
+/*
+        for(int i=0; i<game.piecePositions.size(); i++)
+        {
+            Point pos = game.piecePositions.get(i)
+        }
+*/
+        String output = "";
+        for(int y=0; y<25; y++)
+        {
+            for(int x=0; x<124; x++)
+            {
+                output += draw[x][y]; 
+            }
+            output += "\n";
+        }
+        ui.draw(output);
+
+
+
+/*        
+
+        }*/
+    }
+
+    @Override
+    public void keyPressed(int k)
+    {
+        game.input(k);
     }
 
 }

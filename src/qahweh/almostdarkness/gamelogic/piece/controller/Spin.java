@@ -23,14 +23,14 @@ class Spin implements Controller
     @Override
     public boolean wantWalkEast()
     {
-        if(t==2 || t==3)return true;
+        if(t==4 || t==5)return true;
         return false;
     }
 
     @Override
     public boolean wantWalkNorth()
     {
-        if(t==4 || t==5)return true;
+        if(t==2 || t==3)return true;
         return false;
     }
 
