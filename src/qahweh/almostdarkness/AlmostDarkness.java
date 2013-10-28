@@ -54,6 +54,7 @@ public class AlmostDarkness implements GameCallBack, UserInterfaceCallBack
     @Override
     public void refresh(Game game)
     {
+        if(false)return;
         char[][] draw = new char[124][64];
 
         for(int x=0; x<124; x++)
@@ -79,9 +80,9 @@ public class AlmostDarkness implements GameCallBack, UserInterfaceCallBack
         }
 */
         String output = "";
-        for(int y=0; y<25; y++)
+        for(int y=0; y<26; y++)
         {
-            for(int x=0; x<124; x++)
+            for(int x=0; x<85; x++)
             {
                 output += draw[x][y]; 
             }

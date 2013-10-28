@@ -15,7 +15,7 @@ public class Game implements PieceCallBack
     public Hashtable<PieceI, Point> piecePositions;
     private ArrayList<PieceI> pieces;
     int k;
-
+    private PieceI human;
     public Game()
     {
         piecePositions = new Hashtable<PieceI, Point>();
@@ -30,7 +30,7 @@ public class Game implements PieceCallBack
     public void start() throws Exception
     {
         int f = 0;
-        PieceI human = PieceFactory.getHuman();
+        human = PieceFactory.getHuman();
         pieces.add(human);
         piecePositions.put(human,new Point(8,9));
 
@@ -49,14 +49,18 @@ public class Game implements PieceCallBack
 
         while(true)
         {
-            f++;
-            human.update();
-            loop = f;
             Thread.sleep(1000);
-            cb.refresh(this);
+            update();
         }
 
     }
+
+    private void update()
+    {
+        human.update();
+        cb.refresh(this);
+    }
+
 
     @Override
     public void walkWest(PieceI p)
@@ -100,6 +104,7 @@ public class Game implements PieceCallBack
         if(c==83) k=3;
         if(c==68) k=2;
         if(c==87) k=4;
+        update();
     }
 
 }
