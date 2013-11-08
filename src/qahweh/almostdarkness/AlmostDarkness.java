@@ -57,11 +57,11 @@ public class AlmostDarkness implements GameCallBack, UserInterfaceCallBack
         if(false)return;
         char[][] draw = new char[124][64];
 
-        for(int x=0; x<124; x++)
+        for(int x=0; x<game.world.width; x++)
         {
-            for(int y=0; y<64; y++)
+            for(int y=0; y<game.world.height; y++)
             {
-                draw[x][y] = '.';
+                draw[x][y] = game.world.matris[x][y];
             }
         }
 

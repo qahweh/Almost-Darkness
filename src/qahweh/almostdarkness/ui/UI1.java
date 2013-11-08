@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.awt.Font;
+import java.awt.Color;
 
 public class UI1 implements UserInterface
 {
@@ -43,10 +44,15 @@ public class UI1 implements UserInterface
 
     public void draw(String string)
     {
-        String html = "<html>"+string+"</html>";
-        html = html.replace(" ","&nbsp;");
+        string = string.replace(" ","&nbsp;");
+        string = string.replace("+","<font color=RED bgcolor=BLACK>+</font>");
+        string = string.replace(",","<font color=GREEN bgcolor=BLACK>,</font>");
+
+        String html = "<html><font color=WHITE bgcolor=BLACK>"+string+"</font></html>";
         html = html.replace("\n","<br>");
+        f.setBackground(Color.BLACK);
         out.setText(html);
+        f.repaint();
     }
 
     public void stop()

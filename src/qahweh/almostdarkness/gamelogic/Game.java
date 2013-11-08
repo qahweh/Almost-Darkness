@@ -2,6 +2,7 @@ package qahweh.almostdarkness.gamelogic;
 
 import qahweh.almostdarkness.gamelogic.piece.*;
 import qahweh.almostdarkness.gamelogic.piece.controller.*;
+import qahweh.almostdarkness.gamelogic.world.*;
 
 import java.awt.Point;
 import java.util.Hashtable;
@@ -16,10 +17,13 @@ public class Game implements PieceCallBack
     private ArrayList<PieceI> pieces;
     int k;
     private PieceI human;
+    public World world;
+
     public Game()
     {
         piecePositions = new Hashtable<PieceI, Point>();
         pieces = new ArrayList<PieceI>();
+        world = new World();
     }
 
     public void setCallBack(GameCallBack cb)
@@ -67,7 +71,7 @@ public class Game implements PieceCallBack
     {
         Point pos = piecePositions.get(p);
         if(pos==null)pos = new Point(0,0);
-        pos.translate(-1,0);
+        if(!world.isSolid(pos.x-1,pos.y))pos.translate(-1,0);
         piecePositions.put(p,pos);
     }
 
@@ -76,7 +80,7 @@ public class Game implements PieceCallBack
     {
         Point pos = piecePositions.get(p);
         if(pos==null)pos = new Point(0,0);
-        pos.translate(1,0);
+        if(!world.isSolid(pos.x+1,pos.y))pos.translate(1,0);
         piecePositions.put(p,pos);
     }
 
@@ -85,7 +89,7 @@ public class Game implements PieceCallBack
     {
         Point pos = piecePositions.get(p);
         if(pos==null)pos = new Point(0,0);
-        pos.translate(0,-1);
+        if(!world.isSolid(pos.x,pos.y-1))pos.translate(0,-1);
         piecePositions.put(p,pos);
     }
 
@@ -94,7 +98,7 @@ public class Game implements PieceCallBack
     {
         Point pos = piecePositions.get(p);
         if(pos==null)pos = new Point(0,0);
-        pos.translate(0,1);
+        if(!world.isSolid(pos.x,pos.y+1))pos.translate(0,1);
         piecePositions.put(p,pos);
     }
 
