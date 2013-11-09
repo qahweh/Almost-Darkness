@@ -61,7 +61,7 @@ public class AlmostDarkness implements GameCallBack, UserInterfaceCallBack
         {
             for(int y=0; y<game.world.height; y++)
             {
-                draw[x][y] = game.world.matris[x][y];
+                draw[x][y] = ( game.canSee(x,y) ? game.world.matris[x][y] : ' ');
             }
         }
 

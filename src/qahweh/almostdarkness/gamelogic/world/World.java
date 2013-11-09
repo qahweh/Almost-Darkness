@@ -199,6 +199,7 @@ int c =0;
     {
         if(matris[x][y]=='|')return true;
         if(matris[x][y]=='-')return true;
+        if(matris[x][y]=='t')return true;
         return false;
     }
 

@@ -2,11 +2,13 @@ package qahweh.almostdarkness.gamelogic;
 
 import qahweh.almostdarkness.gamelogic.piece.*;
 import qahweh.almostdarkness.gamelogic.piece.controller.*;
+import qahweh.almostdarkness.gamelogic.piece.component.*;
 import qahweh.almostdarkness.gamelogic.world.*;
 
 import java.awt.Point;
 import java.util.Hashtable;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class Game implements PieceCallBack
@@ -49,12 +51,31 @@ public class Game implements PieceCallBack
                         public boolean wantWalkNorth() { if(k==3){k=0; return true;} return false; }
                         public boolean wantWalkSouth() { if(k==4){k=0; return true;} return false; }
                     });
-        
+        human.add(
+            new Eye()
+            {
+                @Override
+                public void updateView()
+                {
+                    Random r = new Random();
+                    Point p = piecePositions.get(human);
+                    block = new boolean[world.width][world.height];
+                    for(int x=0; x<world.width; x++)
+                        for(int y=0; y<world.height; y++)
+                        {
+                            this.x = p.x;
+                            this.y = p.y;
+                            block[x][y] = world.isSolid(x,y);
+                        }
+                        super.updateView();
+                }
+            }
+        );
 
         while(true)
         {
             Thread.sleep(1000);
-            update();
+            //update();
         }
 
     }
@@ -109,6 +130,15 @@ public class Game implements PieceCallBack
         if(c==68) k=2;
         if(c==87) k=4;
         update();
+    }
+
+    public boolean canSee(int x,int y)
+    {
+        if(x>world.width)return false;
+        if(y>world.height)return false;
+        boolean[][] s = human.getSight();
+        
+        return s[x][y];
     }
 
 }
