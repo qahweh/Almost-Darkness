@@ -9,7 +9,8 @@ import java.awt.Point;
 import java.util.Hashtable;
 import java.util.ArrayList;
 import java.util.Random;
-
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 
 public class Game implements PieceCallBack
 {
@@ -33,13 +34,28 @@ public class Game implements PieceCallBack
         this.cb = cb;
     }
 
+    private void printHelp()
+    {
+        System.out.println("Help:");
+        System.out.println("Here is a list of commands and what they are doing");
+        System.out.println("QUEST - gives you a list of what are left to do. If this turns empty you won the game.");
+        System.out.println("LOOK - gives you a list of objects you see and what character that are being on screen.");
+        System.out.println("GOTO <obj> - You will automaticly going to object.");
+        System.out.println("USE <obj> - You will use object.");
+        System.out.println("OPEN <obj> - You will open object. ");
+    }
+
     public void start() throws Exception
     {
         int f = 0;
         human = PieceFactory.getHuman();
         pieces.add(human);
         piecePositions.put(human,new Point(8,9));
-
+        System.out.println("Story:");
+        System.out.println("You are on an assigment from the local police to investigate the disappearens of Dr. Anthony Lindsey. You have arrive at his summer house by the lake. You are about to see if he is here and if not break in and take all clues from the house and then leave");
+        System.out.println("");
+        System.out.println("Hint:");
+        System.out.println("Type HELP");
         human.setCallBack(this);
         Controller c = ControllerFactory.getSpinController();
         human.setController(
@@ -74,8 +90,15 @@ public class Game implements PieceCallBack
 
         while(true)
         {
-            Thread.sleep(1000);
-            //update();
+            try
+            {
+                BufferedReader br = new BufferedReader(  new InputStreamReader(System.in)  );
+                input(br.readLine());
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
         }
 
     }
@@ -130,6 +153,11 @@ public class Game implements PieceCallBack
         if(c==68) k=2;
         if(c==87) k=4;
         update();
+    }
+
+    public void input(String command)
+    {
+        if(command.equals("HELP"))printHelp();
     }
 
     public boolean canSee(int x,int y)

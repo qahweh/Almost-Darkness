@@ -10,6 +10,8 @@ import qahweh.almostdarkness.gamelogic.piece.PieceI;
 import java.util.List;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 
 
 public class AlmostDarkness implements GameCallBack, UserInterfaceCallBack
