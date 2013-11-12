@@ -28,7 +28,7 @@ public class Eye implements Component
             double c = Math.cos(l);
             double s = Math.sin(l);
 
-            for(int j=0; j<100; j++)
+            for(int j=0; j<10; j++)
             {
                 int u = x+(int)(j*s);
                 int t = y+(int)(j*c);

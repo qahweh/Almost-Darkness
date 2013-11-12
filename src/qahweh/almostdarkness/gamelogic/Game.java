@@ -21,6 +21,8 @@ public class Game implements PieceCallBack
     int k;
     private PieceI human;
     public World world;
+    public int cameraX;
+    public int cameraY;
 
     public Game()
     {
@@ -50,7 +52,7 @@ public class Game implements PieceCallBack
         int f = 0;
         human = PieceFactory.getHuman();
         pieces.add(human);
-        piecePositions.put(human,new Point(8,9));
+        piecePositions.put(human,new Point(18,19));
         System.out.println("Story:");
         System.out.println("You are on an assigment from the local police to investigate the disappearens of Dr. Anthony Lindsey. You have arrive at his summer house by the lake. You are about to see if he is here and if not break in and take all clues from the house and then leave");
         System.out.println("");
@@ -106,6 +108,8 @@ public class Game implements PieceCallBack
     private void update()
     {
         human.update();
+        cameraX = piecePositions.get(human).x-11;
+        cameraY = piecePositions.get(human).y-11;
         cb.refresh(this);
     }
 

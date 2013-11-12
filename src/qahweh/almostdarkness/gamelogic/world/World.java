@@ -12,8 +12,8 @@ public class World
 
     public World()
     {
-        width = 85;
-        height = 26;
+        width = 185;
+        height = 126;
         matris = new char[width][height];
 
         boolean worldComplete =false;
@@ -37,6 +37,8 @@ public class World
                 makeRoom(true);
                 makeRoom(true);
                 makeRoom(true);
+
+                makeRoad();
 
                 plantTree();
                 plantTree();
@@ -80,6 +82,16 @@ public class World
             }
         }
 
+    }
+
+    private void makeRoad()
+    {
+        Random r = new Random();
+        int x = r.nextInt(width);
+        for(int y=0; y<height; y++)
+        {
+            matris[x][y]='#';
+        }
     }
 
     private void plantTree() throws Exception
