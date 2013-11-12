@@ -19,6 +19,9 @@ public class AlmostDarkness implements GameCallBack, UserInterfaceCallBack
     private UserInterface ui;
     private Game game;
 
+    private int screenWidth = 85;
+    private int screenHeight = 26;
+
     private AlmostDarkness()
     {
         ui = new UI1();
@@ -57,13 +60,13 @@ public class AlmostDarkness implements GameCallBack, UserInterfaceCallBack
     public void refresh(Game game)
     {
         if(false)return;
-        char[][] draw = new char[124][64];
+        char[][] draw = new char[screenWidth][screenHeight];
 
-        for(int x=0; x<game.world.width; x++)
+        for(int x=0; x<screenWidth; x++)
         {
-            for(int y=0; y<game.world.height; y++)
+            for(int y=0; y<screenHeight; y++)
             {
-                draw[x][y] = ( game.canSee(x,y) ? game.world.matris[x][y] : ' ');
+                draw[x][y] = ( game.canSee(x+game.cameraX,y+game.cameraY) ? game.world.matris[x+game.cameraX][y+game.cameraY] : ' ');
             }
         }
 
@@ -72,8 +75,10 @@ public class AlmostDarkness implements GameCallBack, UserInterfaceCallBack
         {
             PieceI o = (PieceI)keys.get(i);
             Point p = game.piecePositions.get(o);
-            if(p.x>-1 && p.y>-1)
-                draw[p.x][p.y] = 'e';
+            int x = p.x-game.cameraX;
+            int y = p.y-game.cameraY;
+            if(x>-1 && y>-1)
+                draw[x][y] = '@';
         }
 /*
         for(int i=0; i<game.piecePositions.size(); i++)
@@ -82,9 +87,9 @@ public class AlmostDarkness implements GameCallBack, UserInterfaceCallBack
         }
 */
         String output = "";
-        for(int y=0; y<26; y++)
+        for(int y=0; y<screenHeight; y++)
         {
-            for(int x=0; x<85; x++)
+            for(int x=0; x<screenWidth; x++)
             {
                 output += draw[x][y]; 
             }

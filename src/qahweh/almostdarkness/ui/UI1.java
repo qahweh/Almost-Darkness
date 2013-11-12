@@ -29,7 +29,7 @@ public class UI1 implements UserInterface
     public void start()
     {
         f = new JFrame("Almost Darkness");
-        f.setSize(600,400);
+        f.setSize(597,390);
         f.addKeyListener(new KeyListener()
         {
             public void keyPressed(KeyEvent e){ cb.keyPressed(e.getKeyCode()); }
