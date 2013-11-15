@@ -12,8 +12,8 @@ public class World
 
     public World()
     {
-        width = 185;
-        height = 126;
+        width = 150;
+        height = 150;
         matris = new char[width][height];
 
         boolean worldComplete =false;
@@ -30,15 +30,48 @@ public class World
                     }
                 }
 
+                makeSquare();
+                makeSquare();
+                makeSquare();
+                makeSquare();
+
+                makeRoad();
+                makeRoad();
+                makeRoad();
+
+                makeRoad();
+                makeRoad();
+                makeRoad();
+                makeRoad();
+/*
+                makeRoad();
+                makeRoad();
+
+                makeRoad();
+                makeRoad();
+                makeRoad();
+                makeRoad();
+                makeRoad();
+                makeRoad();
+*/
                 makeRoom(false);
-                makeDoor();
+                
+                makeRoom(false);
+                makeRoom(false);
+
+                makeRoom(false);
+                
+                makeRoom(true);
+                makeRoom(true);
+                makeRoom(true);
+                makeRoom(true);
+                makeRoom(true);
                 makeRoom(true);
                 makeRoom(true);
                 makeRoom(true);
                 makeRoom(true);
                 makeRoom(true);
 
-                makeRoad();
 
                 plantTree();
                 plantTree();
@@ -84,14 +117,130 @@ public class World
 
     }
 
-    private void makeRoad()
+    private void makeSquare()
     {
+        int margin = 20;
         Random r = new Random();
-        int x = r.nextInt(width);
-        for(int y=0; y<height; y++)
+        int width = 12;
+        int height = 12;
+        int x = r.nextInt(this.width-width-margin)+margin;
+        int y = r.nextInt(this.height-height-margin)+margin;
+        boolean f = true;
+        while(f)
         {
-            matris[x][y]='#';
+            x = r.nextInt(this.width-width-margin)+margin;
+            y = r.nextInt(this.height-height-margin)+margin;
+            f=false;
+            for(int x2=x-margin; x2<width+x+margin; x2++)
+            {
+                for(int y2=y-margin; y2<y+height+margin; y2++)
+                {
+                   if(matris[x2][y2]!=' ')f = true;
+                }
+            }
         }
+
+
+
+                for(int x2=x; x2<width+x; x2++)
+                {
+                    for(int y2=y; y2<y+height; y2++)
+                    {
+                matris[x2][y2]='#';
+                }
+            }
+
+            makeRoom2(x,y-6,5,5,3);
+            makeRoom2(x+7,y-6,5,5,3);
+
+            makeRoom2(x,y+13,5,5,2);
+            makeRoom2(x+7,y+13,5,5,2);
+
+            makeRoom2(x-6,y,5,5,7);
+            makeRoom2(x-6,y+7,5,5,7);
+
+            makeRoom2(x+13,y,5,5,4);
+            makeRoom2(x+13,y+7,5,5,4);
+
+
+    }
+
+    private void makeRoom2(int startX, int startY, int width, int height, int door)
+    {
+        for(int x=startX; x<width+startX; x++)
+        {
+            for(int y=startY; y<startY+height; y++)
+            {
+                if(matris[x][y] != '+')
+                {
+                    if(y==startY)matris[x][y] = '-';
+                    else if(y==startY+height-1)matris[x][y] = '-';
+                    else if(x==startX)matris[x][y] = '|';
+                    else if(x==width+startX-1)matris[x][y] = '|';
+                    else matris[x][y] = '.';
+                }
+            }
+        }
+
+        Point p = getAllConnects(startX,startY,width,height).get(door);
+        matris[p.x][p.y] = '+';
+    }
+
+    private void makeRoad() throws Exception
+    {
+        Random r2 = new Random();
+        boolean foundGoodRoad = false;
+        int lastR = r2.nextInt();
+        int c =0;
+        while(!foundGoodRoad)
+        {
+            c++;
+            if(c>100)throw new Exception();
+            Random r = new Random(lastR);
+            foundGoodRoad = true;
+            if(r.nextInt(2)==0)
+            {
+                int x = r.nextInt(width-2)+1;
+                for(int y=0; y<height; y++)
+                {
+                    if(!(matris[x][y]==' ' || matris[x][y]=='#'))foundGoodRoad = false;
+
+                }
+            }
+            else
+            {
+                int y = r.nextInt(height-2)+1;
+                for(int x=0; x<width; x++)
+                {
+                    if(!(matris[x][y]==' ' || matris[x][y]=='#'))foundGoodRoad = false;
+
+                }
+            }
+        }
+
+
+            Random r = new Random(lastR);
+            foundGoodRoad = true;
+            if(r.nextInt(2)==0)
+            {
+                int x = r.nextInt(width-2)+1;
+                for(int y=0; y<height; y++)
+                {
+                    matris[x][y]='#';
+
+                }
+            }
+            else
+            {
+                int y = r.nextInt(height-2)+1;
+                for(int x=0; x<width; x++)
+                {
+                    matris[x][y]='#';
+
+                }
+            }
+
+
     }
 
     private void plantTree() throws Exception
@@ -147,21 +296,27 @@ int c =0;
         matris[x][y]='+';
     }
 
+    private boolean canBuildRoomHere(int startX, int startY, int width, int height)
+    {
+                for(int x=startX; x<width+startX; x++)
+                {
+                    for(int y=startY; y<startY+height; y++)
+                    {
+                        if(matris[x][y]=='.' || matris[x][y]=='+' || matris[x][y]=='#')return false;
+                    }
+                }    
+        return true;
+    }
+
     private boolean goodspot(int startX, int startY, int width, int height)
     {
+        if(!canBuildRoomHere(startX,startY,width,height))return false;
         int noC = 0;
         for(Point p : getAllConnects(startX,startY,width,height))
         {
             if(matris[p.x][p.y]=='|' || matris[p.x][p.y]=='-')
             {
                 noC++;
-                for(int x=startX; x<width+startX; x++)
-                {
-                    for(int y=startY; y<startY+height; y++)
-                    {
-                        if(matris[x][y]=='.' || matris[x][y]=='+')return false;
-                    }
-                }
             }
         }
         return (noC > 1);
@@ -174,6 +329,14 @@ int c =0;
         int height = r.nextInt(7)+4;
         int startX = r.nextInt(this.width-width);
         int startY = r.nextInt(this.height-height);
+
+        while(!canBuildRoomHere(startX,startY,width,height))
+        {
+            width = r.nextInt(7)+4;
+            height = r.nextInt(7)+4;
+            startX = r.nextInt(this.width-width);
+            startY = r.nextInt(this.height-height);
+        }
 
         while(findConnect)
         {
@@ -204,6 +367,11 @@ int c =0;
                     else matris[x][y] = '.';
                 }
             }
+        }
+        while(true)
+        {
+            Point p = getAllConnects(startX,startY,width,height).get(r.nextInt(getAllConnects(startX,startY,width,height).size()));
+            if(matris[p.x-1][p.y] == '.' || matris[p.x+1][p.y] == '.' || matris[p.x][p.y-1] == '.' || matris[p.x][p.y+1] == '.'){ matris[p.x][p.y] = '+'; break;}
         }
     }
 

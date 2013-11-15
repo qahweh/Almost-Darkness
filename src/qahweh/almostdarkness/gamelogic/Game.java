@@ -166,8 +166,10 @@ public class Game implements PieceCallBack
 
     public boolean canSee(int x,int y)
     {
-        if(x>world.width)return false;
-        if(y>world.height)return false;
+        if(x>=world.width)return false;
+        if(y>=world.height)return false;
+        if(x<0)return false;
+        if(y<0)return false;
         boolean[][] s = human.getSight();
         
         return s[x][y];
