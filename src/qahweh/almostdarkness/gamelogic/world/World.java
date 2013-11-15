@@ -43,60 +43,19 @@ public class World
                 makeRoad();
                 makeRoad();
                 makeRoad();
-/*
-                makeRoad();
-                makeRoad();
-
-                makeRoad();
-                makeRoad();
-                makeRoad();
-                makeRoad();
-                makeRoad();
-                makeRoad();
-*/
-                makeRoom(false);
                 
-                makeRoom(false);
-                makeRoom(false);
+                for(int i=0; i<30; i++)
+                {
+                    makeRoom(false);
+                    makeRoom(true);
+                    makeRoom(true);
+                    plantTree();
+                }
 
-                makeRoom(false);
-                
-                makeRoom(true);
-                makeRoom(true);
-                makeRoom(true);
-                makeRoom(true);
-                makeRoom(true);
-                makeRoom(true);
-                makeRoom(true);
-                makeRoom(true);
-                makeRoom(true);
-                makeRoom(true);
-
-
-                plantTree();
-                plantTree();
-                plantTree();
-                plantTree();
-                plantTree();
-                plantTree();
-                plantTree();
-                plantTree();
-                plantTree();
-                plantTree();
-                plantTree();
-                plantTree();
-                plantTree();
-                plantTree();
-                plantTree();
-                plantTree();
-                plantTree();
-                plantTree();
-                plantTree();
-                plantTree();
-                plantTree();
-                plantTree();
-                plantTree();
-                plantTree();
+                while(howMuchIsSpace()>0.6)
+                {
+                    plantTree();
+                }
 
                 for(int x=0; x<width; x++)
                 {
@@ -115,6 +74,20 @@ public class World
             }
         }
 
+    }
+
+    private float howMuchIsSpace()
+    {
+        int all = width*height;
+        int c = 0;
+        for(int x=0; x<width; x++)
+        {
+            for(int y=0; y<height; y++)
+            {
+                if(matris[x][y]==' ')c++;
+            }
+        }
+        return (float)c/(float)all;
     }
 
     private void makeSquare()
@@ -322,7 +295,7 @@ int c =0;
         return (noC > 1);
     }
 
-    private void makeRoom(boolean findConnect)
+    private void makeRoom(boolean findConnect) throws Exception
     {
         Random r = new Random();
         int width = r.nextInt(7)+4;
@@ -330,8 +303,11 @@ int c =0;
         int startX = r.nextInt(this.width-width);
         int startY = r.nextInt(this.height-height);
 
+        int c = 0;
         while(!canBuildRoomHere(startX,startY,width,height))
         {
+            c++;
+            if(c>100)throw new Exception();
             width = r.nextInt(7)+4;
             height = r.nextInt(7)+4;
             startX = r.nextInt(this.width-width);
@@ -342,8 +318,12 @@ int c =0;
         {
             if(goodspot(startX,startY,width,height))
             {
+                int cc = 0;
                 while(true)
                 {
+            cc++;
+            if(cc>100)throw new Exception();
+                    
                     Point p = getAllConnects(startX,startY,width,height).get(r.nextInt(getAllConnects(startX,startY,width,height).size()));
                     if(matris[p.x-1][p.y] == '.' || matris[p.x+1][p.y] == '.' || matris[p.x][p.y-1] == '.' || matris[p.x][p.y+1] == '.'){ matris[p.x][p.y] = '+'; break;}
                     
@@ -368,8 +348,11 @@ int c =0;
                 }
             }
         }
+                int ccc = 0;
         while(true)
         {
+            ccc++;
+            if(ccc>100)throw new Exception();
             Point p = getAllConnects(startX,startY,width,height).get(r.nextInt(getAllConnects(startX,startY,width,height).size()));
             if(matris[p.x-1][p.y] == '.' || matris[p.x+1][p.y] == '.' || matris[p.x][p.y-1] == '.' || matris[p.x][p.y+1] == '.'){ matris[p.x][p.y] = '+'; break;}
         }

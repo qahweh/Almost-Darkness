@@ -45,8 +45,10 @@ public class UI1 implements UserInterface
     public void draw(String string)
     {
         string = string.replace(" ","&nbsp;");
+        string = string.replace("t","<font color=#573700 bgcolor=BLACK><b>t</b></font>");
         string = string.replace("+","<font color=RED bgcolor=BLACK>+</font>");
-        string = string.replace(",","<font color=GREEN bgcolor=BLACK>,</font>");
+        string = string.replace(",","<font color=#6b4400 bgcolor=BLACK>,</font>");
+        string = string.replace("@","<font color=#1fc8ba bgcolor=BLACK><b>@</b></font>");
 
         String html = "<html><font color=WHITE bgcolor=BLACK>"+string+"</font></html>";
         html = html.replace("\n","<br>");
