@@ -13,6 +13,12 @@ import java.util.ArrayList;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 
+/*
+    STUFF TO DO?
+    // lose sanity all the time. Will force player to play game more quick and then can not wait for sneak pass ALL enemies
+    // TNT. good to go through walls
+    // Lights, will make a ray cast longer if pass light
+*/
 
 public class AlmostDarkness implements GameCallBack, UserInterfaceCallBack
 {
