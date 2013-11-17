@@ -18,6 +18,9 @@ import java.io.BufferedReader;
     // lose sanity all the time. Will force player to play game more quick and then can not wait for sneak pass ALL enemies
     // TNT. good to go through walls
     // Lights, will make a ray cast longer if pass light
+    // See pass solid blocks magic
+    // Silencer on gun magic
+
 */
 
 public class AlmostDarkness implements GameCallBack, UserInterfaceCallBack
@@ -83,8 +86,11 @@ public class AlmostDarkness implements GameCallBack, UserInterfaceCallBack
             Point p = game.piecePositions.get(o);
             int x = p.x-game.cameraX;
             int y = p.y-game.cameraY;
-            if(x>-1 && y>-1)
-                draw[x][y] = '@';
+            if(x>-1 && y>-1 && x<screenWidth && y<screenHeight)
+            {
+                if(game.canSee( p.x,p.y))
+                    draw[x][y] = game.pieceCharacters.get(o);
+            }
         }
 /*
         for(int i=0; i<game.piecePositions.size(); i++)

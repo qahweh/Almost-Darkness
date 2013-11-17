@@ -25,11 +25,14 @@ public class Piece implements PieceI
 
     public void update()
     {
-        controller.update();
-        if(controller.wantWalkWest())pieceCallBack.walkWest(this);
-        if(controller.wantWalkEast())pieceCallBack.walkEast(this);
-        if(controller.wantWalkNorth())pieceCallBack.walkNorth(this);
-        if(controller.wantWalkSouth())pieceCallBack.walkSouth(this);
+        if(controller!=null)
+        {
+            controller.update();
+            if(controller.wantWalkWest())pieceCallBack.walkWest(this);
+            if(controller.wantWalkEast())pieceCallBack.walkEast(this);
+            if(controller.wantWalkNorth())pieceCallBack.walkNorth(this);
+            if(controller.wantWalkSouth())pieceCallBack.walkSouth(this);
+        }
         Eye e = getEye();
         if(e!=null)e.updateView();
     }

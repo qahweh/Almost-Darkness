@@ -17,6 +17,7 @@ public class Game implements PieceCallBack
     private GameCallBack cb;
     public int loop;
     public Hashtable<PieceI, Point> piecePositions;
+    public Hashtable<PieceI, Character> pieceCharacters;
     private ArrayList<PieceI> pieces;
     int k;
     private PieceI human;
@@ -27,8 +28,37 @@ public class Game implements PieceCallBack
     public Game()
     {
         piecePositions = new Hashtable<PieceI, Point>();
+        pieceCharacters = new Hashtable<PieceI, Character>();
         pieces = new ArrayList<PieceI>();
+
+
+        PieceI d = PieceFactory.createDog();
+        pieces.add( d );
+        piecePositions.put(d,new Point(20,19));
+        pieceCharacters.put(d,new Character('d'));
+
+
+        Random r = new Random();
+        for(int i=0; i<100; i++)
+        {
+            PieceI f = PieceFactory.createFishman();
+            pieces.add( f );
+
+            int x = r.nextInt(130)+10;
+            int y = r.nextInt(130)+10;
+
+            piecePositions.put(f,new Point(x,y));
+            pieceCharacters.put(f,new Character('F'));
+        Controller cc = ControllerFactory.getSpinController();
+        f.setController(cc);
+            f.setCallBack(this);
+        }
         world = new World();
+
+        Controller c = ControllerFactory.getTestPfController(world.matris,20,19);
+        d.setController(c);
+        d.setCallBack(this);
+
     }
 
     public void setCallBack(GameCallBack cb)
@@ -50,7 +80,7 @@ public class Game implements PieceCallBack
     public void start() throws Exception
     {
         int f = 0;
-        human = PieceFactory.getHuman();
+        human = PieceFactory.createHuman();
         pieces.add(human);
         piecePositions.put(human,new Point(18,19));
         System.out.println("Story:");
@@ -59,6 +89,7 @@ public class Game implements PieceCallBack
         System.out.println("Hint:");
         System.out.println("Type HELP");
         human.setCallBack(this);
+        pieceCharacters.put(human,new Character('@'));
         Controller c = ControllerFactory.getSpinController();
         human.setController(
             new Controller()
@@ -107,7 +138,10 @@ public class Game implements PieceCallBack
 
     private void update()
     {
-        human.update();
+        for(PieceI p : pieces)
+        {
+            p.update();
+        }
         cameraX = piecePositions.get(human).x-11;
         cameraY = piecePositions.get(human).y-11;
         cb.refresh(this);

@@ -6,4 +6,10 @@ public class ControllerFactory
     {
         return new Spin();
     }
+
+    public static Controller getTestPfController(char[][] matris,int x, int y)
+    {
+        return new TestPf(matris,x,y);
+    }
+
 }
