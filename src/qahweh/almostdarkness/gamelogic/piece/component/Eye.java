@@ -7,6 +7,8 @@ public class Eye implements Component
     public int x;
     public int y;
 
+    protected int viewLength = 10;
+
     public void updateView()
     {
         int fa = 0;
@@ -28,7 +30,7 @@ public class Eye implements Component
             double c = Math.cos(l);
             double s = Math.sin(l);
 
-            for(int j=0; j<10; j++)
+            for(int j=0; j<viewLength; j++)
             {
                 int u = x+(int)(j*s);
                 int t = y+(int)(j*c);

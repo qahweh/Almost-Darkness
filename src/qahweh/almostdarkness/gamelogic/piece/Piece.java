@@ -10,7 +10,7 @@ public class Piece implements PieceI
 {
 
     protected Controller controller;
-    private PieceCallBack pieceCallBack;
+    protected PieceCallBack pieceCallBack;
     ArrayList<Component> components = new ArrayList<Component>();
 
     public void setController(Controller controller)

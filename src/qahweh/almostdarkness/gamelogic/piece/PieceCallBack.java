@@ -1,6 +1,7 @@
 package qahweh.almostdarkness.gamelogic.piece;
 
 import qahweh.almostdarkness.gamelogic.piece.controller.Controller;
+import qahweh.almostdarkness.gamelogic.piece.component.Eye;
 
 public interface PieceCallBack
 {
@@ -8,4 +9,6 @@ public interface PieceCallBack
     public void walkEast(PieceI p);
     public void walkSouth(PieceI p);
     public void walkNorth(PieceI p);
+    public void updateView(PieceI p, Eye e);
+
 }

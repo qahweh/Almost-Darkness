@@ -32,16 +32,15 @@ public class Game implements PieceCallBack
         pieces = new ArrayList<PieceI>();
 
 
-        PieceI d = PieceFactory.createDog();
+        PieceI d = PieceFactory.createDog(this);
         pieces.add( d );
         piecePositions.put(d,new Point(20,19));
         pieceCharacters.put(d,new Character('d'));
 
-
         Random r = new Random();
         for(int i=0; i<100; i++)
         {
-            PieceI f = PieceFactory.createFishman();
+            PieceI f = PieceFactory.createFishman(this);
             pieces.add( f );
 
             int x = r.nextInt(130)+10;
@@ -80,7 +79,7 @@ public class Game implements PieceCallBack
     public void start() throws Exception
     {
         int f = 0;
-        human = PieceFactory.createHuman();
+        human = PieceFactory.createHuman(this);
         pieces.add(human);
         piecePositions.put(human,new Point(18,19));
         System.out.println("Story:");
@@ -100,26 +99,7 @@ public class Game implements PieceCallBack
                         public boolean wantWalkNorth() { if(k==3){k=0; return true;} return false; }
                         public boolean wantWalkSouth() { if(k==4){k=0; return true;} return false; }
                     });
-        human.add(
-            new Eye()
-            {
-                @Override
-                public void updateView()
-                {
-                    Random r = new Random();
-                    Point p = piecePositions.get(human);
-                    block = new boolean[world.width][world.height];
-                    for(int x=0; x<world.width; x++)
-                        for(int y=0; y<world.height; y++)
-                        {
-                            this.x = p.x;
-                            this.y = p.y;
-                            block[x][y] = world.isSolid(x,y);
-                        }
-                        super.updateView();
-                }
-            }
-        );
+
 
         while(true)
         {
@@ -142,6 +122,7 @@ public class Game implements PieceCallBack
         {
             p.update();
         }
+
         cameraX = piecePositions.get(human).x-11;
         cameraY = piecePositions.get(human).y-11;
         cb.refresh(this);
@@ -207,6 +188,20 @@ public class Game implements PieceCallBack
         boolean[][] s = human.getSight();
         
         return s[x][y];
+    }
+
+    @Override
+    public void updateView(PieceI p,Eye e)
+    {
+        Random r = new Random();
+        Point point = piecePositions.get(p);
+        e.block = new boolean[world.width][world.height];
+        for(int x=0; x<world.width; x++)
+        for(int y=0; y<world.height; y++)
+        {
+            e.x = point.x; e.y = point.y;
+            e.block[x][y] = world.isSolid(x,y);
+        }
     }
 
 }
