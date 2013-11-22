@@ -65,7 +65,6 @@ public class PieceFactory
     public static PieceI createDog(PieceCallBack pcb)
     {
         final Dog dog = new Dog();
-        if(true)return dog;
         dog.add(
             new Eye() //TODO: move logic to constructor
             {

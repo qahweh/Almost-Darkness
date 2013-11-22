@@ -54,7 +54,7 @@ public class Game implements PieceCallBack
         }
         world = new World();
 
-        Controller c = ControllerFactory.getTestPfController(world.matris,20,19);
+        Controller c = ControllerFactory.getHelperController((ControllerCallBack)d);
         d.setController(c);
         d.setCallBack(this);
 
@@ -113,7 +113,6 @@ public class Game implements PieceCallBack
                 e.printStackTrace();
             }
         }
-
     }
 
     private void update()
@@ -196,11 +195,23 @@ public class Game implements PieceCallBack
         Random r = new Random();
         Point point = piecePositions.get(p);
         e.block = new boolean[world.width][world.height];
+
+        e.charSight = new char[21][21];
+
         for(int x=0; x<world.width; x++)
         for(int y=0; y<world.height; y++)
         {
+            int x3 = x-point.x+10;
+            int y3 = y-point.y+10;
+
             e.x = point.x; e.y = point.y;
             e.block[x][y] = world.isSolid(x,y);
+            if(x3>=0 && y3>=0 && y3<=20 && x3<=20)
+            {
+                e.charSight[x3][y3] = world.matris[x][y];
+                Point hpoint = piecePositions.get(human);
+                if(hpoint.x==x && hpoint.y==y) e.charSight[x3][y3]=  '@';
+            }
         }
     }
 

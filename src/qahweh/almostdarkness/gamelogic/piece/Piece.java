@@ -1,12 +1,13 @@
 package qahweh.almostdarkness.gamelogic.piece;
 
 import qahweh.almostdarkness.gamelogic.piece.controller.Controller;
+import qahweh.almostdarkness.gamelogic.piece.controller.ControllerCallBack;
 import qahweh.almostdarkness.gamelogic.piece.component.Component;
 import qahweh.almostdarkness.gamelogic.piece.component.Eye;
 
 import java.util.ArrayList;
 
-public class Piece implements PieceI
+public class Piece implements PieceI, ControllerCallBack
 {
 
     protected Controller controller;
@@ -25,6 +26,8 @@ public class Piece implements PieceI
 
     public void update()
     {
+        Eye e = getEye();
+        if(e!=null)e.updateView();
         if(controller!=null)
         {
             controller.update();
@@ -33,8 +36,6 @@ public class Piece implements PieceI
             if(controller.wantWalkNorth())pieceCallBack.walkNorth(this);
             if(controller.wantWalkSouth())pieceCallBack.walkSouth(this);
         }
-        Eye e = getEye();
-        if(e!=null)e.updateView();
     }
 
     private Eye getEye()
@@ -59,6 +60,21 @@ public class Piece implements PieceI
         if(e==null)return s;
         if(e.sight==null)return s;
         return e.sight;
+    }
+
+    public char[][] getCharSight()
+    {
+        char[][] s = new char[21][21];
+        Eye e = getEye();
+        if(e==null)return s;
+        if(e.charSight==null)return s;
+        return e.charSight;
+    }
+
+    @Override
+    public char[][] getMatris(int x, int y)
+    {
+        return getCharSight();
     }
 
 }

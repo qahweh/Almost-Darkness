@@ -106,8 +106,8 @@ public class PathFinder
     {
         if(x<0)return true;
         if(y<0)return true;
-        if(x>=60)return true;
-        if(y>=30)return true;
+        if(x>=21)return true;
+        if(y>=21)return true;
         if(matris[x][y]=='-')return true;
         if(matris[x][y]=='|')return true;
         if(matris[x][y]=='t')return true;
@@ -142,6 +142,7 @@ public class PathFinder
         if(!atGoal())
         {
             step++;
+            System.out.print(path.get(step).x+","+path.get(step).y);
             return new Point(path.get(step).x,path.get(step).y);
         }
         return null;

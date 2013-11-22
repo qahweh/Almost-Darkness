@@ -12,4 +12,10 @@ public class ControllerFactory
         return new TestPf(matris,x,y);
     }
 
+    public static Controller getHelperController(ControllerCallBack ccb)
+    {
+      //  return null;
+        return new Helper(ccb);
+    }
+
 }

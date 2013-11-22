@@ -81,6 +81,12 @@ public class CWType1 implements CreateWorld
                 e.printStackTrace();
             }
         }
+
+        matris[20][23]= '-';
+        matris[19][23]= '-';
+        matris[21][23]= '-';
+//        matris[20][25]= '@';
+
         return matris;
     }
 

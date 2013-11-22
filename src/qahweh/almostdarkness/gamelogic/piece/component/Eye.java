@@ -3,6 +3,7 @@ package qahweh.almostdarkness.gamelogic.piece.component;
 public class Eye implements Component
 {
     public boolean[][] sight = new boolean[10][10];
+    public char[][] charSight = new char[21][21];
     public boolean[][] block;
     public int x;
     public int y;
