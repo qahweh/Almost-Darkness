@@ -10,5 +10,5 @@ public interface PieceCallBack
     public void walkSouth(PieceI p);
     public void walkNorth(PieceI p);
     public void updateView(PieceI p, Eye e);
-
+    public void updateCharSight(PieceI p, Eye e);
 }

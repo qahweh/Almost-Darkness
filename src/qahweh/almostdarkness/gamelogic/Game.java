@@ -25,20 +25,27 @@ public class Game implements PieceCallBack
     public int cameraX;
     public int cameraY;
 
+    private void createDog()
+    {
+        PieceI d = PieceFactory.createDog(this);
+        pieces.add( d );
+        piecePositions.put(d,new Point(20,19));
+        pieceCharacters.put(d,new Character('d'));
+        Controller c = ControllerFactory.getHelperController((ControllerCallBack)d);
+        d.setController(c);
+        d.setCallBack(this);
+    }
+
     public Game()
     {
         piecePositions = new Hashtable<PieceI, Point>();
         pieceCharacters = new Hashtable<PieceI, Character>();
         pieces = new ArrayList<PieceI>();
 
-
-        PieceI d = PieceFactory.createDog(this);
-        pieces.add( d );
-        piecePositions.put(d,new Point(20,19));
-        pieceCharacters.put(d,new Character('d'));
+        createDog();
 
         Random r = new Random();
-        for(int i=0; i<100; i++)
+        for(int i=0; i<1; i++)
         {
             PieceI f = PieceFactory.createFishman(this);
             pieces.add( f );
@@ -54,9 +61,7 @@ public class Game implements PieceCallBack
         }
         world = new World();
 
-        Controller c = ControllerFactory.getHelperController((ControllerCallBack)d);
-        d.setController(c);
-        d.setCallBack(this);
+
 
     }
 
@@ -121,7 +126,6 @@ public class Game implements PieceCallBack
         {
             p.update();
         }
-
         cameraX = piecePositions.get(human).x-11;
         cameraY = piecePositions.get(human).y-11;
         cb.refresh(this);
@@ -194,6 +198,7 @@ public class Game implements PieceCallBack
     {
         Random r = new Random();
         Point point = piecePositions.get(p);
+        
         e.block = new boolean[world.width][world.height];
 
         e.charSight = new char[21][21];
@@ -211,6 +216,22 @@ public class Game implements PieceCallBack
                 e.charSight[x3][y3] = world.matris[x][y];
                 Point hpoint = piecePositions.get(human);
                 if(hpoint.x==x && hpoint.y==y) e.charSight[x3][y3]=  '@';
+            }
+        }
+    }
+
+    @Override
+    public void updateCharSight(PieceI p,Eye e)
+    {
+        Point point = piecePositions.get(p);
+        for(int x=0; x<world.width; x++)
+        for(int y=0; y<world.height; y++)
+        {
+            int x3 = x-point.x+10;
+            int y3 = y-point.y+10;
+            if(x3>=0 && y3>=0 && y3<=20 && x3<=20)
+            {
+                if(!e.sight[x][y])e.charSight[x3][y3]=' ';
             }
         }
     }

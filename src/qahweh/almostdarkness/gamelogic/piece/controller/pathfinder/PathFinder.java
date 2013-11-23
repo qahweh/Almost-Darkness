@@ -142,7 +142,6 @@ public class PathFinder
         if(!atGoal())
         {
             step++;
-            System.out.print(path.get(step).x+","+path.get(step).y);
             return new Point(path.get(step).x,path.get(step).y);
         }
         return null;

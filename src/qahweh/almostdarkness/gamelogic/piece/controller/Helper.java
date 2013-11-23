@@ -21,6 +21,8 @@ class Helper implements Controller
 
     private void calcPf()
     {
+        ox = 10;
+        oy = 10;
         x=10;
         y=10;
 
@@ -55,10 +57,12 @@ class Helper implements Controller
         {
             for(int y=0; y<height; y++)
             {
-                if(matris[x][y]=='@')return new Point(x,y);
+                if(matris[x][y]=='@')
+                {
+                    return new Point(x,y);
+                }
             }
         }
-        System.out.println("n");
         return null;
 
     }
@@ -79,7 +83,6 @@ class Helper implements Controller
             }
             else
             {
-                System.out.println("a2");
                 calcPf();
                 if(true)return;
                 p = pf.getPoint();
@@ -93,7 +96,6 @@ class Helper implements Controller
         }
         else
         {
-                System.out.println("a3");
                 calcPf();
                 if(true)return;
                 Point p = pf.getPoint();
@@ -121,14 +123,12 @@ class Helper implements Controller
     @Override
     public boolean wantWalkNorth()
     {
-        System.out.println(oy+","+y);
         return (y > oy);
     }
 
     @Override
     public boolean wantWalkSouth()
     {
-        System.out.println(oy+","+y);
         return (y < oy);
     }
 }

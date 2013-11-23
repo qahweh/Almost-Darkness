@@ -2,24 +2,22 @@ package qahweh.almostdarkness.gamelogic.piece.component;
 
 public class Eye implements Component
 {
-    public boolean[][] sight = new boolean[10][10];
+    public boolean[][] sight;
     public char[][] charSight = new char[21][21];
     public boolean[][] block;
     public int x;
     public int y;
 
     protected int viewLength = 10;
+    protected int fa = 0;
+    protected int ta = 60;
+    protected int inter = 30;
 
     public void updateView()
     {
-        int fa = 0;
-        int ta = 240;
-
-
 
         int width = block.length;
         int height = block[0].length;
-
 
         sight = new boolean[width][height];
         //for(int x=0; x<10; x++)
@@ -27,7 +25,7 @@ public class Eye implements Component
         //sight[x][y]=true;
         for(int i=fa; i<ta; i++)
         {
-            double l = (Math.PI/80)*i;
+            double l = (Math.PI/inter)*i;
             double c = Math.cos(l);
             double s = Math.sin(l);
 

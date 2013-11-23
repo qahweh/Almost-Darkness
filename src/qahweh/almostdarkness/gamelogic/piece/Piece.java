@@ -55,10 +55,10 @@ public class Piece implements PieceI, ControllerCallBack
     
     public boolean[][] getSight()
     {
-        boolean[][] s = new boolean[11][11];
+        boolean[][] s = new boolean[150][150];
         Eye e = getEye();
-        if(e==null)return s;
-        if(e.sight==null)return s;
+        if(e==null){ return s;}
+        if(e.sight==null){ return s;}
         return e.sight;
     }
 
@@ -68,7 +68,23 @@ public class Piece implements PieceI, ControllerCallBack
         Eye e = getEye();
         if(e==null)return s;
         if(e.charSight==null)return s;
-        return e.charSight;
+
+        char[][] r = new char[21][21];
+        boolean[][] b = getSight();
+        if(b==null)return s; //necer null? remove
+
+        for(int x=0; x<21; x++)
+        {
+            for(int y=0; y<21; y++)
+            {
+
+
+                r[x][y] = 
+                            e.charSight[x][y] ;
+                            
+            }
+        }
+        return r;
     }
 
     @Override

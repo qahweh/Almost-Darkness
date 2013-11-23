@@ -38,6 +38,7 @@ public class PieceFactory
                 {
                     human.pieceCallBack.updateView(human, this);
                     super.updateView();
+                    human.pieceCallBack.updateCharSight(human, this); // on what can see calc what types you see
                 }
             }
         );
@@ -47,7 +48,6 @@ public class PieceFactory
     public static PieceI createFishman(PieceCallBack pcb)
     {
         final FishMan fishman = new FishMan();
-        if(true)return fishman;
         fishman.add(
             new FishEye() //TODO: move logic to constructor
             {
@@ -56,6 +56,7 @@ public class PieceFactory
                 {
                     fishman.pieceCallBack.updateView(fishman, this);
                     super.updateView();
+                    fishman.pieceCallBack.updateCharSight(fishman, this); // on what can see calc what types you see
                 }
             }
         );
@@ -71,8 +72,9 @@ public class PieceFactory
                 @Override
                 public void updateView()
                 {
-                    dog.pieceCallBack.updateView(dog, this);
-                    super.updateView();
+                    dog.pieceCallBack.updateView(dog, this); // get solid block of world
+                    super.updateView(); //calc what can see based on solid block
+                    dog.pieceCallBack.updateCharSight(dog, this); // on what can see calc what types you see
                 }
             }
         );
