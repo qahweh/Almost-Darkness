@@ -8,10 +8,10 @@ public class Eye implements Component
     public int x;
     public int y;
 
-    protected int viewLength = 10;
+    protected int viewLength = 9;
     protected int fa = 0;
-    protected int ta = 60;
-    protected int inter = 30;
+    protected int ta = 80;
+    protected int inter = 40;
 
     public void updateView()
     {

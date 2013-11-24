@@ -48,6 +48,7 @@ public class PieceFactory
     public static PieceI createFishman(PieceCallBack pcb)
     {
         final FishMan fishman = new FishMan();
+    if(true)return fishman;
         fishman.add(
             new FishEye() //TODO: move logic to constructor
             {

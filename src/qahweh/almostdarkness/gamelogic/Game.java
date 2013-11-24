@@ -45,7 +45,7 @@ public class Game implements PieceCallBack
         createDog();
 
         Random r = new Random();
-        for(int i=0; i<1; i++)
+        for(int i=0; i<120; i++)
         {
             PieceI f = PieceFactory.createFishman(this);
             pieces.add( f );

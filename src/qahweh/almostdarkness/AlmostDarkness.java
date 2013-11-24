@@ -20,6 +20,10 @@ import java.io.BufferedReader;
     // Lights, will make a ray cast longer if pass light
     // See pass solid blocks magic
     // Silencer on gun magic
+    //If enemy die. make new enemy elsewhere? This will make so game cannot be solved by attacking instead of sneak (not sure of this yeT)
+    //mouse click when go.
+    // Stand still enemys. if walk around to much might make game to easy. Just wait til all is gone.
+    // the eye view is offset when walk. fix order on eye and update position logic.
 
 */
 

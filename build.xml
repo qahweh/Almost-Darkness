@@ -2,6 +2,8 @@
 <project name="Create Runnable Jar for Almost Darkness">
     <mkdir dir="bin/"/>
     <mkdir dir="build/"/>
+
+    <copy file="src/qahweh/almostdarkness/ui/output.png" todir="bin/qahweh/almostdarkness/ui"/>
     
     <javac srcdir="src/" classpath="src/" destdir="bin/"></javac>
 
