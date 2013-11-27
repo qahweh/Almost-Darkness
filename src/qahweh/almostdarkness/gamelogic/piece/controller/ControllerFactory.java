@@ -2,9 +2,9 @@ package qahweh.almostdarkness.gamelogic.piece.controller;
 
 public class ControllerFactory
 {
-    public static Controller getSpinController()
+    public static Controller getSpinController(ControllerCallBack ccb)
     {
-        return new Spin();
+        return new Spin(ccb);
     }
 
     public static Controller getTestPfController(char[][] matris,int x, int y)

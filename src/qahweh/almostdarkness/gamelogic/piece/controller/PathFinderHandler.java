@@ -19,6 +19,12 @@ class PathFinderHandler
         calcPf();
     }
 
+
+    public boolean cannotFindGoto()
+    {
+        return ( findWhereToGo(ccb.getMatris(10,10))==null );
+    }
+
     private void calcPf()
     {
         ox = 10;

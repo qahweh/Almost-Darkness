@@ -55,7 +55,7 @@ public class Game implements PieceCallBack
 
             piecePositions.put(f,new Point(x,y));
             pieceCharacters.put(f,new Character('F'));
-        Controller cc = ControllerFactory.getSpinController();
+        Controller cc = ControllerFactory.getSpinController((ControllerCallBack)f);
         f.setController(cc);
             f.setCallBack(this);
         }
@@ -94,7 +94,6 @@ public class Game implements PieceCallBack
         System.out.println("Type HELP");
         human.setCallBack(this);
         pieceCharacters.put(human,new Character('@'));
-        Controller c = ControllerFactory.getSpinController();
         human.setController(
             new Controller()
                     {
