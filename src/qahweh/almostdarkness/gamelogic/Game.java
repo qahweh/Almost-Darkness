@@ -198,7 +198,7 @@ public class Game implements PieceCallBack
     private class CachedSight
     {
         public boolean[][] cachedBlock;
-        public char[][] cachedCharSight; //char sight cant be in cache like this. move around to much
+       // public char[][] cachedCharSight; //char sight cant be in cache like this. move around to much
 
     }
 
@@ -212,7 +212,7 @@ public class Game implements PieceCallBack
         
         if(cachedSight[point.x][point.y]!=null)
         {
-            e.charSight = cachedSight[point.x][point.y].cachedCharSight;
+            e.charSight =  updateCharsToSight(p, e); //cachedSight[point.x][point.y].cachedCharSight;
             e.block = cachedSight[point.x][point.y].cachedBlock;
             e.updateView2();
             return;
@@ -239,9 +239,42 @@ public class Game implements PieceCallBack
             }
         }
 
-        cachedSight[point.x][point.y].cachedCharSight = e.charSight;
+        //cachedSight[point.x][point.y].cachedCharSight = e.charSight;
         cachedSight[point.x][point.y].cachedBlock = e.block;
         e.updateView2();
+    }
+
+    private char[][] updateCharsToSight(PieceI p, Eye e)
+    {
+        char[][] c = new char[21][21];
+        Point hpoint = piecePositions.get(human);
+        Point epoint = piecePositions.get(p);
+        int hx = hpoint.x;
+        int hy = hpoint.y;
+        int ex = epoint.x;
+        int ey = epoint.y;
+        int x = ex-hx;        
+        int y = ey-hy;        
+        if(x<0)return c;
+        if(x>=21)return c;
+        if(y<0)return c;
+        if(y>=21)return c;
+        c[x][y] = '@';
+        return c;
+/*
+        int _ex=ex-10;
+        int _ey=ey-10;
+        int _ext=ex+11;
+        int _eyt=ey+11;
+        if(_ex<0)_ex=0;
+        if(_ey<0)_ey=0;
+        if(_ext>150)_ext=150;
+        if(_eyt>150)_eyt=150;
+
+        for(int x=_ex; x<_ext; x++)
+            for(int y=_ey; y<_eyt; y++)
+                if(hx==x && hy ==y) c[x][y] = '@';
+        return c;*/
     }
 
     @Override

@@ -72,7 +72,7 @@ public class AlmostDarkness implements GameCallBack, UserInterfaceCallBack
     @Override
     public void refresh(Game game)
     {
-        if(false)return;
+        if(true)return;
         char[][] draw = new char[screenWidth][screenHeight];
 
         for(int x=0; x<screenWidth; x++)
