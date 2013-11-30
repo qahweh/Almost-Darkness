@@ -45,7 +45,7 @@ public class Game implements PieceCallBack
         createDog();
 
         Random r = new Random();
-        for(int i=0; i<120; i++)
+        for(int i=0; i<150; i++)
         {
             PieceI f = PieceFactory.createFishman(this);
             pieces.add( f );
@@ -121,10 +121,12 @@ public class Game implements PieceCallBack
 
     private void update()
     {
+        long h = System.currentTimeMillis();
         for(PieceI p : pieces)
         {
             p.update();
         }
+        System.out.println((System.currentTimeMillis()-h));
         cameraX = piecePositions.get(human).x-11;
         cameraY = piecePositions.get(human).y-11;
         cb.refresh(this);
@@ -192,14 +194,33 @@ public class Game implements PieceCallBack
         return s[x][y];
     }
 
+
+    private class CachedSight
+    {
+        public boolean[][] cachedBlock;
+        public char[][] cachedCharSight; //char sight cant be in cache like this. move around to much
+
+    }
+
+    CachedSight[][] cachedSight = new CachedSight[150][150];
+
     @Override
     public void updateView(PieceI p,Eye e)
     {
         Random r = new Random();
         Point point = piecePositions.get(p);
         
-        e.block = new boolean[world.width][world.height];
+        if(cachedSight[point.x][point.y]!=null)
+        {
+            e.charSight = cachedSight[point.x][point.y].cachedCharSight;
+            e.block = cachedSight[point.x][point.y].cachedBlock;
+            e.updateView2();
+            return;
+        }
+          //  System.out.println("aa");
+            cachedSight[point.x][point.y] = new CachedSight();
 
+        e.block = new boolean[world.width][world.height];
         e.charSight = new char[21][21];
 
         for(int x=0; x<world.width; x++)
@@ -217,6 +238,10 @@ public class Game implements PieceCallBack
                 if(hpoint.x==x && hpoint.y==y) e.charSight[x3][y3]=  '@';
             }
         }
+
+        cachedSight[point.x][point.y].cachedCharSight = e.charSight;
+        cachedSight[point.x][point.y].cachedBlock = e.block;
+        e.updateView2();
     }
 
     @Override

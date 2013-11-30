@@ -15,6 +15,13 @@ public class Eye implements Component
 
     public void updateView()
     {
+    }
+
+    public void updateView2()
+    {
+       // if(sight!=null)return;
+
+        //System.out.println(",");
 
         int width = block.length;
         int height = block[0].length;
