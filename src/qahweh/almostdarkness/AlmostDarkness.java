@@ -120,7 +120,7 @@ public class AlmostDarkness implements GameCallBack, UserInterfaceCallBack
     }
 
     @Override
-    public void keyPressed(int k) throws Exception
+    public void keyPressed(int k)
     {
         game.input(k);
     }
