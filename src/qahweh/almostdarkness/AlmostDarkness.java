@@ -31,7 +31,6 @@ public class AlmostDarkness implements GameCallBack, UserInterfaceCallBack
 {
     private UserInterface ui;
     private Game game;
-
     private int screenWidth = 85;
     private int screenHeight = 26;
 
@@ -72,7 +71,8 @@ public class AlmostDarkness implements GameCallBack, UserInterfaceCallBack
     @Override
     public void refresh(Game game)
     {
-        if(true)return;
+        if(false)return;
+
         char[][] draw = new char[screenWidth][screenHeight];
 
         for(int x=0; x<screenWidth; x++)
@@ -112,8 +112,7 @@ public class AlmostDarkness implements GameCallBack, UserInterfaceCallBack
             output += "\n";
         }
         ui.draw(output);
-
-
+        
 
 /*        
 
@@ -121,9 +120,8 @@ public class AlmostDarkness implements GameCallBack, UserInterfaceCallBack
     }
 
     @Override
-    public void keyPressed(int k)
+    public void keyPressed(int k) throws Exception
     {
         game.input(k);
     }
-
 }

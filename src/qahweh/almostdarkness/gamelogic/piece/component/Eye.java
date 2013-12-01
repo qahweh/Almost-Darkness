@@ -19,17 +19,11 @@ public class Eye implements Component
 
     public void updateView2()
     {
-       // if(sight!=null)return;
-
-        //System.out.println(",");
 
         int width = block.length;
         int height = block[0].length;
 
         sight = new boolean[width][height];
-        //for(int x=0; x<10; x++)
-        //for(int y=0; y<10; y++)
-        //sight[x][y]=true;
         for(int i=fa; i<ta; i++)
         {
             double l = (Math.PI/inter)*i;
@@ -49,5 +43,8 @@ public class Eye implements Component
                 }
             }
         }
+
+
+
     }
 }

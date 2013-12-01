@@ -124,13 +124,13 @@ class PathFinderHandler
     }
 
 
-    public boolean isNextNorth()
+    public boolean isNextSouth()
     {
         return (y > oy);
     }
 
 
-    public boolean isNextSouth()
+    public boolean isNextNorth()
     {
         return (y < oy);
     }

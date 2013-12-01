@@ -26,8 +26,6 @@ public class Piece implements PieceI, ControllerCallBack
 
     public void update()
     {
-        Eye e = getEye();
-        if(e!=null)e.updateView();
         if(controller!=null)
         {
             controller.update();
@@ -36,6 +34,8 @@ public class Piece implements PieceI, ControllerCallBack
             if(controller.wantWalkNorth())pieceCallBack.walkNorth(this);
             if(controller.wantWalkSouth())pieceCallBack.walkSouth(this);
         }
+        Eye e = getEye();
+        if(e!=null)e.updateView();
     }
 
     private Eye getEye()

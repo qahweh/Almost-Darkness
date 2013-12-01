@@ -24,6 +24,13 @@ public class Game implements PieceCallBack
     public World world;
     public int cameraX;
     public int cameraY;
+    private ArrayList<Command> commandQue;
+    private Command currentCommand;
+
+    private enum Command
+    {
+        WALK_NORTH, WALK_SOUTH, WALK_WEST, WALK_EAST
+    }
 
     private void createDog()
     {
@@ -36,33 +43,36 @@ public class Game implements PieceCallBack
         d.setCallBack(this);
     }
 
+    private void createFishMan()
+    {
+        Random r = new Random();
+        PieceI f = PieceFactory.createFishman(this);
+        pieces.add( f );
+        int x = r.nextInt(130)+10;
+        int y = r.nextInt(130)+10;
+        while(world.isSolid(x,y))
+        {
+            x = r.nextInt(130)+10;
+            y = r.nextInt(130)+10;            
+        }
+        piecePositions.put(f,new Point(x,y));
+        pieceCharacters.put(f,new Character('F'));
+        Controller cc = ControllerFactory.getSpinController((ControllerCallBack)f);
+        f.setController(cc);
+        f.setCallBack(this);
+    }
+
     public Game()
     {
+        commandQue = new ArrayList<Command>();
+
         piecePositions = new Hashtable<PieceI, Point>();
         pieceCharacters = new Hashtable<PieceI, Character>();
         pieces = new ArrayList<PieceI>();
 
-        createDog();
-
-        Random r = new Random();
-        for(int i=0; i<150; i++)
-        {
-            PieceI f = PieceFactory.createFishman(this);
-            pieces.add( f );
-
-            int x = r.nextInt(130)+10;
-            int y = r.nextInt(130)+10;
-
-            piecePositions.put(f,new Point(x,y));
-            pieceCharacters.put(f,new Character('F'));
-        Controller cc = ControllerFactory.getSpinController((ControllerCallBack)f);
-        f.setController(cc);
-            f.setCallBack(this);
-        }
         world = new World();
-
-
-
+        createDog();
+        for(int i=0; i<200; i++) createFishMan();
     }
 
     public void setCallBack(GameCallBack cb)
@@ -98,11 +108,35 @@ public class Game implements PieceCallBack
             new Controller()
                     {
                         public void update(){}
-                        public boolean wantWalkWest()  { if(k==1){k=0; return true;} return false; }
-                        public boolean wantWalkEast()  { if(k==2){k=0; return true;} return false; }
-                        public boolean wantWalkNorth() { if(k==3){k=0; return true;} return false; }
-                        public boolean wantWalkSouth() { if(k==4){k=0; return true;} return false; }
+                        public boolean wantWalkWest()  { return (currentCommand==Command.WALK_WEST); }
+                        public boolean wantWalkEast()  { return (currentCommand==Command.WALK_EAST); }
+                        public boolean wantWalkNorth() { return (currentCommand==Command.WALK_NORTH); }
+                        public boolean wantWalkSouth() { return (currentCommand==Command.WALK_SOUTH); }
                     });
+        
+        new Thread(new Runnable(){
+            @Override
+            public void run()
+            {
+                while(true)
+                {
+                    try
+                    {
+                        Thread.sleep(10);
+                        if(commandQue.size()>0)
+                        {
+                            currentCommand = commandQue.get(0);
+                            commandQue.remove(0);
+                            update();
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
 
 
         while(true)
@@ -119,7 +153,9 @@ public class Game implements PieceCallBack
         }
     }
 
-    private void update()
+
+
+    private void update() throws Exception
     {
         long h = System.currentTimeMillis();
         for(PieceI p : pieces)
@@ -152,7 +188,7 @@ public class Game implements PieceCallBack
     }
 
     @Override
-    public void walkSouth(PieceI p)
+    public void walkNorth(PieceI p)
     {
         Point pos = piecePositions.get(p);
         if(pos==null)pos = new Point(0,0);
@@ -161,7 +197,7 @@ public class Game implements PieceCallBack
     }
 
     @Override
-    public void walkNorth(PieceI p)
+    public void walkSouth(PieceI p)
     {
         Point pos = piecePositions.get(p);
         if(pos==null)pos = new Point(0,0);
@@ -171,11 +207,10 @@ public class Game implements PieceCallBack
 
     public void input(int c)
     {
-        if(c==65) k=1;
-        if(c==83) k=3;
-        if(c==68) k=2;
-        if(c==87) k=4;
-        update();
+        if(c==65)commandQue.add(Command.WALK_WEST);
+        if(c==83)commandQue.add(Command.WALK_SOUTH);
+        if(c==68)commandQue.add(Command.WALK_EAST);
+        if(c==87)commandQue.add(Command.WALK_NORTH);
     }
 
     public void input(String command)
@@ -212,15 +247,15 @@ public class Game implements PieceCallBack
         
         if(cachedSight[point.x][point.y]!=null)
         {
-            e.charSight =  updateCharsToSight(p, e); //cachedSight[point.x][point.y].cachedCharSight;
             e.block = cachedSight[point.x][point.y].cachedBlock;
+            e.x = point.x; e.y = point.y;
+            e.charSight =  updateCharsToSight(p, e); //cachedSight[point.x][point.y].cachedCharSight;
             e.updateView2();
             return;
         }
-          //  System.out.println("aa");
-            cachedSight[point.x][point.y] = new CachedSight();
+        cachedSight[point.x][point.y] = new CachedSight();
 
-        e.block = new boolean[world.width][world.height];
+        boolean[][] jjj = new boolean[world.width][world.height];
         e.charSight = new char[21][21];
 
         for(int x=0; x<world.width; x++)
@@ -230,7 +265,7 @@ public class Game implements PieceCallBack
             int y3 = y-point.y+10;
 
             e.x = point.x; e.y = point.y;
-            e.block[x][y] = world.isSolid(x,y);
+            jjj[x][y] = world.isSolid(x,y);
             if(x3>=0 && y3>=0 && y3<=20 && x3<=20)
             {
                 e.charSight[x3][y3] = world.matris[x][y];
@@ -239,26 +274,30 @@ public class Game implements PieceCallBack
             }
         }
 
+        e.block = jjj;
+
         //cachedSight[point.x][point.y].cachedCharSight = e.charSight;
-        cachedSight[point.x][point.y].cachedBlock = e.block;
+        cachedSight[point.x][point.y].cachedBlock = jjj;
         e.updateView2();
     }
 
     private char[][] updateCharsToSight(PieceI p, Eye e)
     {
         char[][] c = new char[21][21];
+        if(p==human)return c;
         Point hpoint = piecePositions.get(human);
         Point epoint = piecePositions.get(p);
         int hx = hpoint.x;
         int hy = hpoint.y;
         int ex = epoint.x;
         int ey = epoint.y;
-        int x = ex-hx;        
-        int y = ey-hy;        
+        int x = hx-ex+10;        
+        int y = hy-ey+10;        
         if(x<0)return c;
         if(x>=21)return c;
         if(y<0)return c;
         if(y>=21)return c;
+
         c[x][y] = '@';
         return c;
 /*
