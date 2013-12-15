@@ -2,6 +2,7 @@
     <head>
         <title>Almost Darkness</title>
         <script src="classes/Human.js"></script>
+        <script src="classes/Room.js"></script>
         <style>
         #canvas_container{margin:0 auto 0 auto; width: 1140px}
         body{background: #000}
@@ -15,18 +16,36 @@
         <script>
             var gamecanvas = document.getElementById('gamecanvas');
             var gamecanvasC = gamecanvas.getContext('2d');
+            
             var img = new Image();
             img.src = "sprite.png";
+
+            //gamecanvasC.drawImage(img,0,0);
+  
             document.addEventListener("keydown",kdh,false);
 
             var human = new Human();
+            var room = new Room();
             function kdh(event)
             {
+                for(var x=0; x<room.width; x++)
+                {
+                    for(var y=0; y<room.height; y++)
+                    {
+                        var tile = room.getTile(x,y);
+                        var imgx = 0; var imgy = 0;
+                        if(tile==0) { imgx = 1; imgy=0; }
+                        else if(tile==1) { imgx = 2; imgy=0; }
+                        else if(tile==2) { imgx = 3; imgy = 0; } 
+                        else if(tile==3) { imgx = 4; imgy = 0; }
+                        if(tile>-1)gamecanvasC.drawImage(img,imgx*28,imgy*38,28,38,x*28,y*38,28,38);
+                    }
+                }
                 if(event.keyCode==68) human.moveRight();
                 else if(event.keyCode==65) human.moveLeft();
                 else if(event.keyCode==87) human.moveUp();
                 else if(event.keyCode==83) human.moveDown();
-                gamecanvasC.drawImage(img,human.x*28,human.y*38);
+                gamecanvasC.drawImage(img,0,0,28,38,human.x*28,human.y*38,28,38);
             }
 
         </script>

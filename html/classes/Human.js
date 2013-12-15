@@ -1,7 +1,7 @@
 function Human()
 {
-    this.x = 0;
-    this.y = 0;
+    this.x = 15;
+    this.y = 10;
 };
 
 Human.prototype.moveRight = function()
