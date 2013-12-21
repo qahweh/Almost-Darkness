@@ -47,7 +47,12 @@
                 else if(event.keyCode==65) human.moveLeft();
                 else if(event.keyCode==87) human.moveUp();
                 else if(event.keyCode==83) human.moveDown();
-                if(room.getTile(human.x,human.y)==3)room = new Room(RoomType.HALLWAY,random.nextInt(1000));
+                if(room.getTile(human.x,human.y)==3)
+{
+gamecanvasC.clearRect(0,0,1120,722);
+room = new Room(RoomType.HALLWAY,random.nextInt(1000));
+}
+
                 gamecanvasC.drawImage(img,0,0,28,38,human.x*28,human.y*38,28,38);
             }
 
