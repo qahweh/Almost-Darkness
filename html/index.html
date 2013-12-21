@@ -4,6 +4,7 @@
         <script src="classes/Human.js"></script>
         <script src="classes/Room.js"></script>
         <script src="classes/Random.js"></script>
+        <script src="classes/Door.js"></script>
         <style>
         #canvas_container{margin:0 auto 0 auto; width: 1140px}
         body{background: #000}
@@ -27,7 +28,7 @@
 
             var random = new Random(1211);
             var human = new Human();
-            var room = new Room(RoomType.ENTRANCE,random.nextInt(1000));
+            var room = new Room(RoomType.ENTRANCE,random.nextInt(1000),true);
             function kdh(event)
             {
                 for(var x=0; x<room.width; x++)
@@ -35,24 +36,26 @@
                     for(var y=0; y<room.height; y++)
                     {
                         var tile = room.getTile(x,y);
+                       // if(tile!=-1)alert( tile instanceof Door );
+
                         var imgx = 0; var imgy = 0;
                         if(tile==0) { imgx = 1; imgy=0; }
                         else if(tile==1) { imgx = 2; imgy=0; }
                         else if(tile==2) { imgx = 3; imgy = 0; } 
-                        else if(tile==3) { imgx = 4; imgy = 0; }
-                        if(tile>-1)gamecanvasC.drawImage(img,imgx*28,imgy*38,28,38,x*28,y*38,28,38);
+                        else if(tile instanceof Door) { imgx = 4; imgy = 0; }
+                        if(tile!=-1)gamecanvasC.drawImage(img,imgx*28,imgy*38,28,38,x*28,y*38,28,38);
                     }
                 }
                 if(event.keyCode==68) human.moveRight();
                 else if(event.keyCode==65) human.moveLeft();
                 else if(event.keyCode==87) human.moveUp();
                 else if(event.keyCode==83) human.moveDown();
-                if(room.getTile(human.x,human.y)==3)
-{
-gamecanvasC.clearRect(0,0,1120,722);
-room = new Room(RoomType.HALLWAY,random.nextInt(1000));
-}
-
+                if(room.getTile(human.x,human.y) instanceof Door)
+                {
+                    gamecanvasC.clearRect(0,0,1120,722);
+                    room = room.getTile(human.x,human.y).toRoom;
+                    if(!room.isBuild){ room._makeRoomMatrisByRandom(); }
+                }
                 gamecanvasC.drawImage(img,0,0,28,38,human.x*28,human.y*38,28,38);
             }
 
