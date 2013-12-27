@@ -16,6 +16,7 @@ function Room(roomType,random, buildRoom)
     this.random = random;
     this.matris = new Array();
     this.isBuild = false;
+    this.requireDoor = null;
     if(buildRoom)this._makeRoomMatrisByRandom();
 }
 
@@ -28,7 +29,12 @@ Room.prototype._makeDoor = function(random,p)
     else if(this.matris[p-1]==0) r = DirType.RIGHT;
     else if(this.matris[p+this.width]==0) r = DirType.UP;
     else if(this.matris[p-this.width]==0) r = DirType.DOWN;
-     
+    
+    if(r==DirType.LEFT)door.toRoom.requireDoor = DirType.RIGHT;
+    if(r==DirType.RIGHT)door.toRoom.requireDoor = DirType.LEFT;
+    if(r==DirType.UP)door.toRoom.requireDoor = DirType.DOWN;
+    if(r==DirType.DOWN)door.toRoom.requireDoor = DirType.UP;
+
     //alert(r);
     door.position = p;
     door.doorDir = r;
@@ -67,16 +73,38 @@ Room.prototype._makeRoomMatrisByRandom = function()
         var doorx = random.nextInt(this.width);
         var doory = random.nextInt(this.height);
 
+        var makeDoorAtDir = this.requireDoor;
+
+alert(makeDoorAtDir);
+
         var t = 0;
-        while(t<300)
+        while(t<500)
         {
             var x = random.nextInt(this.width);
             var y = random.nextInt(this.height);
             if(this.matris[x+y*this.width] == 1 || this.matris[x+y*this.width] == 2)
             {
-                this.matris[x+y*this.width] = this._makeDoor(random,x+y*this.width);
-               
-                t=t+100;
+                if(makeDoorAtDir==null)
+                {
+                    if(this.matris[x+y*this.width-1]==0 || this.matris[x+y*this.width+1]==0 || this.matris[x+(y+1)*this.width]==0 || this.matris[x+(y-1)*this.width]==0)
+                    {
+                        this.matris[x+y*this.width] = this._makeDoor(random,x+y*this.width);
+                        t=t+100;
+                    }
+                }
+                else
+                {
+                    if( (this.matris[x+y*this.width-1]==0 && makeDoorAtDir==DirType.RIGHT) || 
+                        (this.matris[x+y*this.width+1]==0 && makeDoorAtDir==DirType.LEFT) || 
+                        (this.matris[x+(y+1)*this.width]==0 && makeDoorAtDir==DirType.UP ) || 
+                        (this.matris[x+(y-1)*this.width]==0 && makeDoorAtDir==DirType.DOWN ) )
+                    {
+                        makeDoorAtDir = null;
+                        this.matris[x+y*this.width] = this._makeDoor(random,x+y*this.width);
+                        t=t+100;
+                    }
+
+                }
             }
             t++;
         }
