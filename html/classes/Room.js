@@ -19,10 +19,20 @@ function Room(roomType,random, buildRoom)
     if(buildRoom)this._makeRoomMatrisByRandom();
 }
 
-Room.prototype._makeDoor = function(random)
+Room.prototype._makeDoor = function(random,p)
 {
     door = new Door();
     door.toRoom = new Room(RoomType.HALLWAY, random.nextInt(1000));
+    var r = 0;
+    if(this.matris[p+1]==0) r = DirType.LEFT;
+    else if(this.matris[p-1]==0) r = DirType.RIGHT;
+    else if(this.matris[p+this.width]==0) r = DirType.UP;
+    else if(this.matris[p-this.width]==0) r = DirType.DOWN;
+     
+    //alert(r);
+    door.position = p;
+    door.doorDir = r;
+    door.belongToRoom = this;
     return door;
 }
 
@@ -37,14 +47,14 @@ Room.prototype._makeRoomMatrisByRandom = function()
     if(this.roomType == RoomType.ENTRANCE)
     {
         this._makeSquare(7,4,26,11);
-        this.matris[594] = this._makeDoor(random);
-        this.matris[593] = this._makeDoor(random);
-        this.matris[458] = this._makeDoor(random);
-        this.matris[294] = this._makeDoor(random);
-        this.matris[483] = this._makeDoor(random);
-        this.matris[319] = this._makeDoor(random);
-        this.matris[177] = this._makeDoor(random);
-        this.matris[190] = this._makeDoor(random);
+        this.matris[594] = this._makeDoor(random,594);
+        this.matris[593] = this._makeDoor(random,593);
+        this.matris[458] = this._makeDoor(random,458);
+        this.matris[294] = this._makeDoor(random,294);
+        this.matris[483] = this._makeDoor(random,483);
+        this.matris[319] = this._makeDoor(random,319);
+        this.matris[177] = this._makeDoor(random,177);
+        this.matris[190] = this._makeDoor(random,190);
     }
     else if(this.roomType == RoomType.HALLWAY)
     {
@@ -64,7 +74,7 @@ Room.prototype._makeRoomMatrisByRandom = function()
             var y = random.nextInt(this.height);
             if(this.matris[x+y*this.width] == 1 || this.matris[x+y*this.width] == 2)
             {
-                this.matris[x+y*this.width] = this._makeDoor(random);
+                this.matris[x+y*this.width] = this._makeDoor(random,x+y*this.width);
                
                 t=t+100;
             }
