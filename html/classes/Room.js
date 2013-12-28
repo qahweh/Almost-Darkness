@@ -75,8 +75,6 @@ Room.prototype._makeRoomMatrisByRandom = function()
 
         var makeDoorAtDir = this.requireDoor;
 
-alert(makeDoorAtDir);
-
         var t = 0;
         while(t<500)
         {
