@@ -28,8 +28,8 @@
             document.addEventListener("keydown",kdh,false);
 
             var random = new Random(1211);
-            var human = new Human();
             var room = new Room(RoomType.ENTRANCE,random.nextInt(1000),true);
+            var human = new Human(12,12,room);
             function kdh(event)
             {
                 for(var x=0; x<room.width; x++)
@@ -63,8 +63,9 @@
                     gamecanvasC.clearRect(0,0,1120,722);
                     room = door.toRoom;
                     if(!room.isBuild){ room._makeRoomMatrisByRandom(); door.calculateStart(); }
-                     human.x = door.startx;
+                    human.x = door.startx;
                     human.y = door.starty;
+                    human.currentRoom = room;
                     kdh(null);
 
                  gamecanvasC.drawImage(img,0,0,28,38,human.x*28,human.y*38,28,38);

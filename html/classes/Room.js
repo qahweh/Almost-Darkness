@@ -8,8 +8,10 @@ DINING_ROOM: 3
 }
 
 
-function Room(roomType,random, buildRoom)
+function Room(roomType,random, buildRoom, deep)
 {
+    deep = typeof deep !=='undefined' ? deep : 0;
+    
     this.width = 41; //TODO: use 'const' if always is this width/height is one every room. alsow make this to 40 again. unused tile is on far right.
     this.height = 19;
     this.roomType = roomType;
@@ -17,13 +19,15 @@ function Room(roomType,random, buildRoom)
     this.matris = new Array();
     this.isBuild = false;
     this.requireDoor = null;
+    this.deep = deep;
     if(buildRoom)this._makeRoomMatrisByRandom();
 }
 
 Room.prototype._makeDoor = function(random,p)
 {
     door = new Door();
-    door.toRoom = new Room(RoomType.HALLWAY, random.nextInt(1000));
+
+    door.toRoom = new Room(RoomType.HALLWAY, random.nextInt(1000), false, this.deep+1);
     var r = 0;
     if(this.matris[p+1]==0) r = DirType.LEFT;
     else if(this.matris[p-1]==0) r = DirType.RIGHT;
@@ -76,7 +80,15 @@ Room.prototype._makeRoomMatrisByRandom = function()
         var makeDoorAtDir = this.requireDoor;
 
         var t = 0;
-        while(t<500)
+        var t2 = 0;
+        if(this.deep==0)t2=350; // do not exist yet. first room is always ENTRANCE
+        if(this.deep==1)t2=350;
+        if(this.deep==2)t2=600;
+        if(this.deep==3)t2=900;
+        if(this.deep==4)t2=1200;
+        if(this.deep==5)t2=1500;
+
+        while(t<1500)
         {
             var x = random.nextInt(this.width);
             var y = random.nextInt(this.height);
@@ -87,7 +99,7 @@ Room.prototype._makeRoomMatrisByRandom = function()
                     if(this.matris[x+y*this.width-1]==0 || this.matris[x+y*this.width+1]==0 || this.matris[x+(y+1)*this.width]==0 || this.matris[x+(y-1)*this.width]==0)
                     {
                         this.matris[x+y*this.width] = this._makeDoor(random,x+y*this.width);
-                        t=t+100;
+                        t=t+t2;
                     }
                 }
                 else
@@ -99,7 +111,7 @@ Room.prototype._makeRoomMatrisByRandom = function()
                     {
                         makeDoorAtDir = null;
                         this.matris[x+y*this.width] = this._makeDoor(random,x+y*this.width);
-                        t=t+100;
+                        t=t+t2;
                     }
 
                 }
