@@ -7,6 +7,7 @@
         <script src="classes/Door.js"></script>
         <script src="classes/Dir.js"></script>
         <script src="classes/Fishman.js"></script>
+        <script src="classes/Ammobox.js"></script>
         <style>
         #canvas_container{margin:0 auto 0 auto; width: 1140px}
         body{background: #000}
@@ -27,14 +28,34 @@
             //gamecanvasC.drawImage(img,0,0);
   
             document.addEventListener("keydown",kdh,false);
+ var pieces = new Array();
 
             var random = new Random(1211);
             var room = new Room(RoomType.ENTRANCE,random.nextInt(1000),true);
             var human = new Human(12,12,room);
             
-            var pieces = new Array();
-            pieces.push( new Fishman(12,8,room) );
+            pieces.push(human);
+                       pieces.push( new Fishman(12,8,room) );
+            pieces.push( new Ammobox(12,6,room) );
+             
+           
+            function updatePieces()
+            {
+                var index;
+                
+                for(index = 0; index < pieces.length; index++)
+                {
+                    var p = pieces[index];
+                    if(p.currentRoom == human.currentRoom)
+                    {
+                        //alert(p.update);
+                        if(p.update)p.update();
+                    
+                    }
+                }
 
+            }
+ 
             function drawPieces()
             {
                 var index;
@@ -43,8 +64,10 @@
                 {
                     var p = pieces[index];
                     if(p.currentRoom == human.currentRoom)
+                    {
+                      //  alert(p instanceof Ammobox);
                         gamecanvasC.drawImage(img,p.imgx*28,p.imgy*38,28,38,p.x*28,p.y*38,28,38);
- 
+                    }
                 }
             }
 
@@ -71,6 +94,7 @@
                 else if(event.keyCode==65) human.moveLeft();
                 else if(event.keyCode==87) human.moveUp();
                 else if(event.keyCode==83) human.moveDown();
+                updatePieces();
 
                 }
 
