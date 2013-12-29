@@ -23,6 +23,17 @@ function Room(roomType,random, buildRoom, deep)
     if(buildRoom)this._makeRoomMatrisByRandom();
 }
 
+Room.prototype.getPiece = function(x,y)
+{
+    var index;
+    for(index = 0; index < pieces.length; index++)
+    {
+        var p = pieces[index];
+        if(p.currentRoom == this && p.x==x && p.y==y) return p;
+    }
+    return null;
+}
+
 Room.prototype._makeDoor = function(random,p)
 {
     door = new Door();
