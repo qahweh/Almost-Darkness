@@ -9,23 +9,51 @@
         <script src="classes/Fishman.js"></script>
         <script src="classes/Ammobox.js"></script>
         <style>
-        #canvas_container{margin:0 auto 0 auto; width: 1140px}
+        #canvas_container{margin:0 auto 0 auto; width: 1340px}
         body{background: #000}
-        #gamecanvas{background:#111; border: 2px solid #ddd;}
-        </style>
+        #gamecanvas{background:#111; border: 2px solid #ddd; float:left}
+        #statuscanvas{background:#111; border: 2px solid #ddd; float:left; margin-left: 10px;}
+       </style>
     </head>
     <body>
         <div id="canvas_container">
-            <canvas id="gamecanvas" width="1120" height="722"></canvas>
+            <canvas id="gamecanvas" width="1140" height="722"></canvas>
+            <canvas id="statuscanvas" width="140" height="722"></canvas>
         </div>
         <script>
             var gamecanvas = document.getElementById('gamecanvas');
             var gamecanvasC = gamecanvas.getContext('2d');
-           
+
+            var statuscanvas = document.getElementById('statuscanvas');
+            var statuscanvasC = statuscanvas.getContext('2d');
             var img = new Image();
             img.src = "sprite.png";
 
-            //gamecanvasC.drawImage(img,0,0);
+            var ammo = 6;
+            var doors = 0;
+
+            function drawText(x,y,text)
+            {
+                var i;
+                for(i=0; i<text.length; i++)
+                {
+                    var imgx = 0;
+                    var imgy = 2;
+                    if(text[i]=="1"){imgx=1; imgy=2;}
+                    if(text[i]=="2"){imgx=2; imgy=2;}
+                    if(text[i]=="3"){imgx=3; imgy=2;}
+                    if(text[i]=="4"){imgx=4; imgy=2;}
+                    if(text[i]=="5"){imgx=0; imgy=3;}
+                    if(text[i]=="6"){imgx=1; imgy=3;}
+                    if(text[i]=="7"){imgx=2; imgy=3;}
+                    if(text[i]=="8"){imgx=3; imgy=3;}
+                    if(text[i]=="9"){imgx=4; imgy=3;}
+                    if(text[i]=="0"){imgx=0; imgy=2;}
+                    if(text[i]=="a"){imgx=0; imgy=0;}
+                    statuscanvasC.drawImage(img,imgx*28,imgy*38,28,38,x*28,y*38,28,38);
+                    x++;
+                }
+            }
   
             document.addEventListener("keydown",kdh,false);
  var pieces = new Array();
@@ -101,7 +129,8 @@
                 if(room.getTile(human.x,human.y) instanceof Door)
                 {
                     var door = room.getTile(human.x,human.y);
-                   
+                    doors = doors + door.counter;
+                    door.counter =  0;  
                     gamecanvasC.clearRect(0,0,1120,722);
                     room = door.toRoom;
                     if(!room.isBuild){ room._makeRoomMatrisByRandom(); door.calculateStart(); }
@@ -117,6 +146,10 @@
 
                
                 gamecanvasC.drawImage(img,human.imgx*28,human.imgy*38,28,38,human.x*28,human.y*38,28,38);
+                statuscanvasC.drawImage(img,2*28,1*38,28,38,0,0,28,38);
+                statuscanvasC.drawImage(img,4*28,0*38,28,38,0,38,28,38);
+                drawText(1,0,""+ammo);
+                drawText(1,1,""+doors);
                 drawPieces();
              }
 

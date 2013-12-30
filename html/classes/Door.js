@@ -10,6 +10,7 @@ function Door()
     this.doorDir = null;
     this.belongToRoom = null;
     this.position = null;
+    this.counter = 1;
 };
 
 Door.prototype.calculateStart = function()
@@ -52,6 +53,7 @@ Door.prototype._findDoorInRoom = function(room,dir)
                 room.matris[i].toRoom = this.belongToRoom; 
                 room.matris[i].startx = this.position%this.belongToRoom.width +1; 
                 room.matris[i].starty = parseInt(this.position/this.belongToRoom.width);
+                room.matris[i].counter=0;
                 return i;
             }
             else if(dir==DirType.RIGHT && room.matris[i+1]==0 )
@@ -59,6 +61,7 @@ Door.prototype._findDoorInRoom = function(room,dir)
                 room.matris[i].toRoom = this.belongToRoom;
                 room.matris[i].startx = this.position%this.belongToRoom.width -1; 
                 room.matris[i].starty = parseInt(this.position/this.belongToRoom.width);
+                room.matris[i].counter=0;
                 return i;
             }
             else if(dir==DirType.UP && room.matris[i-room.width]==0 )
@@ -66,6 +69,7 @@ Door.prototype._findDoorInRoom = function(room,dir)
                 room.matris[i].toRoom = this.belongToRoom; 
                 room.matris[i].startx = this.position%this.belongToRoom.width; 
                 room.matris[i].starty = parseInt(this.position/this.belongToRoom.width) + 1;
+                room.matris[i].counter=0;
                 return i;
             }
             else if(dir==DirType.DOWN && room.matris[i+room.width]==0 )
@@ -73,7 +77,8 @@ Door.prototype._findDoorInRoom = function(room,dir)
                 room.matris[i].toRoom = this.belongToRoom; 
                 room.matris[i].startx = this.position%this.belongToRoom.width; 
                 room.matris[i].starty = parseInt(this.position/this.belongToRoom.width) - 1;
-               return i;
+                room.matris[i].counter=0;
+                return i;
             }
         }
     }
