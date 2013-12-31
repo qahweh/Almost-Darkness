@@ -8,6 +8,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
 
 this.moveLeft = function()
 {
+    if(this.hurt)return;
     var t = this.currentRoom.getTile(this.x-1,this.y);
     var p = this.currentRoom.getPiece(this.x-1,this.y);
     this.x--;
@@ -20,6 +21,7 @@ this.moveLeft = function()
 
 Human.prototype.moveRight = function()
 {
+     if(this.hurt)return;
     var t = this.currentRoom.getTile(this.x+1,this.y);
     var p = this.currentRoom.getPiece(this.x+1,this.y);
     this.x++;
@@ -30,6 +32,7 @@ Human.prototype.moveRight = function()
 
 Human.prototype.moveUp = function()
 {
+     if(this.hurt)return;
     var t = this.currentRoom.getTile(this.x,this.y-1);
     var p = this.currentRoom.getPiece(this.x,this.y-1);
      this.y--;
@@ -39,6 +42,7 @@ Human.prototype.moveUp = function()
 
 Human.prototype.moveDown = function()  //do not use prototype function if hard to over ride.
 {
+     if(this.hurt)return;
     var t = this.currentRoom.getTile(this.x,this.y+1);
     var p = this.currentRoom.getPiece(this.x,this.y+1);
      this.y++;

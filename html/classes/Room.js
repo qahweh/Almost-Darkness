@@ -130,7 +130,7 @@ Room.prototype._makeRoomMatrisByRandom = function()
             t++;
         }
     }
-    for(var i =0; i<10; i++)
+    for(var i =0; i<11; i++)
     {
         var x = parseInt(Math.random()*this.width);
         var y = parseInt(Math.random()*this.height);
@@ -138,7 +138,7 @@ Room.prototype._makeRoomMatrisByRandom = function()
         var p = this.getPiece(x,y);
         if(t==0 && p==null) pieces.push( new Fishman(x,y,this) );
     }
-    for(var i =0; i<10; i++)
+    for(var i =0; i<7; i++)
     {
         var x = parseInt(Math.random()*this.width);
         var y = parseInt(Math.random()*this.height);
