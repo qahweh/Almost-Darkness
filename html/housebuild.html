@@ -1,0 +1,32 @@
+<html>
+    <script src="classes/Human.js"></script>
+    <script src="classes/Room.js"></script>
+    <script src="classes/Random.js"></script>
+    <script src="classes/Door.js"></script>
+    <script src="classes/Dir.js"></script>
+    <script src="classes/Fishman.js"></script>
+    <script src="classes/Ammobox.js"></script>
+    <script src="classes/HouseBuilder.js"></script>
+    <script src="classes/Point.js"></script>
+    
+    
+    <body>
+    <div id="map"></div>
+    
+    <script>
+    var hb = new HouseBuilder();
+    var map = document.getElementById('map');
+    for(var i = 0; i<hb.house.length; i++)
+    {
+        if(i%hb.width==0) map.innerHTML += '<div style="clear:both"></div>';
+        var t = ' ';
+                
+        if(!hb.house[i])t='.'; 
+        else t = hb.house[i].length;
+        map.innerHTML += '<div style="float:left; width: 20px; height: 20px; background: #eee">'+t+'</div>';
+    }
+    </script>
+    </body>
+    
+    
+</html>

@@ -54,10 +54,19 @@ S.3: Skapa rum. placera en dörr på samma postion i den motsatta dimension man 
      
 -----------------------------------
 
+/*
 Efter detta så behöver de nya rummen se om du får fler dörrar. Skapa väggar. länkar dörrar till andra rum eller nya.
 Kolla först om man hittar rum på samma kordinat fast då man länkar ny dörr annars forsätt någon kordinat vidare.
 Se till att algoritmen körs så att den inte kör gren för gren (ta alltid rum med längst djuphet först). tror att man kan missa länka rum på samma kordinat om jus det rummet inte skapats än från en annan gren.
+*/
 
+
+
+
+foreach - Alla rum som inte är entrance
+bestäm antal dörrar.
+placera ut dom med slump (tänk på att inte överlappa eventuellt andra rum med samma kordinat.)
+Kolla om dom kan länkas till annat rum. länka isf.
 
 
 

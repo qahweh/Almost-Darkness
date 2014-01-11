@@ -3,8 +3,8 @@ RoomType = {
 
 ENTRANCE: 1,
 HALLWAY: 2,
-DINING_ROOM: 3
-
+DINING_ROOM: 3,
+EMPTY: 4
 }
 
 
@@ -17,6 +17,7 @@ function Room(roomType,random, buildRoom, deep)
     this.roomType = roomType;
     this.random = random;
     this.matris = new Array();
+    for(i=0; i<this.width*this.height; i++)this.matris[i] = -1;
     this.isBuild = false;
     this.requireDoor = null;
     this.deep = deep;
@@ -38,17 +39,13 @@ Room.prototype._makeDoor = function(random,p)
 {
     door = new Door();
 
-    door.toRoom = new Room(RoomType.HALLWAY, random.nextInt(1000), false, this.deep+1);
     var r = 0;
     if(this.matris[p+1]==0) r = DirType.LEFT;
     else if(this.matris[p-1]==0) r = DirType.RIGHT;
     else if(this.matris[p+this.width]==0) r = DirType.UP;
     else if(this.matris[p-this.width]==0) r = DirType.DOWN;
     
-    if(r==DirType.LEFT)door.toRoom.requireDoor = DirType.RIGHT;
-    if(r==DirType.RIGHT)door.toRoom.requireDoor = DirType.LEFT;
-    if(r==DirType.UP)door.toRoom.requireDoor = DirType.DOWN;
-    if(r==DirType.DOWN)door.toRoom.requireDoor = DirType.UP;
+
 
     //alert(r);
     door.position = p;
@@ -63,19 +60,21 @@ Room.prototype._makeRoomMatrisByRandom = function()
     this.isBuild= true;
 
     var random = new Random(this.random);
-    for(i=0; i<this.width*this.height; i++)this.matris[i] = -1;
 
     if(this.roomType == RoomType.ENTRANCE)
     {
         this._makeSquare(7,4,26,11);
         this.matris[594] = this._makeDoor(random,594);
+        this.matris[594].toRoom = true;
         this.matris[593] = this._makeDoor(random,593);
+        this.matris[593].toRoom = true;
         this.matris[458] = this._makeDoor(random,458);
         this.matris[294] = this._makeDoor(random,294);
         this.matris[483] = this._makeDoor(random,483);
         this.matris[319] = this._makeDoor(random,319);
         this.matris[177] = this._makeDoor(random,177);
         this.matris[190] = this._makeDoor(random,190);
+
     }
     else if(this.roomType == RoomType.HALLWAY)
     {
@@ -130,6 +129,7 @@ Room.prototype._makeRoomMatrisByRandom = function()
             t++;
         }
     }
+    /*
     for(var i =0; i<11; i++)
     {
         var x = parseInt(Math.random()*this.width);
@@ -146,7 +146,7 @@ Room.prototype._makeRoomMatrisByRandom = function()
         var p = this.getPiece(x,y);
         if(t==0 && p == null) pieces.push( new Ammobox(x,y,this) );
     }
-
+*/
 
 }
 

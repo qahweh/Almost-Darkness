@@ -8,6 +8,8 @@
         <script src="classes/Dir.js"></script>
         <script src="classes/Fishman.js"></script>
         <script src="classes/Ammobox.js"></script>
+        <script src="classes/Point.js"></script>
+        <script src="classes/HouseBuilder.js"></script>
         <style>
         #canvas_container{margin:0 auto 0 auto; width: 1340px}
         body{background: #000}
@@ -59,8 +61,10 @@
  var pieces = new Array();
 
             var random = new Random(1211);
-            var room = new Room(RoomType.ENTRANCE,random.nextInt(1000),true);
-            var human = new Human(12,12,room);
+
+            var hb = new HouseBuilder();
+            
+            var human = new Human(12,12,hb.getStartRoom());
             human.isHuman=true;
             pieces.push(human);
                        pieces.push( new Fishman(12,8,room) );
@@ -114,11 +118,11 @@
 
             function kdh(event)
             {
-                for(var x=0; x<room.width; x++)
+                for(var x=0; x<human.currentRoom.width; x++)
                 {
-                    for(var y=0; y<room.height; y++)
+                    for(var y=0; y<human.currentRoom.height; y++)
                     {
-                        var tile = room.getTile(x,y);
+                        var tile = human.currentRoom.getTile(x,y);
                        // if(tile!=-1)alert( tile instanceof Door );
 
                         var imgx = 0; var imgy = 0;
@@ -141,14 +145,17 @@
 
                 }
 
-                if(room.getTile(human.x,human.y) instanceof Door)
+                if(human.currentRoom.getTile(human.x,human.y) instanceof Door)
                 {
-                    var door = room.getTile(human.x,human.y);
+                    var door = human.currentRoom.getTile(human.x,human.y);
+
                     doors = doors + door.counter;
                     door.counter =  0;  
                     gamecanvasC.clearRect(0,0,1120,722);
                     room = door.toRoom;
-                    if(!room.isBuild){ room._makeRoomMatrisByRandom(); door.calculateStart(); }
+                    //if(!room.isBuild){ room._makeRoomMatrisByRandom(); door.calculateStart(); }
+                    
+                    
                     human.x = door.startx;
                     human.y = door.starty;
                     human.currentRoom = room;
