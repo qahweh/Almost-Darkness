@@ -12,10 +12,10 @@ function HouseBuilder()
         var x = 0;
         var y = 0;
         if(door.doorDir==DirType.LEFT) { x = door.toRoom.width-3; y = parseInt(i/door.toRoom.width);}
-        if(door.doorDir==DirType.RIGHT) { x = 3; y = parseInt(i/door.toRoom.width);}
+        if(door.doorDir==DirType.RIGHT) { x = 2; y = parseInt(i/door.toRoom.width);}
 
         if(door.doorDir==DirType.UP) { x = i%door.toRoom.width; y = door.toRoom.height-3;}
-        if(door.doorDir==DirType.DOWN) { x = i%door.toRoom.width; y = 3;}
+        if(door.doorDir==DirType.DOWN) { x = i%door.toRoom.width; y = 2;}
 
         return x+y*door.toRoom.width;
     }
@@ -63,7 +63,7 @@ function HouseBuilder()
                 }
                 else
                 {
-                    door.toRoom = new Room(RoomType.EMPTY, 1, false, this.deep+1);
+                    door.toRoom = new Room(RoomType.EMPTY, 1, true, this.deep+1);
                     door.toRoom.name='B';
 
                     
@@ -83,6 +83,20 @@ function HouseBuilder()
     this.getStartRoom = function()
     {
         return this.startRoom;
+    }
+    
+    this.nearOtherDoorInY = function(y,x,room)
+    {
+        for(var i=y-2; i<y+4; i++)
+        if(room.matris[x+room.width*i] instanceof Door)return true;
+        return false;
+    }
+    
+    this.nearOtherDoorInX = function(x,y,room)
+    {
+        for(var i=x-6; i<x+12; i++)
+        if(room.matris[i+room.width*y] instanceof Door)return true;
+        return false;
     }
     
     var room = new Room(RoomType.ENTRANCE,111,true);
@@ -127,17 +141,20 @@ function HouseBuilder()
                 {
                     var x = thisRoom.width-3;
                     var y = parseInt(Math.random()*(thisRoom.height-6))+3;
+                    while( this.nearOtherDoorInY(y,x, thisRoom) ) y = parseInt(Math.random()*(thisRoom.height-6))+3;
                 }
                 if(dir==DirType.DOWN)
                 {
                     var y = thisRoom.height-3;
                     var x = parseInt(Math.random()*(thisRoom.width-6))+3;
+                    while( this.nearOtherDoorInX(x,y, thisRoom) ) x = parseInt(Math.random()*(thisRoom.width-6))+3;
                 }
                 var door = new Door();
                 door.doorDir = dir;
                 thisRoom.matris[x+y*thisRoom.width] = door;
                 door.belongToRoom = thisRoom; 
             }
+
             this.buildRoomsByDoors(thisRoom,x2+y2*this.width);
         }
         }

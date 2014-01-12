@@ -3,73 +3,13 @@ Document of development. Written in swedish
 
 ---------------------------
 
-
 Värld har många rum.
 Ett rum har en kordinat. Flera rum kan ha samma kordinater.
-Ett rum kan ha en djuphet (dvs hur långt är den ifrån entrance)
-djupheten avgöra hur många dörrar som skapas.
-Djuphet 1: 3-6 dörrar (rummet intil entrance)
-        2: 2-5 
-        3: 2-4
-        4: 1-2
-        5: 1-1 (återvändsgränd)
-Huset ska få på ett cirka lika många dörrar oavsett slumpen. Om antal diffar för mycket
-eller huset blir för stort/litet måste värden ändras och/eller vi får lägga på/ta bort rum efter algoritm är klar. eller annat. 
 
------------------------------
+Nu skapas dock bara ett rum per kordinat. Splitta upp dessa stora rum i fler mindre på samma kordinat. länka ihop dom mindre rummen om det passar.
 
-START:
-1: Skapa entrance. Hårdkodad strukture (6 dörrar)
-    1.1: Skapa rum till entrance alla dörrar.
-       funktion:Skapa rum(  (0,0) Dörrens direction, dörrens position )
-       
-Skapa rum (  source rooms kordinat, direction, dörrens position )
-S.1: Räkna ut denna rums kordinat med hjälp av direction och source rooms kordinat.
-
-S.2: finns redan ett rum på samma kordinat så slumpa om istället för skapa ett nytt rum så länka till det som redan finns (50% kanske).
-   S.2.1 -> Ja
-            Skapa dörr (som på S.3 - skapa rum) men se till att den hamnar längst med den andra dörren på samma sida i samma rum.
-            return;
-   S.2.2 -> Nej (kör S.3)
-
-S.3: Skapa rum. placera en dörr på samma postion i den motsatta dimension man kommer in ifrån. (ex om käll dörren är (13,6) och går uppåt så ska x=vara 13)
-     I den andra dimensionen ska dörren läggas åt sidan dörren kommer ifrån med en vissa random marginal. (om kommer neråt ifrån ska y vara 2-5 kanske)
-     Länka dörren så att man kommer ut på rätt position på source room.        
-     
-     
-     
-     Den här borde skapa något i denna stil.
-     (dörrarna till öster länkas till samma rum och man kan kan nå båda dörrarna.)
-     (notera att dessa rum har nu också inte än några väggar)     
-     
-                d(rum 4) d(rum 5)
-                ^        ^
-              --d--------d--
-              |            |
- d(rum 2) <-> d            d <-> d(rum 1)
-              |            |
- d(rum 3) <-> d            d <-> d(rum 1)
-              |            |
-              --------------
-     
------------------------------------
-
-/*
-Efter detta så behöver de nya rummen se om du får fler dörrar. Skapa väggar. länkar dörrar till andra rum eller nya.
-Kolla först om man hittar rum på samma kordinat fast då man länkar ny dörr annars forsätt någon kordinat vidare.
-Se till att algoritmen körs så att den inte kör gren för gren (ta alltid rum med längst djuphet först). tror att man kan missa länka rum på samma kordinat om jus det rummet inte skapats än från en annan gren.
-*/
-
-
-
-
-foreach - Alla rum som inte är entrance
-bestäm antal dörrar.
-placera ut dom med slump (tänk på att inte överlappa eventuellt andra rum med samma kordinat.)
-Kolla om dom kan länkas till annat rum. länka isf.
-
-
-
+Fixa så att det alltid skapas ett rum längst bort till höger-top i huset. är nog inte alltid nu.
+Skapa även rum under själva ingången fast inte exakt under för där ska eventuellt en gård vara. Under ingången är ju själva utgången ju
 
 
 

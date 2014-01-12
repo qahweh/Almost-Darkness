@@ -83,6 +83,10 @@ Room.prototype._makeRoomMatrisByRandom = function()
         this.matris[190] = this._makeDoor(random,190);
 
     }
+    else if(this.roomType == RoomType.EMPTY)
+    {
+        this._makeSquare(2,2,37,15);
+    }
     else if(this.roomType == RoomType.HALLWAY)
     {
         var x = 2+random.nextInt(14);
