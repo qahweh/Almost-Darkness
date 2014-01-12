@@ -2,8 +2,8 @@ function HouseBuilder()
 {
 	this.house = new Array();
 
-    var x = 5;
-    var y = 8;
+    var startx = 5;
+    var starty = 8;
     this.width = 11;
     this.height = 11;
 
@@ -87,16 +87,112 @@ function HouseBuilder()
     
     var room = new Room(RoomType.ENTRANCE,111,true);
     room.name = 'A';
-    this.startRoom = room;
-	this.house[x+y*this.width] = new Array( room );
+	this.house[startx+starty*this.width] = new Array( room );
     this.house[this.width*this.height-1] = false;
-    this.buildRoomsByDoors(room,x+y*this.width);
-    
-    var roomNext = this.house[x+y*this.width-1][0];
-    
-    var door = new Door();
-    door.doorDir = DirType.LEFT;
-    roomNext.matris[200] = door;
-    door.belongToRoom = roomNext;
-    this.buildRoomsByDoors(roomNext,x+y*this.width-1);
+
+
+    var roomE = new Room(RoomType.EMPTY,111,true);
+    this.house[0] = new Array( roomE );
+    this.startRoom = room;
+
+    for(var x2 = 0; x2<this.width-1; x2++)
+    {
+        
+        
+        for(var y2 = 0; y2<8; y2++)
+        {
+
+        if( !( (x2 == startx && y2 == starty) || (x2-1 == startx && y2 == starty) || (x2+1 == startx && y2 == starty) || (x2 == startx && y2 == starty-1) ) )
+        {
+            var thisRoom = null;
+            if(this.house[x2+y2*this.width])
+            {
+                thisRoom = this.house[x2+y2*this.width][0];
+            }
+            else
+            {
+                thisRoom = new Room(RoomType.EMPTY,111,true);
+                this.house[x2+y2*this.width] = new Array( thisRoom );
+            }
+            
+            var l = 0;//thisRoom.getNumberOfDoors();
+
+            for(var u=0; u<3; u++)
+            {
+                var dir = DirGetDirByRandom();
+                while(dir == DirType.LEFT || dir == DirType.UP) dir = DirGetDirByRandom();
+                var x = 0; var y = 0;
+                
+                if(dir==DirType.RIGHT)
+                {
+                    var x = thisRoom.width-3;
+                    var y = parseInt(Math.random()*(thisRoom.height-6))+3;
+                }
+                if(dir==DirType.DOWN)
+                {
+                    var y = thisRoom.height-3;
+                    var x = parseInt(Math.random()*(thisRoom.width-6))+3;
+                }
+                var door = new Door();
+                door.doorDir = dir;
+                thisRoom.matris[x+y*thisRoom.width] = door;
+                door.belongToRoom = thisRoom; 
+            }
+            this.buildRoomsByDoors(thisRoom,x2+y2*this.width);
+        }
+        }
+    }
+    this.buildRoomsByDoors(room,startx+starty*this.width);
+
+/*
+    for(var z = 1; z<1; z++)
+    {
+        var roomNext = this.house[startx+starty*this.width-z][0];
+        
+        var l = roomNext.getNumberOfDoors();
+        alert(l);
+        //this will stop making doors in room but not making doors to this room. TODO: fix
+        for(var u=0; u<5-l; u++)
+        {
+            
+            
+            var dir = DirGetDirByRandom();
+            var door = new Door();
+            door.doorDir = dir;
+
+            var x = 2;
+            var y = parseInt(Math.random()*(roomNext.height-6))+3;
+            if(dir==DirType.RIGHT)
+            {
+                var x = roomNext.width-3;
+                var y = parseInt(Math.random()*(roomNext.height-6))+3;
+            }
+            if(dir==DirType.UP)
+            {
+                var y = 2;
+                var x = parseInt(Math.random()*(roomNext.width-6))+3;
+                }
+            if(dir==DirType.DOWN)
+            {
+                var y = roomNext.height-3;
+                var x = parseInt(Math.random()*(roomNext.width-6))+3;
+            }
+            
+            
+            var dir = DirType.LEFT;
+            var door = new Door();
+            door.doorDir = dir;
+
+            var x = 2;
+            var y = parseInt(Math.random()*(roomNext.height-6))+3;           
+            
+            
+            
+            
+            roomNext.matris[x+y*roomNext.width] = door;
+            door.belongToRoom = roomNext;
+        }
+        this.buildRoomsByDoors(roomNext,startx+starty*this.width-z);
+    }
+     */
 };

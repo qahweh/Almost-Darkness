@@ -22,6 +22,13 @@ function Room(roomType,random, buildRoom, deep)
     this.requireDoor = null;
     this.deep = deep;
     if(buildRoom)this._makeRoomMatrisByRandom();
+
+    this.getNumberOfDoors = function()
+    {
+        var x = 0;
+        for(var i=0; i<this.width*this.height; i++) if(this.matris[i] instanceof Door) x++;
+        return x;
+    }
 }
 
 Room.prototype.getPiece = function(x,y)

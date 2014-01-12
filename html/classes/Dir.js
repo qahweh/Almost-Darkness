@@ -14,3 +14,12 @@ function DirMirror(dir)
     if(dir==DirType.UP)return DirType.DOWN;
     if(dir==DirType.DOWN)return DirType.UP;
 }
+
+function DirGetDirByRandom(random)
+{
+    random = typeof random !=='undefined' ? random : false;
+    if(random===false)
+    {
+        return parseInt(Math.random()*4)+1;
+    }
+}
