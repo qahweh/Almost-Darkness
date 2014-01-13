@@ -9,7 +9,11 @@ Ett rum har en kordinat. Flera rum kan ha samma kordinater.
 Nu skapas dock bara ett rum per kordinat. Splitta upp dessa stora rum i fler mindre på samma kordinat. länka ihop dom mindre rummen om det passar.
 
 Fixa så att det alltid skapas ett rum längst bort till höger-top i huset. är nog inte alltid nu.
-Skapa även rum under själva ingången fast inte exakt under för där ska eventuellt en gård vara. Under ingången är ju själva utgången ju
+Skapa även rum under själva ingången fast inte exakt under för där ska eventuellt en gård vara. Under ingången är ju själva utgången ju.
+
+Finnas förgjorda strukturen som vid ingången? Typ en hall med sovrum. tror inte det kommer skapas många hallar på egen "hand".
+
+Trappar våningar. Vissa rum skulle kunna ha två våningar internt (in-room trappa)
 
 
 
