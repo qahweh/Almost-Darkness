@@ -102,59 +102,33 @@ function HouseBuilder()
     
     this.splitRoom = function(room)
     {
-        var x = 10;
-        for(var y=3; y<10; y++)
+        var x=0; var y=0;
+        var r = parseInt(Math.random()*2);
+        if(r==0)
         {
-            room.matris[x+y*room.width] = 1;
+            x = 10;
+            for(y=3; y<10; y++){room.matris[x+y*room.width] = 1;}
+            for(x=11; x<20; x++){for(y=3; y<10; y++){room.matris[x+y*room.width]=4;}}
+            for(x=21; x<38; x++){for(y=3; y<10; y++){room.matris[x+y*room.width]=5;}}
+            for(x=31; x<38; x++){for(y=10; y<16; y++){room.matris[x+y*room.width]=5;}}
+            y = 10;
+            for(x=10; x<31; x++){room.matris[x+y*room.width] = 2;}
+            x = 30;for(y=11; y<16; y++){room.matris[x+y*room.width] = 1;}
+            x = 20;for(y=3; y<10; y++){room.matris[x+y*room.width] = 1;}
+            x = 25; y=10;room.matris[x+y*room.width] = 10;
+            x = 10; y=7;room.matris[x+y*room.width] = 10;
         }
-
-        for(x=11; x<20; x++)
+        else if(r==1)
         {
-        for(y=3; y<10; y++)
-        {
-            room.matris[x+y*room.width]=4;
+            x=10;
+            for(y=3; y<16; y++){room.matris[x+y*room.width] = 1;}            
+            for(x=11; x<20; x++){for(y=3; y<16; y++){room.matris[x+y*room.width]=4;}}
+            x=20;
+            for(y=3; y<16; y++){room.matris[x+y*room.width] = 1;}            
+            for(x=3; x<10; x++){for(y=3; y<16; y++){room.matris[x+y*room.width]=5;}}
+            x = 20; y=10; room.matris[x+y*room.width] = 10;
+            x = 10; y=7; room.matris[x+y*room.width] = 10;
         }
-    }
-
-        for(x=21; x<38; x++)
-        {
-        for(y=3; y<10; y++)
-        {
-            room.matris[x+y*room.width]=5;
-        }
-    }
-
-        for(x=31; x<38; x++)
-        {
-        for(y=10; y<16; y++)
-        {
-            room.matris[x+y*room.width]=5;
-        }
-    }
-    
-        y = 10;
-        for(x=10; x<31; x++)
-        {
-            room.matris[x+y*room.width] = 2;
-        }
-
-        x = 30;
-        for(y=11; y<16; y++)
-        {
-            room.matris[x+y*room.width] = 1;
-        }
-
-        x = 20;
-        for(y=3; y<10; y++)
-        {
-            room.matris[x+y*room.width] = 1;
-        }
-        
-        x = 25; y=10;
-        room.matris[x+y*room.width] = 10;
-
-        x = 10; y=7;
-        room.matris[x+y*room.width] = 10;
     }
 
     this.clearRoom = function(room)
@@ -306,6 +280,26 @@ function HouseBuilder()
         }        
     }
 
+    this.fillRoomsWith = function(room)
+    {    
+        for(var i =0; i<11; i++)
+        {
+            var x = parseInt(Math.random()*room.width);
+            var y = parseInt(Math.random()*room.height);
+            var t = room.getTile(x,y);
+            var p = room.getPiece(x,y);
+            if(t==0 && p==null) pieces.push( new Fishman(x,y,room) );
+        }
+        for(var i =0; i<7; i++)
+        {
+            var x = parseInt(Math.random()*room.width);
+            var y = parseInt(Math.random()*room.height);
+            var t = room.getTile(x,y);
+            var p = room.getPiece(x,y);
+            if(t==0 && p == null) pieces.push( new Ammobox(x,y,room) );
+        }
+    }
+
     for(var i = 0; i<this.width*this.height; i++)
     {
         var spot = this.house[i];
@@ -332,6 +326,10 @@ function HouseBuilder()
             this.clearRoom(spot[0]);
             this.clearRoom(spot[1]);
             this.clearRoom(spot[2]);
+            
+            this.fillRoomsWith(spot[0]);
+            this.fillRoomsWith(spot[1]);
+            this.fillRoomsWith(spot[2]);
             
         }
     }
