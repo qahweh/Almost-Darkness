@@ -11,6 +11,15 @@ function Door()
     this.belongToRoom = null;
     this.position = null;
     this.counter = 1;
+    
+    this.getToRoom = function()
+    {
+        if(this.toRoom.matris[this.startx+this.starty*this.toRoom.width] != -1) return this.toRoom;
+        if(this.toRoom.alternativeRoom.matris[this.startx+this.starty*this.toRoom.alternativeRoom.width] != -1) return this.toRoom.alternativeRoom;
+        
+        return this.toRoom.alternativeRoom.alternativeRoom;
+    }
+    
 };
 
 Door.prototype.calculateStart = function()

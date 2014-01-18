@@ -67,8 +67,8 @@
             var human = new Human(12,12,hb.getStartRoom());
             human.isHuman=true;
             pieces.push(human);
-                       pieces.push( new Fishman(12,8,room) );
-            pieces.push( new Ammobox(12,6,room) );
+                    //   pieces.push( new Fishman(12,8,room) );
+//            pieces.push( new Ammobox(12,6,room) );
              
            
             function updatePieces()
@@ -129,6 +129,8 @@
                         if(tile==0) { imgx = 1; imgy=0; }
                         else if(tile==1) { imgx = 2; imgy=0; }
                         else if(tile==2) { imgx = 3; imgy = 0; } 
+                        else if(tile==4) { imgx = 3; imgy = 1; } 
+                        else if(tile==5) { imgx = 4; imgy = 1; } 
                         else if(tile instanceof Door) { imgx = 4; imgy = 0; }
                         if(tile!=-1)gamecanvasC.drawImage(img,imgx*28,imgy*38,28,38,x*28,y*38,28,38);
                     }
@@ -152,7 +154,7 @@
                     doors = doors + door.counter;
                     door.counter =  0;  
                     gamecanvasC.clearRect(0,0,1120,722);
-                    room = door.toRoom;
+                    room = door.getToRoom();
                     //if(!room.isBuild){ room._makeRoomMatrisByRandom(); door.calculateStart(); }
                     
                     

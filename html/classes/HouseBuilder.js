@@ -64,6 +64,7 @@ function HouseBuilder()
                 else
                 {
                     door.toRoom = new Room(RoomType.EMPTY, 1, true, this.deep+1);
+                    this.splitRoom(door.toRoom);
                     door.toRoom.name='B';
 
                     
@@ -99,13 +100,113 @@ function HouseBuilder()
         return false;
     }
     
+    this.splitRoom = function(room)
+    {
+        var x = 10;
+        for(var y=3; y<10; y++)
+        {
+            room.matris[x+y*room.width] = 1;
+        }
+
+        for(x=11; x<20; x++)
+        {
+        for(y=3; y<10; y++)
+        {
+            room.matris[x+y*room.width]=4;
+        }
+    }
+
+        for(x=21; x<38; x++)
+        {
+        for(y=3; y<10; y++)
+        {
+            room.matris[x+y*room.width]=5;
+        }
+    }
+
+        for(x=31; x<38; x++)
+        {
+        for(y=10; y<16; y++)
+        {
+            room.matris[x+y*room.width]=5;
+        }
+    }
+    
+        y = 10;
+        for(x=10; x<31; x++)
+        {
+            room.matris[x+y*room.width] = 2;
+        }
+
+        x = 30;
+        for(y=11; y<16; y++)
+        {
+            room.matris[x+y*room.width] = 1;
+        }
+
+        x = 20;
+        for(y=3; y<10; y++)
+        {
+            room.matris[x+y*room.width] = 1;
+        }
+    }
+
+    this.clearRoom = function(room)
+    {
+
+        for(var x=0; x<room.width; x++)
+        {        
+            for(var y=0; y<room.height; y++)
+            {      
+                if(room.matris[x+y*room.width] == 1 && room.matris[x+y*room.width-1] ==-1 && room.matris[x+y*room.width+1] ==-1)
+                {
+                    room.matris[x+y*room.width] = -1;
+                }
+                if(room.matris[x+y*room.width] == 2 && room.matris[x+(y-1)*room.width] ==-1 && room.matris[x+(y+1)*room.width] ==-1)
+                {
+                    room.matris[x+y*room.width] = -1;
+                }
+            }
+        }
+
+        for(var x=0; x<room.width; x++)
+        {        
+            for(var y=0; y<room.height; y++)
+            {      
+                if(room.matris[x+y*room.width] instanceof Door && room.matris[x+y*room.width-1] ==-1 && room.matris[x+y*room.width+1] ==-1 && room.matris[x+(y-1)*room.width] ==-1 && room.matris[x+(y+1)*room.width] ==-1)
+                {
+                    room.matris[x+y*room.width] = -1;
+                }
+
+                if(room.matris[x+y*room.width] == 2 && room.matris[x+y*room.width-1] ==-1 && room.matris[x+y*room.width+1] ==-1 && room.matris[x+(y-1)*room.width] ==-1 && room.matris[x+(y+1)*room.width] ==-1)
+                {
+                    room.matris[x+y*room.width] = -1;
+                }
+            }
+        }
+
+        
+    }
+
+    this.removeTiles = function(room,tile)
+    {
+        for(var x=0; x<room.width; x++)
+        {        
+            for(var y=0; y<room.height; y++)
+            {      
+                if(tile.indexOf(room.matris[x+y*room.width])!=-1) room.matris[x+y*room.width] = -1;
+            }
+        }
+    }
+    
     var room = new Room(RoomType.ENTRANCE,111,true);
     room.name = 'A';
 	this.house[startx+starty*this.width] = new Array( room );
     this.house[this.width*this.height-1] = false;
 
-
     var roomE = new Room(RoomType.EMPTY,111,true);
+    this.splitRoom(roomE);
+
     this.house[0] = new Array( roomE );
     this.startRoom = room;
 
@@ -126,6 +227,7 @@ function HouseBuilder()
             else
             {
                 thisRoom = new Room(RoomType.EMPTY,111,true);
+                this.splitRoom(thisRoom);
                 this.house[x2+y2*this.width] = new Array( thisRoom );
             }
             
@@ -160,6 +262,42 @@ function HouseBuilder()
         }
     }
     this.buildRoomsByDoors(room,startx+starty*this.width);
+    
+
+    for(var i = 0; i<this.width*this.height; i++)
+    {
+        var spot = this.house[i];
+          
+        this.cloneRoom = function(room)
+        {
+            var newroom = new Room(RoomType.EMPTY,111,true);
+            for(var x = 0; x<newroom.width; x++)
+            {
+            for(var y = 0; y<newroom.height; y++)
+            {
+                newroom.matris[x+y*newroom.width] = room.matris[x+y*newroom.width];
+            }
+            }
+            return newroom;
+        }
+       
+        if(spot)
+        {
+            spot[1] = this.cloneRoom(spot[0]);
+            spot[2] = this.cloneRoom(spot[0]); 
+
+            this.removeTiles(spot[0],[4,5]); this.clearRoom(spot[0]);
+            this.removeTiles(spot[1],[0,5]); this.clearRoom(spot[1]);
+            this.removeTiles(spot[2],[4,0]); this.clearRoom(spot[2]);
+            
+            spot[0].alternativeRoom = spot[1];
+            spot[1].alternativeRoom = spot[2];
+        }
+    }
+
+//    spot[0] = eval(uneval(spot[0])); 
+    
+
 
 /*
     for(var z = 1; z<1; z++)
