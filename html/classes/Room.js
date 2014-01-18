@@ -7,6 +7,10 @@ DINING_ROOM: 3,
 EMPTY: 4
 }
 
+RoomValue = {
+WIDTH: 41    
+}
+
 
 function Room(roomType,random, buildRoom, deep)
 {

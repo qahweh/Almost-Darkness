@@ -12,8 +12,43 @@ function Door()
     this.position = null;
     this.counter = 1;
     
-    this.getToRoom = function()
+    this.getToRoom = function(piece)
     {
+        if(this.toRoom == null)
+        {
+            if(this.doorDir == DirType.DOWN)
+            {
+                this.startx=this.position%RoomValue.WIDTH;
+                this.starty=parseInt(this.position/RoomValue.WIDTH)+1;
+                this.toRoom = this.belongToRoom;
+            }
+
+            if(this.doorDir == DirType.UP)
+            {
+                this.startx=this.position%RoomValue.WIDTH;
+                this.starty=parseInt(this.position/RoomValue.WIDTH)-1;
+                this.toRoom = this.belongToRoom;
+            }
+
+            if(this.doorDir == DirType.LEFT)
+            {
+                this.startx=this.position%RoomValue.WIDTH+1;
+                this.starty=parseInt(this.position/RoomValue.WIDTH);
+                this.toRoom = this.belongToRoom;
+            }
+
+            if(this.doorDir == DirType.RIGHT)
+            {
+                this.startx=this.position%RoomValue.WIDTH-1;
+                this.starty=parseInt(this.position/RoomValue.WIDTH);
+                this.toRoom = this.belongToRoom;
+            }
+
+            //alert(piece.x == this.position%RoomValue.WIDTH && piece.y > parseInt(this.position/RoomValue.WIDTH))
+            //alert(piece.y);
+            //alert(  parseInt(this.position/RoomValue.WIDTH) ); 
+        }
+        
         if(this.toRoom.matris[this.startx+this.starty*this.toRoom.width] != -1) return this.toRoom;
         if(this.toRoom.alternativeRoom.matris[this.startx+this.starty*this.toRoom.alternativeRoom.width] != -1) return this.toRoom.alternativeRoom;
         
