@@ -7,6 +7,8 @@ function HouseBuilder()
     this.width = 11;
     this.height = 11;
 
+    this.caller = 0;
+
     this.calc = function(i,door)
     {
         var x = 0;
@@ -88,6 +90,8 @@ function HouseBuilder()
     
     this.nearOtherDoorInY = function(y,x,room)
     {
+        this.caller++;
+        if(this.caller>1000) throw "build loop might been freezed";
         for(var i=y-2; i<y+4; i++)
         if(room.matris[x+room.width*i] instanceof Door)return true;
         return false;
@@ -95,6 +99,8 @@ function HouseBuilder()
     
     this.nearOtherDoorInX = function(x,y,room)
     {
+        this.caller++;
+        if(this.caller>1000) throw "build loop might been freezed";
         for(var i=x-6; i<x+12; i++)
         if(room.matris[i+room.width*y] instanceof Door)return true;
         return false;
@@ -333,60 +339,4 @@ function HouseBuilder()
             
         }
     }
-
-//    spot[0] = eval(uneval(spot[0])); 
-    
-
-
-/*
-    for(var z = 1; z<1; z++)
-    {
-        var roomNext = this.house[startx+starty*this.width-z][0];
-        
-        var l = roomNext.getNumberOfDoors();
-        alert(l);
-        //this will stop making doors in room but not making doors to this room. TODO: fix
-        for(var u=0; u<5-l; u++)
-        {
-            
-            
-            var dir = DirGetDirByRandom();
-            var door = new Door();
-            door.doorDir = dir;
-
-            var x = 2;
-            var y = parseInt(Math.random()*(roomNext.height-6))+3;
-            if(dir==DirType.RIGHT)
-            {
-                var x = roomNext.width-3;
-                var y = parseInt(Math.random()*(roomNext.height-6))+3;
-            }
-            if(dir==DirType.UP)
-            {
-                var y = 2;
-                var x = parseInt(Math.random()*(roomNext.width-6))+3;
-                }
-            if(dir==DirType.DOWN)
-            {
-                var y = roomNext.height-3;
-                var x = parseInt(Math.random()*(roomNext.width-6))+3;
-            }
-            
-            
-            var dir = DirType.LEFT;
-            var door = new Door();
-            door.doorDir = dir;
-
-            var x = 2;
-            var y = parseInt(Math.random()*(roomNext.height-6))+3;           
-            
-            
-            
-            
-            roomNext.matris[x+y*roomNext.width] = door;
-            door.belongToRoom = roomNext;
-        }
-        this.buildRoomsByDoors(roomNext,startx+starty*this.width-z);
-    }
-     */
 };
