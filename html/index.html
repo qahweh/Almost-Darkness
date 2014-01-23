@@ -109,9 +109,9 @@
                 for(index = 0; index < pieces.length; index++)
                 {
                     var p = pieces[index];
-                    if(p.currentRoom == human.currentRoom)
+                    if(p.currentRoom == human.currentRoom && !p.hurt)
                     {
-                        if(p.isFishman){p.currentRoom=null; return;}
+                        if(p.isFishman){p.hurt=true; return;}
                     }
                 }
  

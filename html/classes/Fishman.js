@@ -35,6 +35,7 @@ r.pieceEvent = function(piece)
 
 r.getImage = function()
 {
+    if(this.hurt) return new Point(1,4);
     return new Point(1,1);
 }
 
