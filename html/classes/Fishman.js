@@ -24,12 +24,18 @@ r.update = function()
         else if(this.y < human.y)this.moveDown();
     }
 
+
 }
 
 r.pieceEvent = function(piece)
 {
     if(piece.isHuman)piece.hurt=true;
     return true;
+}
+
+r.getImage = function()
+{
+    return new Point(1,1);
 }
 
 
