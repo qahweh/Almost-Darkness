@@ -16,6 +16,11 @@ this.moveLeft = function()
     if(t==1 || t==2)this.x++;
 }
 
+this.getImage = function()
+{
+    if(this.hurt) return new Point(0,4);
+    return new Point(0,0);
+}
 
 };
 
