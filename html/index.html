@@ -80,7 +80,7 @@
                     var p = pieces[index];
                     if(p.currentRoom == human.currentRoom)
                     {
-                        //alert(p.update);
+                        if(p!=human)
                         if(p.update)p.update();
                     
                     }
@@ -99,7 +99,15 @@
                         var imgC = p.getImage();
                         var x = imgC.x;
                         var y = imgC.y;
+                        var o = imgC.o;
                         gamecanvasC.drawImage(img,x*28,y*38,28,38,p.x*28,p.y*38,28,38);
+
+                        if(o)
+                        {
+                            var x = o.x;
+                            var y = o.y;
+                            gamecanvasC.drawImage(img,x*28,y*38,28,38,p.x*28,p.y*38,28,38);
+                        }
                     }
                 }
             }
@@ -119,7 +127,7 @@
 
             function kdh(event)
             {
-                
+                human.update();
                 
                 for(var x=0; x<human.currentRoom.width; x++)
                 {

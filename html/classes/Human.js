@@ -5,7 +5,8 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.currentRoom = room;
     this.imgx = 0;
     this.imgy = 0;
-
+    this.hurtAnimation = false;
+    this.health = 5;
 this.moveLeft = function()
 {
     if(this.hurt)return;
@@ -19,7 +20,24 @@ this.moveLeft = function()
 this.getImage = function()
 {
     if(this.hurt) return new Point(0,4);
-    return new Point(0,0);
+    if(!this.hurtAnimation)return new Point(0,0);
+    
+    var r = new Point(0,0);
+    r.o = new Point(2,4);
+    return r;
+}
+
+
+this.getHit = function()
+{
+    this.hurtAnimation = true;
+    this.health--;
+    if(this.health<=0)this.hurt = true;   
+}
+
+this.update = function()
+{
+    this.hurtAnimation = false;
 }
 
 };

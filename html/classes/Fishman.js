@@ -29,7 +29,7 @@ r.update = function()
 
 r.pieceEvent = function(piece)
 {
-    if(piece.isHuman)piece.hurt=true;
+    if(piece.isHuman)piece.getHit();
     return true;
 }
 
