@@ -108,18 +108,20 @@
                             var y = o.y;
                             gamecanvasC.drawImage(img,x*28,y*38,28,38,p.x*28,p.y*38,28,38);
                         }
+                        p.hurtAnimation = false;
                     }
                 }
             }
 
             function removeRandomFishman()
             {
+                if(Math.random()<0.2)return;
                 for(index = 0; index < pieces.length; index++)
                 {
                     var p = pieces[index];
                     if(p.currentRoom == human.currentRoom && !p.hurt)
                     {
-                        if(p.isFishman){p.hurt=true; return;}
+                        if(p.isFishman){p.getHit(); return;}
                     }
                 }
  
@@ -153,7 +155,7 @@
                 else if(event.keyCode==65) human.moveLeft();
                 else if(event.keyCode==87) human.moveUp();
                 else if(event.keyCode==83) human.moveDown();
-                else if(event.keyCode==32 && ammo>0) { ammo--; removeRandomFishman(); }
+                else if(event.keyCode==32 && ammo>0 && !human.hurt) { ammo--; removeRandomFishman(); }
                 updatePieces();
 
                 }
