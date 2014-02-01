@@ -21,6 +21,7 @@ function Fishman(x,y,room)
             if(this.y > human.y)this.moveUp();
             else if(this.y < human.y)this.moveDown();
         }
+        if(Math.random()<0.2)this.update();
     }
 
     r.pieceEvent = function(piece)
