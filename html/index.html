@@ -10,6 +10,7 @@
         <script src="classes/Ammobox.js"></script>
         <script src="classes/Point.js"></script>
         <script src="classes/HouseBuilder.js"></script>
+        <script src="classes/Mixer.js"></script>
         <style>
         #canvas_container{margin:0 auto 0 auto; width: 1340px}
         body{background: #000}
@@ -23,7 +24,7 @@
             <canvas id="statuscanvas" width="140" height="722"></canvas>
         </div>
         <script>
-            var sound1 = new Audio("sfx/sound1.ogg");
+            var mixer = new Mixer();
             var gamecanvas = document.getElementById('gamecanvas');
             var gamecanvasC = gamecanvas.getContext('2d');
 
@@ -118,7 +119,7 @@
 
             function removeRandomFishman()
             {
-                sound1.play();
+                mixer.play();
                 if(Math.random()<0.2)return;
                 var f = getAimed();
                 if(f)f.getHit();

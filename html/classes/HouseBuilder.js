@@ -294,7 +294,7 @@ function HouseBuilder()
             var y = parseInt(Math.random()*room.height);
             var t = room.getTile(x,y);
             var p = room.getPiece(x,y);
-            if(t==0 && p==null) pieces.push( new Fishman(x,y,room) );
+            if( (t==0 || t==4 || t==5) && p==null) pieces.push( new Fishman(x,y,room) );
         }
         for(var i =0; i<7; i++)
         {
@@ -302,7 +302,7 @@ function HouseBuilder()
             var y = parseInt(Math.random()*room.height);
             var t = room.getTile(x,y);
             var p = room.getPiece(x,y);
-            if(t==0 && p == null) pieces.push( new Ammobox(x,y,room) );
+            if( (t==0 || t==4 || t==5) && p == null) pieces.push( new Ammobox(x,y,room) );
         }
     }
 

@@ -76,6 +76,6 @@ if(t==1 || t==2)this.y--;
 
 Human.prototype.pieceEvent = function(piece)
 {
-    if(piece instanceof Ammobox){piece.currentRoom = null; ammo++; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
+    if(piece instanceof Ammobox){piece.currentRoom = null; ammo=ammo+3; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     return true;
 }
