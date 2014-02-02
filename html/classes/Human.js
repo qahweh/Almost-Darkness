@@ -6,7 +6,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.imgx = 0;
     this.imgy = 0;
     this.hurtAnimation = false;
-    this.health = 5;
+    this.health = 500;
 this.moveLeft = function()
 {
     if(this.hurt)return;

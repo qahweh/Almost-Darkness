@@ -33,8 +33,9 @@
             var img = new Image();
             img.src = "sprite.png";
 
-            var ammo = 6;
+            var ammo = 600;
             var doors = 0;
+            var camera = new Point(0,0);
 
             function drawText(x,y,text)
             {
@@ -60,7 +61,7 @@
             }
   
             document.addEventListener("keydown",kdh,false);
- var pieces = new Array();
+            var pieces = new Array();
 
             var random = new Random(1211);
 
@@ -68,10 +69,7 @@
             
             var human = new Human(12,12,hb.getStartRoom());
             human.isHuman=true;
-            pieces.push(human);
-                    //   pieces.push( new Fishman(12,8,room) );
-//            pieces.push( new Ammobox(12,6,room) );
-             
+            pieces.push(human);             
            
             function updatePieces()
             {
@@ -82,9 +80,7 @@
                     var p = pieces[index];
                     if(p.currentRoom == human.currentRoom)
                     {
-                        if(p!=human)
-                        if(p.update)p.update();
-                    
+                        if(p!=human) if(p.update)p.update();
                     }
                 }
 
@@ -102,16 +98,16 @@
                         var x = imgC.x;
                         var y = imgC.y;
                         var o = imgC.o;
-                        gamecanvasC.drawImage(img,x*28,y*38,28,38,p.x*28,p.y*38,28,38);
+                        gamecanvasC.drawImage(img,x*28,y*38,28,38,(p.x-camera.x)*28,(p.y-camera.y)*38,28,38);
 
                         if(o)
                         {
                             var x = o.x;
                             var y = o.y;
-                            gamecanvasC.drawImage(img,x*28,y*38,28,38,p.x*28,p.y*38,28,38);
+                            gamecanvasC.drawImage(img,x*28,y*38,28,38,(p.x-camera.x)*28,(p.y-camera.y)*38,28,38);
                         }
                         x = 3; y = 4;
-                        if(getAimed()==p)gamecanvasC.drawImage(img,x*28,y*38,28,38,p.x*28,p.y*38,28,38);
+                        if(getAimed()==p)gamecanvasC.drawImage(img,x*28,y*38,28,38,(p.x-camera.x)*28,(p.y-camera.y)*38,28,38);
                         p.hurtAnimation = false;
                     }
                 }
@@ -148,8 +144,6 @@
                     for(var y=0; y<human.currentRoom.height; y++)
                     {
                         var tile = human.currentRoom.getTile(x,y);
-                       // if(tile!=-1)alert( tile instanceof Door );
-
                         var imgx = 0; var imgy = 0;
                         if(tile==0) { imgx = 1; imgy=0; }
                         else if(tile==1) { imgx = 2; imgy=0; }
@@ -157,51 +151,40 @@
                         else if(tile==4) { imgx = 3; imgy = 1; } 
                         else if(tile==5) { imgx = 4; imgy = 1; } 
                         else if(tile instanceof Door) { imgx = 4; imgy = 0; }
-                        if(tile!=-1)gamecanvasC.drawImage(img,imgx*28,imgy*38,28,38,x*28,y*38,28,38);
+                        if(tile!=-1)gamecanvasC.drawImage(img,imgx*28,imgy*38,28,38,(x-camera.x)*28,(y-camera.y)*38,28,38);
                     }
                 }
                 if(event!=null)
                 {
-                
-                if(event.keyCode==68) human.moveRight();
-                else if(event.keyCode==65) human.moveLeft();
-                else if(event.keyCode==87) human.moveUp();
-                else if(event.keyCode==83) human.moveDown();
-                else if(event.keyCode==32 && ammo>0 && !human.hurt) { ammo--; removeRandomFishman(); }
-                updatePieces();
-
+                    if(event.keyCode==68) human.moveRight();
+                    else if(event.keyCode==65) human.moveLeft();
+                    else if(event.keyCode==87) human.moveUp();
+                    else if(event.keyCode==83) human.moveDown();
+                    else if(event.keyCode==32 && ammo>0 && !human.hurt) { ammo--; removeRandomFishman(); }
+                    updatePieces();
                 }
 
                 if(human.currentRoom.getTile(human.x,human.y) instanceof Door)
                 {
                     var door = human.currentRoom.getTile(human.x,human.y);
-
                     doors = doors + door.counter;
                     door.counter =  0;  
                     gamecanvasC.clearRect(0,0,1120,722);
                     room = door.getToRoom(human);
-                    //if(!room.isBuild){ room._makeRoomMatrisByRandom(); door.calculateStart(); }
-                    
-                    
+                    camera = room.getCameraOnCenter();
                     human.x = door.startx;
                     human.y = door.starty;
                     human.currentRoom = room;
                     kdh(null);
+                }
 
-                    gamecanvasC.drawImage(img,human.imgx*28,human.imgy*38,28,38,human.x*28,human.y*38,28,38);
-                    drawPieces();
-             }
-
-              // var imgC = human.getImage();
-               // gamecanvasC.drawImage(img,imgC.x*28,imgC.y*38,28,38,human.x*28,human.y*38,28,38);
                 statuscanvasC.clearRect(0,0,140,722);               
                 statuscanvasC.drawImage(img,2*28,1*38,28,38,0,0,28,38);
                 statuscanvasC.drawImage(img,4*28,0*38,28,38,0,38,28,38);
                 drawText(1,0,""+ammo);
                 drawText(1,1,""+doors);
                 drawPieces();
-             }
-
+            }
         </script>
     </body>
 </html>
