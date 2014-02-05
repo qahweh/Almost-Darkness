@@ -61,7 +61,7 @@ function Room(roomType,random, buildRoom, deep)
         }
 
         var yDown = 0;
-        for(var x=1; x<21; x++)
+        for(var x=0; x<this.width; x++)
         {
             var newYDown = 200;
             for(var i=this.height-1; i>0; i--) { if(this.matris[x+i*this.width]!=-1) { newYDown = i; break; }}
@@ -71,6 +71,7 @@ function Room(roomType,random, buildRoom, deep)
 
         //TODO: Check why yDown and xRight logic is not the same. xRigt do not use -1 on its width. I think it should be -1.
         // Also do not use values like 9 and 20. user this.width / 2 etc
+
 
         var m = xLeft + parseInt(xRight-xLeft)/2;
         var m2 = yUp + parseInt(yDown-yUp)/2;

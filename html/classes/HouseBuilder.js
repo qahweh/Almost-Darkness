@@ -126,14 +126,16 @@ function HouseBuilder()
         }
         else if(r==1)
         {
-            x=10;
+            var x2 = 5+parseInt(Math.random()*13);
+            var x3 = x2+parseInt(Math.random()*13);
+            x=x2;
             for(y=3; y<16; y++){room.matris[x+y*room.width] = 1;}            
-            for(x=11; x<20; x++){for(y=3; y<16; y++){room.matris[x+y*room.width]=4;}}
-            x=20;
+            for(x=x2+1; x<x3; x++){for(y=3; y<16; y++){room.matris[x+y*room.width]=4;}}
+            x=x3;
             for(y=3; y<16; y++){room.matris[x+y*room.width] = 1;}            
-            for(x=3; x<10; x++){for(y=3; y<16; y++){room.matris[x+y*room.width]=5;}}
-            x = 20; y=10; room.matris[x+y*room.width] = 10;
-            x = 10; y=7; room.matris[x+y*room.width] = 10;
+            for(x=3; x<x2; x++){for(y=3; y<16; y++){room.matris[x+y*room.width]=5;}}
+            x = x3; y=10; room.matris[x+y*room.width] = 10;
+            x = x2; y=7; room.matris[x+y*room.width] = 10;
         }
     }
 
