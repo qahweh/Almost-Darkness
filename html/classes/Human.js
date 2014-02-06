@@ -7,6 +7,34 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.imgy = 0;
     this.hurtAnimation = false;
     this.health = 500;
+    this.x2 = 2;
+    this.y2 = 2;
+    this.anim = 0;
+    this.action = new Array();
+    this.dir = 0;
+
+    this.update2 = function()
+    {
+        var moved = 0;
+        var odir = this.dir;
+        if(this.action[68] == true && this.action[65] == false) { this.x2 += 1; moved++; this.dir = 0;}
+        if(this.action[68] == false && this.action[65] == true) { this.x2 -= 1; moved++; this.dir = 1;}
+        if(this.action[87] == true && this.action[83] == false) { this.y2 -= 1; moved++; this.dir = 2;}
+        if(this.action[87] == false && this.action[83] == true) { this.y2 += 1; moved++; this.dir = 3;}
+        if(moved>0){this.anim++; if(this.anim%26==13){mixer.play(2);}}
+        if(moved>1)this.dir = odir; //if diagonal then do not change dir.
+    }
+
+    this.releaseAction = function(c)
+    {
+        this.action[c]=false;
+    }
+
+    this.doAction = function(c)
+    {
+        this.action[c]=true;
+    }
+
 this.moveLeft = function()
 {
     if(this.hurt)return;

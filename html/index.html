@@ -37,6 +37,23 @@
             var doors = 0;
             var camera = new Point(0,0);
 
+            var g = 0;
+            var g2 = 0;
+            var move = 0;
+            function gamelogic()
+            {
+                var x = 0;
+                var y = 5;
+                human.update2();
+                if(human.anim%26<13)x=1;
+                if(human.dir==0)x=x;
+                if(human.dir==1)x=x+2;
+                if(human.dir==2)x=4;
+                if(human.dir==3){x=0; y=0;}
+                gamecanvasC.drawImage(img,x*28,y*38,28,38,human.x2,human.y2,28,38);
+  //              if(g%26==13)mixer.play(2);
+            }
+
             function drawText(x,y,text)
             {
                 var i;
@@ -61,6 +78,7 @@
             }
   
             document.addEventListener("keydown",kdh,false);
+            document.addEventListener("keyup",kdh2,false);
             var pieces = new Array();
 
             var random = new Random(1211);
@@ -71,6 +89,10 @@
             human.isHuman=true;
             pieces.push(human);             
            
+
+            setInterval(gamelogic,14);
+
+
             function updatePieces()
             {
                 var index;
@@ -135,8 +157,23 @@
                 return false;
             }
 
+            function kdh2(event)
+            {
+                if(event.keyCode==68) human.releaseAction(68);
+                else if(event.keyCode==65) human.releaseAction(65);
+                else if(event.keyCode==87) human.releaseAction(87);
+                else if(event.keyCode==83) human.releaseAction(83);
+            }
+
             function kdh(event)
             {
+                if(event.keyCode==68) human.doAction(68);
+                else if(event.keyCode==65) human.doAction(65);
+                else if(event.keyCode==87) human.doAction(87);
+                else if(event.keyCode==83) human.doAction(83);
+                else if(event.keyCode==32 && ammo>0 && !human.hurt) { ammo--; removeRandomFishman(); }
+
+                if(event.keyCode!=13)return;
                 human.update();
                 
                 for(var x=0; x<human.currentRoom.width; x++)
