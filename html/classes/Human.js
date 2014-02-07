@@ -22,10 +22,10 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     {
         this.moved = 0;
         var odir = this.dir;
-        if(this.action[68] == true && this.action[65] == false) { this.x2 += 1; this.moved++; this.dir = 0;}
-        if(this.action[68] == false && this.action[65] == true) { this.x2 -= 1; this.moved++; this.dir = 1;}
-        if(this.action[87] == true && this.action[83] == false) { this.y2 -= 1; this.moved++; this.dir = 2;}
-        if(this.action[87] == false && this.action[83] == true) { this.y2 += 1; this.moved++; this.dir = 3;}
+        if(this.action[68] == true && this.action[65] == false) { this.moveRight(); this.moved++; this.dir = 0;}
+        if(this.action[68] == false && this.action[65] == true) { this.moveLeft(); this.moved++; this.dir = 1;}
+        if(this.action[87] == true && this.action[83] == false) { this.moveUp(); this.moved++; this.dir = 2;}
+        if(this.action[87] == false && this.action[83] == true) { this.moveDown(); this.moved++; this.dir = 3;}
         if(this.moved>0){this.anim++; if(this.anim%26==13){mixer.play(2);}}
         if(this.moved>1)this.dir = odir; //if diagonal then do not change dir.
     }
@@ -47,15 +47,33 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         return c;
     }
 
-this.moveLeft = function()
-{
-    if(this.hurt)return;
-    var t = this.currentRoom.getTile(this.x-1,this.y);
-    var p = this.currentRoom.getPiece(this.x-1,this.y);
-    this.x--;
- if(p != null && this.pieceEvent(p))this.x++;
-    if(t==1 || t==2)this.x++;
-}
+    this.move = function(dx,dy)
+    {
+        if(this.hurt)return;
+        var t = this.currentRoom.getTile( parseInt(  ((this.x2+dx)/28)) ,parseInt((this.y2+dy)/38) );
+        if(t==0 || t==4 || t==5){ this.x2 += dx; this.y2 += dy; return; }
+
+        if(t instanceof Door)
+        {
+            var door = t;
+            doors = doors + door.counter;
+            door.counter =  0;  
+            gamecanvasC.clearRect(0,0,1120,722);
+            room = door.getToRoom(human);
+            camera = room.getCameraOnCenter();
+            human.x2 = door.startx*28;
+            human.y2 = door.starty*38;
+            human.currentRoom = room;
+        }
+    }
+
+
+    this.moveLeft = function(){ this.move(-1,0);}
+    this.moveRight = function(){ this.move(1,0);}
+    this.moveUp = function(){ this.move(0,-1);}
+    this.moveDown = function(){ this.move(0,1);}
+
+
 
 this.getImage = function()
 {
@@ -82,37 +100,7 @@ this.update = function()
 
 };
 
-Human.prototype.moveRight = function()
-{
-     if(this.hurt)return;
-    var t = this.currentRoom.getTile(this.x+1,this.y);
-    var p = this.currentRoom.getPiece(this.x+1,this.y);
-    this.x++;
-    if(p != null && this.pieceEvent(p))this.x--;
-    if(t==1 || t==2)this.x--;
-}
 
-
-Human.prototype.moveUp = function()
-{
-     if(this.hurt)return;
-    var t = this.currentRoom.getTile(this.x,this.y-1);
-    var p = this.currentRoom.getPiece(this.x,this.y-1);
-     this.y--;
-    if(p != null && this.pieceEvent(p))this.y++;
-   if(t==1 || t==2)this.y++;
-}
-
-Human.prototype.moveDown = function()  //do not use prototype function if hard to over ride.
-{
-     if(this.hurt)return;
-    var t = this.currentRoom.getTile(this.x,this.y+1);
-    var p = this.currentRoom.getPiece(this.x,this.y+1);
-     this.y++;
-   if(p != null && this.pieceEvent(p))this.y--;
-  
-if(t==1 || t==2)this.y--;
-}
 
 Human.prototype.pieceEvent = function(piece)
 {

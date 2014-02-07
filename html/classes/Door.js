@@ -12,7 +12,7 @@ function Door()
     this.position = null;
     this.counter = 1;
     
-    this.getToRoom = function(piece)
+    this.getToRoom = function()
     {
         if(this.toRoom == null)
         {
@@ -43,10 +43,6 @@ function Door()
                 this.starty=parseInt(this.position/RoomValue.WIDTH);
                 this.toRoom = this.belongToRoom;
             }
-
-            //alert(piece.x == this.position%RoomValue.WIDTH && piece.y > parseInt(this.position/RoomValue.WIDTH))
-            //alert(piece.y);
-            //alert(  parseInt(this.position/RoomValue.WIDTH) ); 
         }
         
         if(this.toRoom.matris[this.startx+this.starty*this.toRoom.width] != -1) return this.toRoom;
