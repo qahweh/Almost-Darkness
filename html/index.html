@@ -43,6 +43,8 @@
 
             var frame = 0;
 
+            var frameskip = 2;
+
             function gamelogic()
             {
                 frame++;
@@ -61,20 +63,24 @@
                     dt = dt.concat(pu);                    
                     //drawPieces();
                 }
-
+                if(frame%frameskip!=0)return;
                 for(var i=0; i<dt.length; i++)
                 {
                     var p = dt[i];
-                    var c = p.getTilePos();
-                    updateTile.push(c);
-                    updateTile.push(c-1);
-                    updateTile.push(c+1);
-                    updateTile.push(c+human.currentRoom.width);
-                    updateTile.push(c-human.currentRoom.width);
-                    updateTile.push(c+human.currentRoom.width+1);
-                    updateTile.push(c-human.currentRoom.width+1);
-                    updateTile.push(c+human.currentRoom.width-1);
-                    updateTile.push(c-human.currentRoom.width-1);
+                    var c = ( p.getTilePos ? p.getTilePos() : -1);
+                        if(c.hurt)c=-1;
+                    if(c>-1)
+                    {
+                        updateTile.push(c);
+                        updateTile.push(c-1);
+                        updateTile.push(c+1);
+                        updateTile.push(c+human.currentRoom.width);
+                        updateTile.push(c-human.currentRoom.width);
+                        updateTile.push(c+human.currentRoom.width+1);
+                        updateTile.push(c-human.currentRoom.width+1);
+                        updateTile.push(c+human.currentRoom.width-1);
+                        updateTile.push(c-human.currentRoom.width-1);
+                    }
                 }
                 drawRoom(updateTile);
 

@@ -10,4 +10,5 @@ function Ammobox(x,y,room)
     this.offsetImg = new Point(0,0);
     
     this.getImage = function() { return new Point(2,1); }
+    this.update = function() {} //TODO: must have update to be drawn. not well. look over this logic.
 } 
