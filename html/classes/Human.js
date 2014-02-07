@@ -85,11 +85,25 @@ this.getImage = function()
 {
     var x = 0;
     var y = 5;
-    if(this.anim%26<13)x=1;
+    if(this.anim%28<13)x=1;
     if(this.dir==0)x=x;
     if(this.dir==1)x=x+2;
-    if(this.dir==2)x=4;
-    if(this.dir==3){x=0; y=0;}
+    if(this.dir==3)
+    {
+        x=0; y=0;
+        if(this.anim%56<42){y=6; x=3;}
+        if(this.anim%56<28){y=0; x=0;}
+        if(this.anim%56<14){y=6; x=2;}
+
+    }
+    if(this.dir==2)
+    {
+        x=4;
+        if(this.anim%56<42){y=6; x=0;}
+        if(this.anim%56<28){y=5; x=4;}
+        if(this.anim%56<14){y=6; x=1;}
+
+    }
 
     if(this.hurt) return new Point(0,4);
     if(!this.hurtAnimation)return new Point(x,y);
