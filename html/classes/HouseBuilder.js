@@ -126,14 +126,16 @@ function HouseBuilder()
         }
         else if(r==1)
         {
-            x=10;
+            var x2 = 5+parseInt(Math.random()*13);
+            var x3 = x2+parseInt(Math.random()*13);
+            x=x2;
             for(y=3; y<16; y++){room.matris[x+y*room.width] = 1;}            
-            for(x=11; x<20; x++){for(y=3; y<16; y++){room.matris[x+y*room.width]=4;}}
-            x=20;
+            for(x=x2+1; x<x3; x++){for(y=3; y<16; y++){room.matris[x+y*room.width]=4;}}
+            x=x3;
             for(y=3; y<16; y++){room.matris[x+y*room.width] = 1;}            
-            for(x=3; x<10; x++){for(y=3; y<16; y++){room.matris[x+y*room.width]=5;}}
-            x = 20; y=10; room.matris[x+y*room.width] = 10;
-            x = 10; y=7; room.matris[x+y*room.width] = 10;
+            for(x=3; x<x2; x++){for(y=3; y<16; y++){room.matris[x+y*room.width]=5;}}
+            x = x3; y=10; room.matris[x+y*room.width] = 10;
+            x = x2; y=7; room.matris[x+y*room.width] = 10;
         }
     }
 
@@ -294,7 +296,7 @@ function HouseBuilder()
             var y = parseInt(Math.random()*room.height);
             var t = room.getTile(x,y);
             var p = room.getPiece(x,y);
-            if(t==0 && p==null) pieces.push( new Fishman(x,y,room) );
+            if( (t==0 || t==4 || t==5) && p==null) pieces.push( new Fishman(x,y,room) );
         }
         for(var i =0; i<7; i++)
         {
@@ -302,7 +304,7 @@ function HouseBuilder()
             var y = parseInt(Math.random()*room.height);
             var t = room.getTile(x,y);
             var p = room.getPiece(x,y);
-            if(t==0 && p == null) pieces.push( new Ammobox(x,y,room) );
+            if( (t==0 || t==4 || t==5) && p == null) pieces.push( new Ammobox(x,y,room) );
         }
     }
 

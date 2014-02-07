@@ -6,22 +6,108 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.imgx = 0;
     this.imgy = 0;
     this.hurtAnimation = false;
-    this.health = 5;
-this.moveLeft = function()
-{
-    if(this.hurt)return;
-    var t = this.currentRoom.getTile(this.x-1,this.y);
-    var p = this.currentRoom.getPiece(this.x-1,this.y);
-    this.x--;
- if(p != null && this.pieceEvent(p))this.x++;
-    if(t==1 || t==2)this.x++;
-}
+    this.health = 500;
+    this.x2 = x*28;
+    this.y2 = y*38;
+    this.anim = 0;
+    this.action = new Array();
+    this.dir = 0;
+    this.action[65] = false;
+    this.action[68] = false;
+    this.action[87] = false;
+    this.action[83] = false;
+    this.offsetImg = new Point(14,35);
+
+    this.update2 = function()
+    {
+        this.moved = 0;
+        var odir = this.dir;
+        if(this.action[68] == true && this.action[65] == false) { this.moveRight(1); this.moved++; this.dir = 0;}
+        if(this.action[68] == false && this.action[65] == true) { this.moveLeft(1); this.moved++; this.dir = 1;}
+        if(this.action[87] == true && this.action[83] == false) { this.moveUp(1); this.moved++; this.dir = 2;}
+        if(this.action[87] == false && this.action[83] == true) { this.moveDown(1); this.moved++; this.dir = 3;}
+        if(this.moved>0){this.anim++; if(this.anim%26==13){mixer.play(2);}}
+        if(this.moved>1)this.dir = odir; //if diagonal then do not change dir.
+    }
+
+    this.releaseAction = function(c)
+    {
+        this.action[c]=false;
+    }
+
+    this.doAction = function(c)
+    {
+        this.action[c]=true;
+    }
+
+    this.getTilePos = function()
+    {
+        var c = parseInt(this.x2/28)+( parseInt(this.y2/38)*this.currentRoom.width);
+        //console.log(c);
+        return c;
+    }
+
+    this.move = function(dx,dy)
+    {
+        if(this.hurt)return;
+        var t = this.currentRoom.getTile( parseInt(  ((this.x2+dx)/28)) ,parseInt((this.y2+dy)/38) );
+        var p = this.currentRoom.getPiece2( this.x2+dx, this.y2+dy, this );
+
+        var b = false;
+        if(p != null) b = this.pieceEvent(p);
+
+        if(!b && (t==0 || t==4 || t==5)){ this.x2 += dx; this.y2 += dy; return; }
+
+
+        if(t instanceof Door && this == human)
+        {
+            var door = t;
+            doors = doors + door.counter;
+            door.counter =  0;  
+            room = door.getToRoom(human);
+            camera = room.getCameraOnCenter();
+            human.x2 = door.startx*28+14;
+            human.y2 = door.starty*38+30;
+            human.currentRoom = room;
+            drawRoom(true);
+        }
+    }
+
+
+    this.moveLeft = function(d){ this.move(-d,0);}
+    this.moveRight = function(d){ this.move(d,0);}
+    this.moveUp = function(d){ this.move(0,-d);}
+    this.moveDown = function(d){ this.move(0,d);}
+
+
 
 this.getImage = function()
 {
+    var x = 0;
+    var y = 5;
+    if(this.anim%28<13)x=1;
+    if(this.dir==0)x=x;
+    if(this.dir==1)x=x+2;
+    if(this.dir==3)
+    {
+        x=0; y=0;
+        if(this.anim%56<42){y=6; x=3;}
+        if(this.anim%56<28){y=0; x=0;}
+        if(this.anim%56<14){y=6; x=2;}
+
+    }
+    if(this.dir==2)
+    {
+        x=4;
+        if(this.anim%56<42){y=6; x=0;}
+        if(this.anim%56<28){y=5; x=4;}
+        if(this.anim%56<14){y=6; x=1;}
+
+    }
+
     if(this.hurt) return new Point(0,4);
-    if(!this.hurtAnimation)return new Point(0,0);
-    
+    if(!this.hurtAnimation)return new Point(x,y);
+
     var r = new Point(0,0);
     r.o = new Point(2,4);
     return r;
@@ -42,40 +128,10 @@ this.update = function()
 
 };
 
-Human.prototype.moveRight = function()
-{
-     if(this.hurt)return;
-    var t = this.currentRoom.getTile(this.x+1,this.y);
-    var p = this.currentRoom.getPiece(this.x+1,this.y);
-    this.x++;
-    if(p != null && this.pieceEvent(p))this.x--;
-    if(t==1 || t==2)this.x--;
-}
 
-
-Human.prototype.moveUp = function()
-{
-     if(this.hurt)return;
-    var t = this.currentRoom.getTile(this.x,this.y-1);
-    var p = this.currentRoom.getPiece(this.x,this.y-1);
-     this.y--;
-    if(p != null && this.pieceEvent(p))this.y++;
-   if(t==1 || t==2)this.y++;
-}
-
-Human.prototype.moveDown = function()  //do not use prototype function if hard to over ride.
-{
-     if(this.hurt)return;
-    var t = this.currentRoom.getTile(this.x,this.y+1);
-    var p = this.currentRoom.getPiece(this.x,this.y+1);
-     this.y++;
-   if(p != null && this.pieceEvent(p))this.y--;
-  
-if(t==1 || t==2)this.y--;
-}
 
 Human.prototype.pieceEvent = function(piece)
 {
-    if(piece instanceof Ammobox){piece.currentRoom = null; ammo++; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
+    if(piece instanceof Ammobox){piece.currentRoom = null; ammo=ammo+3; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     return true;
 }

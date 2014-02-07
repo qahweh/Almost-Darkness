@@ -33,6 +33,69 @@ function Room(roomType,random, buildRoom, deep)
         for(var i=0; i<this.width*this.height; i++) if(this.matris[i] instanceof Door) x++;
         return x;
     }
+
+    this.getCameraOnCenter = function()
+    {
+        var xLeft = this.width;
+        for(var y=0; y<this.height; y++)
+        {
+            var newXLeft = 0;
+            for(var i=0; i<this.width; i++) if(this.matris[i+y*this.width]!=-1) { newXLeft = i; break; }
+            if(newXLeft < xLeft && newXLeft!=0) xLeft = newXLeft;
+        }
+
+        var xRight = 0;
+        for(var y=0; y<this.height; y++)
+        {
+            var newXRight = this.width;
+            for(var i=this.width; i>0; i--) if(this.matris[i+y*this.width]!=-1) { newXRight = i; break; }
+            if(newXRight > xRight && newXRight!=this.width) xRight = newXRight;
+        }
+
+        var yUp = this.height;
+        for(var x=0; x<this.width; x++)
+        {
+            var newYUp = 0;
+            for(var i=0; i<this.height; i++) if(this.matris[x+i*this.width]!=-1) { newYUp = i; break; }
+            if(newYUp < yUp && newYUp!=0) yUp = newYUp;
+        }
+
+        var yDown = 0;
+        for(var x=0; x<this.width; x++)
+        {
+            var newYDown = 200;
+            for(var i=this.height-1; i>0; i--) { if(this.matris[x+i*this.width]!=-1) { newYDown = i; break; }}
+
+            if(newYDown > yDown && newYDown!=200) yDown = newYDown;
+        }
+
+        //TODO: Check why yDown and xRight logic is not the same. xRigt do not use -1 on its width. I think it should be -1.
+        // Also do not use values like 9 and 20. user this.width / 2 etc
+
+
+        var m = xLeft + parseInt(xRight-xLeft)/2;
+        var m2 = yUp + parseInt(yDown-yUp)/2;
+        return new Point(m-20,m2-9);
+    }
+
+
+    this.getPiece2 = function(x,y,not)
+    {
+        var nx = parseInt(x/28);
+        var ny = parseInt(y/38);
+        console.log(nx+","+ny);
+        for(var index = 0; index < pieces.length; index++)
+        {
+            var p = pieces[index];
+            if(p.currentRoom == this && p!=not && parseInt(p.x2/28)==nx && parseInt(p.y2/38)==ny)
+            {
+                return p;
+            }
+        }
+        return null;
+    }
+
+
 }
 
 Room.prototype.getPiece = function(x,y)
@@ -148,7 +211,6 @@ Room.prototype._makeRoomMatrisByRandom = function()
 
 Room.prototype._makeSquare = function(x,y,width,height)
 {
-
     for(i=x; i<x+width; i++ )
     {
         for(u=y; u<y+height; u++)
@@ -163,11 +225,4 @@ Room.prototype._makeSquare = function(x,y,width,height)
 Room.prototype.getTile = function(x,y)
 {
     return this.matris[x+y*this.width];
-    var random = new Random(this.random);
-    //TODO: make better room structure and make them look like what they are for type
-    if(this.roomType == RoomType.DINING_ROOM)
-    {
-        //TODO: make room code
-    }
-    return -1;
 }
