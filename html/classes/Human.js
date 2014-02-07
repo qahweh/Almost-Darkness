@@ -7,8 +7,8 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.imgy = 0;
     this.hurtAnimation = false;
     this.health = 500;
-    this.x2 = 300;
-    this.y2 = 300;
+    this.x2 = x*28;
+    this.y2 = y*38;
     this.anim = 0;
     this.action = new Array();
     this.dir = 0;
@@ -58,12 +58,12 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
             var door = t;
             doors = doors + door.counter;
             door.counter =  0;  
-            gamecanvasC.clearRect(0,0,1120,722);
             room = door.getToRoom(human);
             camera = room.getCameraOnCenter();
             human.x2 = door.startx*28;
             human.y2 = door.starty*38;
             human.currentRoom = room;
+            drawRoom(true);
         }
     }
 

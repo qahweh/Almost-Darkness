@@ -71,7 +71,9 @@
 
                 drawRoom(updateTile);
                 gamecanvasC.drawImage(img,x*28,y*38,28,38,human.x2-14-camera.x*28,human.y2-36-camera.y*38,28,38);
-  //              if(g%26==13)mixer.play(2);
+
+                drawPieces();
+
             }
 
             function drawText(x,y,text)
@@ -134,22 +136,22 @@
                 for(index = 0; index < pieces.length; index++)
                 {
                     var p = pieces[index];
-                    if(p.currentRoom == human.currentRoom)
+                    if(p.currentRoom == human.currentRoom && p!=human)
                     {
                         var imgC = p.getImage();
                         var x = imgC.x;
                         var y = imgC.y;
                         var o = imgC.o;
-                        gamecanvasC.drawImage(img,x*28,y*38,28,38,(p.x-camera.x)*28,(p.y-camera.y)*38,28,38);
+                        gamecanvasC.drawImage(img,x*28,y*38,28,38,p.x2-camera.x*28,p.y2-camera.y*38,28,38);
 
                         if(o)
                         {
                             var x = o.x;
                             var y = o.y;
-                            gamecanvasC.drawImage(img,x*28,y*38,28,38,(p.x-camera.x)*28,(p.y-camera.y)*38,28,38);
+                            gamecanvasC.drawImage(img,x*28,y*38,28,38,p.x2-camera.x*28,p.y2-camera.y*38,28,38);
                         }
                         x = 3; y = 4;
-                        if(getAimed()==p)gamecanvasC.drawImage(img,x*28,y*38,28,38,(p.x-camera.x)*28,(p.y-camera.y)*38,28,38);
+                        if(getAimed()==p)gamecanvasC.drawImage(img,x*28,y*38,28,38,p.x2-camera.x*28,p.y2-camera.y*38,28,38);
                         p.hurtAnimation = false;
                     }
                 }
@@ -187,24 +189,31 @@
 
             function drawRoom(updateTile)
             {
+
+                if(!(updateTile instanceof Array))
+                {
+                    gamecanvasC.clearRect(0,0,1120,722);
+                    updateTile = new Array();
+                    for(var i=0; i<human.currentRoom.width*human.currentRoom.height; i++) updateTile.push(i);
+                }
+
                 for(var i = 0; i<updateTile.length; i++)
                 {
-                    //console.log("draw "+i);
                     var v = updateTile[i];
                     var x = parseInt(v%human.currentRoom.width);
                     var y = parseInt(v/human.currentRoom.width);
-                        var tile = human.currentRoom.getTile(x,y);
-                        var imgx = 0; var imgy = 0;
-                        if(tile==0) { imgx = 1; imgy=0; }
-                        else if(tile==1) { imgx = 2; imgy=0; }
-                        else if(tile==2) { imgx = 3; imgy = 0; } 
-                        else if(tile==4) { imgx = 3; imgy = 1; } 
-                        else if(tile==5) { imgx = 4; imgy = 1; } 
-                        else if(tile instanceof Door) { imgx = 4; imgy = 0; }
-                        if(tile!=-1)gamecanvasC.drawImage(img,imgx*28,imgy*38,28,38,(x-camera.x)*28,(y-camera.y)*38,28,38);
+                    var tile = human.currentRoom.getTile(x,y);
+
+                    var imgx = 0; var imgy = 0;
+                    if(tile==0) { imgx = 1; imgy=0; }
+                    else if(tile==1) { imgx = 2; imgy=0; }
+                    else if(tile==2) { imgx = 3; imgy = 0; } 
+                    else if(tile==4) { imgx = 3; imgy = 1; } 
+                    else if(tile==5) { imgx = 4; imgy = 1; } 
+                    else if(tile instanceof Door) { imgx = 4; imgy = 0; }
+                    if(tile!=-1)gamecanvasC.drawImage(img,imgx*28,imgy*38,28,38,(x-camera.x)*28,(y-camera.y)*38,28,38);
                 }
-/*
-*/            }
+            }
 
             function kdh(event)
             {
@@ -221,11 +230,7 @@
 
                 if(event!=null)
                 {
-                    if(event.keyCode==68) human.moveRight();
-                    else if(event.keyCode==65) human.moveLeft();
-                    else if(event.keyCode==87) human.moveUp();
-                    else if(event.keyCode==83) human.moveDown();
-                    else if(event.keyCode==32 && ammo>0 && !human.hurt) { ammo--; removeRandomFishman(); }
+                    if(event.keyCode==32 && ammo>0 && !human.hurt) { ammo--; removeRandomFishman(); }
                     updatePieces();
                 }
 
@@ -236,6 +241,8 @@
                 drawText(1,1,""+doors);
                 drawPieces();
             }
+            setTimeout( "drawRoom(true)", 500);
+
         </script>
     </body>
 </html>
