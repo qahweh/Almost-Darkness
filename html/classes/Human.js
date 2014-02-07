@@ -16,16 +16,16 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.action[68] = false;
     this.action[87] = false;
     this.action[83] = false;
-
+    this.offsetImg = new Point(14,35);
 
     this.update2 = function()
     {
         this.moved = 0;
         var odir = this.dir;
-        if(this.action[68] == true && this.action[65] == false) { this.moveRight(); this.moved++; this.dir = 0;}
-        if(this.action[68] == false && this.action[65] == true) { this.moveLeft(); this.moved++; this.dir = 1;}
-        if(this.action[87] == true && this.action[83] == false) { this.moveUp(); this.moved++; this.dir = 2;}
-        if(this.action[87] == false && this.action[83] == true) { this.moveDown(); this.moved++; this.dir = 3;}
+        if(this.action[68] == true && this.action[65] == false) { this.moveRight(1); this.moved++; this.dir = 0;}
+        if(this.action[68] == false && this.action[65] == true) { this.moveLeft(1); this.moved++; this.dir = 1;}
+        if(this.action[87] == true && this.action[83] == false) { this.moveUp(1); this.moved++; this.dir = 2;}
+        if(this.action[87] == false && this.action[83] == true) { this.moveDown(1); this.moved++; this.dir = 3;}
         if(this.moved>0){this.anim++; if(this.anim%26==13){mixer.play(2);}}
         if(this.moved>1)this.dir = odir; //if diagonal then do not change dir.
     }
@@ -51,35 +51,49 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     {
         if(this.hurt)return;
         var t = this.currentRoom.getTile( parseInt(  ((this.x2+dx)/28)) ,parseInt((this.y2+dy)/38) );
-        if(t==0 || t==4 || t==5){ this.x2 += dx; this.y2 += dy; return; }
+        var p = this.currentRoom.getPiece2( this.x2+dx, this.y2+dy, this );
 
-        if(t instanceof Door)
+        var b = false;
+        if(p != null) b = this.pieceEvent(p);
+
+        if(!b && (t==0 || t==4 || t==5)){ this.x2 += dx; this.y2 += dy; return; }
+
+
+        if(t instanceof Door && this == human)
         {
             var door = t;
             doors = doors + door.counter;
             door.counter =  0;  
             room = door.getToRoom(human);
             camera = room.getCameraOnCenter();
-            human.x2 = door.startx*28;
-            human.y2 = door.starty*38;
+            human.x2 = door.startx*28+14;
+            human.y2 = door.starty*38+30;
             human.currentRoom = room;
             drawRoom(true);
         }
     }
 
 
-    this.moveLeft = function(){ this.move(-1,0);}
-    this.moveRight = function(){ this.move(1,0);}
-    this.moveUp = function(){ this.move(0,-1);}
-    this.moveDown = function(){ this.move(0,1);}
+    this.moveLeft = function(d){ this.move(-d,0);}
+    this.moveRight = function(d){ this.move(d,0);}
+    this.moveUp = function(d){ this.move(0,-d);}
+    this.moveDown = function(d){ this.move(0,d);}
 
 
 
 this.getImage = function()
 {
+    var x = 0;
+    var y = 5;
+    if(this.anim%26<13)x=1;
+    if(this.dir==0)x=x;
+    if(this.dir==1)x=x+2;
+    if(this.dir==2)x=4;
+    if(this.dir==3){x=0; y=0;}
+
     if(this.hurt) return new Point(0,4);
-    if(!this.hurtAnimation)return new Point(0,0);
-    
+    if(!this.hurtAnimation)return new Point(x,y);
+
     var r = new Point(0,0);
     r.o = new Point(2,4);
     return r;

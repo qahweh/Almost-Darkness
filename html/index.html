@@ -41,23 +41,31 @@
             var g2 = 0;
             var move = 0;
 
-
+            var frame = 0;
 
             function gamelogic()
             {
+                frame++;
                 var updateTile = new Array();
-                var x = 0;
-                var y = 5;
                 human.update2();
-                if(human.anim%26<13)x=1;
-                if(human.dir==0)x=x;
-                if(human.dir==1)x=x+2;
-                if(human.dir==2)x=4;
-                if(human.dir==3){x=0; y=0;}
+   
 
-                if(human.moved>0)
+                var dt = new Array();
+
+                    dt.push(human);
+
+
+                if(true)
                 {
-                    var c = human.getTilePos();
+                    var pu = updatePieces();
+                    dt = dt.concat(pu);                    
+                    //drawPieces();
+                }
+
+                for(var i=0; i<dt.length; i++)
+                {
+                    var p = dt[i];
+                    var c = p.getTilePos();
                     updateTile.push(c);
                     updateTile.push(c-1);
                     updateTile.push(c+1);
@@ -68,12 +76,19 @@
                     updateTile.push(c+human.currentRoom.width-1);
                     updateTile.push(c-human.currentRoom.width-1);
                 }
-
                 drawRoom(updateTile);
-                gamecanvasC.drawImage(img,x*28,y*38,28,38,human.x2-14-camera.x*28,human.y2-36-camera.y*38,28,38);
 
-                drawPieces();
-
+                for(var i=0; i<dt.length; i++)
+                {
+                    var p = dt[i];
+                    drawPiece(p);
+//                    gamecanvasC.drawImage(img,x*28,y*38,28,38,p.x2-14-camera.x*28,p.y2-36-camera.y*38,28,38);
+                }
+    
+                if(Math.random()<0.1 )
+                {
+                    refreshStatus();
+                }
             }
 
             function drawText(x,y,text)
@@ -118,48 +133,40 @@
             function updatePieces()
             {
                 var index;
-                
+                var wasUpdated = new Array();
                 for(index = 0; index < pieces.length; index++)
                 {
                     var p = pieces[index];
                     if(p.currentRoom == human.currentRoom)
                     {
-                        if(p!=human) if(p.update)p.update();
+                        if(p!=human) if(p.update){ p.update(); wasUpdated.push(p);}
                     }
                 }
-
+                return wasUpdated;
             }
  
-            function drawPieces()
+            function drawPiece(p)
             {
-                var index;
-                for(index = 0; index < pieces.length; index++)
-                {
-                    var p = pieces[index];
-                    if(p.currentRoom == human.currentRoom && p!=human)
-                    {
-                        var imgC = p.getImage();
-                        var x = imgC.x;
-                        var y = imgC.y;
-                        var o = imgC.o;
-                        gamecanvasC.drawImage(img,x*28,y*38,28,38,p.x2-camera.x*28,p.y2-camera.y*38,28,38);
-
-                        if(o)
-                        {
-                            var x = o.x;
-                            var y = o.y;
-                            gamecanvasC.drawImage(img,x*28,y*38,28,38,p.x2-camera.x*28,p.y2-camera.y*38,28,38);
-                        }
+                   var imgC = p.getImage();
+                   var x = imgC.x;
+                   var y = imgC.y;
+                   var o = imgC.o;
+                   var offset = p.offsetImg;
+                   gamecanvasC.drawImage(img,x*28,y*38,28,38,p.x2-camera.x*28-offset.x,p.y2-camera.y*38-offset.y,28,38);
+                   if(o)
+                   {
+                      var x = o.x;
+                      var y = o.y;
+                      gamecanvasC.drawImage(img,x*28,y*38,28,38,p.x2-camera.x*28-offset.x,p.y2-camera.y*38-offset.y,28,38);
+                  }
                         x = 3; y = 4;
-                        if(getAimed()==p)gamecanvasC.drawImage(img,x*28,y*38,28,38,p.x2-camera.x*28,p.y2-camera.y*38,28,38);
+                        if(getAimed()==p)gamecanvasC.drawImage(img,x*28,y*38,28,38,p.x2-camera.x*28-offset.x,p.y2-camera.y*38-offset.y,28,38);
                         p.hurtAnimation = false;
-                    }
-                }
             }
 
             function removeRandomFishman()
             {
-                mixer.play();
+                mixer.play(1);
                 if(Math.random()<0.2)return;
                 var f = getAimed();
                 if(f)f.getHit();
@@ -215,6 +222,15 @@
                 }
             }
 
+            function refreshStatus()
+            {
+                statuscanvasC.clearRect(0,0,140,722);               
+                statuscanvasC.drawImage(img,2*28,1*38,28,38,0,0,28,38);
+                statuscanvasC.drawImage(img,4*28,0*38,28,38,0,38,28,38);
+                drawText(1,0,""+ammo);
+                drawText(1,1,""+doors);
+            }
+
             function kdh(event)
             {
                 if(event.keyCode==68) human.doAction(68);
@@ -222,24 +238,6 @@
                 else if(event.keyCode==87) human.doAction(87);
                 else if(event.keyCode==83) human.doAction(83);
                 else if(event.keyCode==32 && ammo>0 && !human.hurt) { ammo--; removeRandomFishman(); }
-
-                if(event.keyCode!=13)return;
-                human.update();
-
-                drawRoom();                
-
-                if(event!=null)
-                {
-                    if(event.keyCode==32 && ammo>0 && !human.hurt) { ammo--; removeRandomFishman(); }
-                    updatePieces();
-                }
-
-                statuscanvasC.clearRect(0,0,140,722);               
-                statuscanvasC.drawImage(img,2*28,1*38,28,38,0,0,28,38);
-                statuscanvasC.drawImage(img,4*28,0*38,28,38,0,38,28,38);
-                drawText(1,0,""+ammo);
-                drawText(1,1,""+doors);
-                drawPieces();
             }
             setTimeout( "drawRoom(true)", 500);
 

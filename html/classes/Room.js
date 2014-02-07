@@ -78,6 +78,24 @@ function Room(roomType,random, buildRoom, deep)
         return new Point(m-20,m2-9);
     }
 
+
+    this.getPiece2 = function(x,y,not)
+    {
+        var nx = parseInt(x/28);
+        var ny = parseInt(y/38);
+        console.log(nx+","+ny);
+        for(var index = 0; index < pieces.length; index++)
+        {
+            var p = pieces[index];
+            if(p.currentRoom == this && p!=not && parseInt(p.x2/28)==nx && parseInt(p.y2/38)==ny)
+            {
+                return p;
+            }
+        }
+        return null;
+    }
+
+
 }
 
 Room.prototype.getPiece = function(x,y)
