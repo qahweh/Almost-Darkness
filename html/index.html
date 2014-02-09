@@ -15,13 +15,17 @@
         #canvas_container{margin:0 auto 0 auto; width: 1340px}
         body{background: #000}
         #gamecanvas{background:#111; border: 2px solid #ddd; float:left}
-        #statuscanvas{background:#111; border: 2px solid #ddd; float:left; margin-left: 10px;}
+        #statuscanvas{background:#111; border: 2px solid #ddd; margin-left: 10px;}
        </style>
     </head>
     <body>
         <div id="canvas_container">
             <canvas id="gamecanvas" width="1140" height="722"></canvas>
-            <canvas id="statuscanvas" width="140" height="722"></canvas>
+            <div style="float:left" >
+                <canvas id="statuscanvas" width="140" height="422"></canvas>
+                <br/><input type="button" value="no frameskip" onclick="frameskip=1"/>
+                <br/><input type="button" value="frameskip" onclick="frameskip=4"/>
+            </div>
         </div>
         <script>
             var mixer = new Mixer();
@@ -43,7 +47,7 @@
 
             var frame = 0;
 
-            var frameskip = 4;
+            var frameskip = 1;
 
             function gamelogic()
             {
