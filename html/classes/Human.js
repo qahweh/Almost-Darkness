@@ -6,7 +6,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.imgx = 0;
     this.imgy = 0;
     this.hurtAnimation = false;
-    this.health = 500;
+    this.health = 4;
     this.x2 = x*28;
     this.y2 = y*38;
     this.anim = 0;
@@ -28,6 +28,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         if(this.action[87] == false && this.action[83] == true) { this.moveDown(1); this.moved++; this.dir = 3;}
         if(this.moved>0){this.anim++; if(this.anim%26==13){mixer.play(2);}}
         if(this.moved>1)this.dir = odir; //if diagonal then do not change dir.
+        if(this.moved==0)this.anim=23;
     }
 
     this.releaseAction = function(c)
@@ -73,45 +74,42 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         }
     }
 
-
     this.moveLeft = function(d){ this.move(-d,0);}
     this.moveRight = function(d){ this.move(d,0);}
     this.moveUp = function(d){ this.move(0,-d);}
     this.moveDown = function(d){ this.move(0,d);}
 
-
-
-this.getImage = function()
-{
-    var x = 0;
-    var y = 5;
-    if(this.anim%28<13)x=1;
-    if(this.dir==0)x=x;
-    if(this.dir==1)x=x+2;
-    if(this.dir==3)
+    this.getImage = function()
     {
-        x=0; y=0;
-        if(this.anim%56<42){y=6; x=3;}
-        if(this.anim%56<28){y=0; x=0;}
-        if(this.anim%56<14){y=6; x=2;}
+        var x = 1;
+        var y = 5;
+        if(this.anim%28<13)x=0;
+        if(this.dir==0)x=x;
+        if(this.dir==1){  if(x==0)x=3; if(x==1)x=2; }
+        if(this.dir==3)
+        {
+            x=0; y=0;
+            if(this.anim%56<42){y=6; x=3;}
+            if(this.anim%56<28){y=0; x=0;}
+            if(this.anim%56<14){y=6; x=2;}
 
+        }
+        if(this.dir==2)
+        {
+            x=4;
+            if(this.anim%56<42){y=6; x=0;}
+            if(this.anim%56<28){y=5; x=4;}
+            if(this.anim%56<14){y=6; x=1;}
+
+        }
+
+        if(this.hurt) return new Point(0,4);
+        if(!this.hurtAnimation)return new Point(x,y);
+
+        var r = new Point(0,0);
+        r.o = new Point(2,4);
+        return r;
     }
-    if(this.dir==2)
-    {
-        x=4;
-        if(this.anim%56<42){y=6; x=0;}
-        if(this.anim%56<28){y=5; x=4;}
-        if(this.anim%56<14){y=6; x=1;}
-
-    }
-
-    if(this.hurt) return new Point(0,4);
-    if(!this.hurtAnimation)return new Point(x,y);
-
-    var r = new Point(0,0);
-    r.o = new Point(2,4);
-    return r;
-}
 
 
 this.getHit = function()
