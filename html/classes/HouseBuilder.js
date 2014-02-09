@@ -335,9 +335,9 @@ function HouseBuilder()
             this.clearRoom(spot[1]);
             this.clearRoom(spot[2]);
             
-            this.fillRoomsWith(spot[0]);
-            this.fillRoomsWith(spot[1]);
-            this.fillRoomsWith(spot[2]);
+//            this.fillRoomsWith(spot[0]);
+  //          this.fillRoomsWith(spot[1]);
+    //        this.fillRoomsWith(spot[2]);
             
         }
     }

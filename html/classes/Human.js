@@ -71,6 +71,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
             human.y2 = door.starty*38+30;
             human.currentRoom = room;
             drawRoom(true);
+            reh.handleRoom(room);
         }
     }
 

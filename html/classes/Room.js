@@ -83,7 +83,7 @@ function Room(roomType,random, buildRoom, deep)
     {
         var nx = parseInt(x/28);
         var ny = parseInt(y/38);
-        console.log(nx+","+ny);
+//        console.log(nx+","+ny);
         for(var index = 0; index < pieces.length; index++)
         {
             var p = pieces[index];

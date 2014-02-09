@@ -11,6 +11,7 @@
         <script src="classes/Point.js"></script>
         <script src="classes/HouseBuilder.js"></script>
         <script src="classes/Mixer.js"></script>
+        <script src="classes/RoomEventHandler.js"></script>
         <style>
         #canvas_container{margin:0 auto 0 auto; width: 1340px}
         body{background: #000}
@@ -31,6 +32,8 @@
             var mixer = new Mixer();
             var gamecanvas = document.getElementById('gamecanvas');
             var gamecanvasC = gamecanvas.getContext('2d');
+
+            var reh = new RoomEventHandler();
 
             var statuscanvas = document.getElementById('statuscanvas');
             var statuscanvasC = statuscanvas.getContext('2d');
