@@ -11,15 +11,24 @@ function RoomEventHandler()
         for(var i=0; i<this.beenHandled.length; i++) if(this.beenHandled[i]==room) return;
         this.beenHandled.push(room);
         
-        if(Math.random()<0.4)
+        var r = Math.random();
+        if(r<0.4)
         {
-            this.fishmanRoomLevel++;
+            var diff = this.fishmanRoomLevel-this.ammoRoomLevel;
+            if(diff<-2)this.fishmanRoomLevel+=5;
+            else this.fishmanRoomLevel++;
             this.fillRoomsWith(room, function(x,y,room){ return new Fishman(x,y,room); },this.fishmanRoomLevel)
+        }
+        else if(r<0.8)
+        {
+            var diff = this.ammoRoomLevel-this.fishmanRoomLevel;
+            if(diff<-2)this.ammoRoomLevel+=5;
+            else this.ammoRoomLevel++;
+            this.fillRoomsWith(room, function(x,y,room){ return new Ammobox(x,y,room); },this.ammoRoomLevel);
         }
         else
         {
-            this.ammoRoomLevel++;
-            this.fillRoomsWith(room, function(x,y,room){ return new Ammobox(x,y,room); },this.ammoRoomLevel);
+            this.fillRoomsWith(room, function(x,y,room){ return new QuestItem(x,y,room); },1);
         }
     }
 
