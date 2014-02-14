@@ -210,6 +210,25 @@ function HouseBuilder()
         }
     }
 
+    this.clearWhereAroundVoid = function(room)
+    {
+        for(var x=1; x<room.width-2; x++)
+        {        
+            for(var y=1; y<room.height-2; y++)
+            {      
+                if( room.matris[x+y*room.width] == 2 ) 
+                {
+                    var c = 0;
+                    if( room.matris[x+1+y*room.width] == -1 ) c++;
+                    if( room.matris[x-1+y*room.width] == -1 ) c++;
+                    if( room.matris[x+(y-1)*room.width] == -1 ) c++;
+                    if( room.matris[x+(y+1)*room.width] == -1 ) c++;
+                    if(c>2) room.matris[x+y*room.width] = -1;
+                }
+            }
+        }
+    }
+
     this.clearRoom = function(room)
     {
 
@@ -241,6 +260,23 @@ function HouseBuilder()
                 {
                     room.matris[x+y*room.width] = -1;
                 }
+            }
+        }
+
+        this.clearWhereAroundVoid(room);
+
+        for(var x=0; x<room.width; x++)
+        {        
+            for(var y=0; y<room.height; y++)
+            {      
+                if(room.matris[x+y*room.width] == 2 && room.matris[x+(y-1)*room.width] == 1 && room.matris[x+(y+1)*room.width] == 1)room.matris[x+y*room.width] = 1;
+                if(room.matris[x-1+y*room.width] == 2 && room.matris[x+(y+1)*room.width] == 1 && room.matris[x+y*room.width] == 1)room.matris[x+y*room.width] = 2;
+                if(room.matris[x+y*room.width] == 2 && room.matris[x+(y+1)*room.width] == 2){room.matris[x+y*room.width] = 1; room.matris[x+(y+1)*room.width] = 1;}
+                if(room.matris[x-1+y*room.width] == 2 && room.matris[x+(y+1)*room.width] instanceof Door && room.matris[x+y*room.width] == 1)room.matris[x+y*room.width] = 2;
+                if(room.matris[x+y*room.width] instanceof Door && !this.isFloor(room.matris[x+(y+1)*room.width]) && !this.isFloor(room.matris[x+(y-1)*room.width]) && !this.isFloor(room.matris[x-1+(y)*room.width]) && !this.isFloor(room.matris[x+1+(y+1)*room.width]) ) room.matris[x+y*room.width] = -1;
+                if(room.matris[x+y*room.width] == 1 && room.matris[x+(y-1)*room.width] ==-1 && room.matris[x+(y+1)*room.width] == 1)room.matris[x+y*room.width] = 2;
+                if(room.matris[x+y*room.width] == 1 && room.matris[x+(y+1)*room.width] ==-1 && room.matris[x+(y-1)*room.width] instanceof Door )room.matris[x+y*room.width] = 2;
+
             }
         }
 
