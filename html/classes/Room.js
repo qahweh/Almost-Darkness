@@ -100,6 +100,7 @@ function Room(roomType,random, buildRoom, deep)
 
 Room.prototype.getPiece = function(x,y)
 {
+    console.log("!"+x+" "+y);
     var index;
     for(index = 0; index < pieces.length; index++)
     {

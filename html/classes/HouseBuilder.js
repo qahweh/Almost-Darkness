@@ -66,7 +66,7 @@ function HouseBuilder()
                 else
                 {
                     door.toRoom = new Room(RoomType.EMPTY, 1, true, this.deep+1);
-                    this.splitRoom(door.toRoom);
+                    //this.splitRoom(door.toRoom);
                     door.toRoom.name='B';
 
                     
@@ -108,8 +108,10 @@ function HouseBuilder()
     
     this.splitRoom = function(room)
     {
+        if(room.roomType == RoomType.ENTRANCE)return;
         var x=0; var y=0;
         var r = parseInt(Math.random()*2);
+        r = 1;
         if(r==0)
         {
             x = 10;
@@ -126,16 +128,85 @@ function HouseBuilder()
         }
         else if(r==1)
         {
-            var x2 = 5+parseInt(Math.random()*13);
-            var x3 = x2+parseInt(Math.random()*13);
+            var x2 = 7+parseInt(Math.random()*10);
+            var x3 = x2+parseInt(Math.random()*11)+6;
             x=x2;
             for(y=3; y<16; y++){room.matris[x+y*room.width] = 1;}            
-            for(x=x2+1; x<x3; x++){for(y=3; y<16; y++){room.matris[x+y*room.width]=4;}}
+            for(x=x2+1; x<x3; x++){for(y=3; y<16; y++){room.matris[x+y*room.width]=0;}}
             x=x3;
             for(y=3; y<16; y++){room.matris[x+y*room.width] = 1;}            
-            for(x=3; x<x2; x++){for(y=3; y<16; y++){room.matris[x+y*room.width]=5;}}
-            x = x3; y=10; room.matris[x+y*room.width] = 10;
-            x = x2; y=7; room.matris[x+y*room.width] = 10;
+            for(x=3; x<x2; x++){for(y=3; y<16; y++){room.matris[x+y*room.width]=0;}}
+
+            var height = 6+parseInt(Math.random()*7);
+            var c = 0;
+            var h = 2;
+            for(var x = 3; x<38; x++)
+            {
+                c++;
+                if(room.matris[x+height*room.width] == 1)
+                {
+                    
+                    room.matris[x+height*room.width] = 2;
+                    h--;
+                    height = 6+parseInt(Math.random()*7);
+                    c = 0;
+                }
+                if(c!=3)room.matris[x+height*room.width] = 2;
+                else room.matris[x+height*room.width] = 10;
+
+                if(c!=0)
+                {
+                    room.matris[x+(height-1)*room.width] = 4+h*10;
+                    room.matris[x+(height+1)*room.width] = 5+h*10;
+                }
+            }
+
+            if( room.matris[38+height*room.width] instanceof Door)
+            {
+                for(var x=37; this.isFloor(room.matris[x+(height-1)*room.width]); x-- )
+                {
+                    room.matris[x+(height+1)*room.width] = 0;
+                    room.matris[x+(height-1)*room.width] = 0;
+                    room.matris[x+height*room.width] = 0;
+                }
+            }
+
+            //x = x3; y=10; room.matris[x+y*room.width] = 10;
+            //x = x2; y=7; room.matris[x+y*room.width] = 10;
+            this.spreadColor(room,4);
+            this.spreadColor(room,5);
+            this.spreadColor(room,14);
+            this.spreadColor(room,15);
+            this.spreadColor(room,24);
+            this.spreadColor(room,25);
+
+            for(var x = 3; x<38; x++)
+            {
+                c++;
+                if(room.matris[x+4*room.width] == 1)
+                {
+                    room.matris[x+4*room.width] = 10;
+                }
+        }
+
+
+        }
+    }
+
+    this.isFloor = function(x)
+    {
+        return (x==0 || x==4 || x==5 || x==14 || x== 15 || x==24 || x== 25);
+    }
+
+    this.spreadColor = function(room,color)
+    {
+        for(var t=0; t<20; t++)
+        {
+            for(var x=0; x<room.width*room.height; x++ )
+            {
+                if(room.matris[x]==color && room.matris[x-room.width]==0 )room.matris[x-room.width] = color;
+                if(room.matris[x]==color && room.matris[x+room.width]==0 )room.matris[x+room.width] = color;
+            }
         }
     }
 
@@ -193,7 +264,7 @@ function HouseBuilder()
     this.house[this.width*this.height-1] = false;
 
     var roomE = new Room(RoomType.EMPTY,111,true);
-    this.splitRoom(roomE);
+    //this.splitRoom(roomE);
 
     this.house[0] = new Array( roomE );
     this.startRoom = room;
@@ -215,7 +286,7 @@ function HouseBuilder()
             else
             {
                 thisRoom = new Room(RoomType.EMPTY,111,true);
-                this.splitRoom(thisRoom);
+                //this.splitRoom(thisRoom);
                 this.house[x2+y2*this.width] = new Array( thisRoom );
             }
             
@@ -315,25 +386,46 @@ function HouseBuilder()
        
         if(spot)
         {
+        this.splitRoom(spot[0]);
 
             spot[1] = this.cloneRoom(spot[0]);
             spot[2] = this.cloneRoom(spot[0]); 
+            spot[3] = this.cloneRoom(spot[0]);
+            spot[4] = this.cloneRoom(spot[0]); 
+            spot[5] = this.cloneRoom(spot[0]);
+            spot[6] = this.cloneRoom(spot[0]); 
 
-            this.removeTiles(spot[0],[4,5]); this.clearRoom(spot[0]);
-            this.removeTiles(spot[1],[0,5]); this.clearRoom(spot[1]);
-            this.removeTiles(spot[2],[4,0]); this.clearRoom(spot[2]);
+            this.removeTiles(spot[0],[4,5,14,15,24,25]); this.clearRoom(spot[0]);
+            this.removeTiles(spot[1],[0,5,14,15,24,25]); this.clearRoom(spot[1]);
+            this.removeTiles(spot[2],[4,0,14,15,24,25]); this.clearRoom(spot[2]);
+            this.removeTiles(spot[3],[4,0,5,15,24,25]); this.clearRoom(spot[3]);
+            this.removeTiles(spot[4],[4,0,14,5,24,25]); this.clearRoom(spot[4]);
+            this.removeTiles(spot[5],[4,0,14,15,5,25]); this.clearRoom(spot[5]);
+            this.removeTiles(spot[6],[4,0,14,15,24,5]); this.clearRoom(spot[6]);
             
             spot[0].alternativeRoom = spot[1];
             spot[1].alternativeRoom = spot[2];
-            spot[2].alternativeRoom = spot[0];
+            spot[2].alternativeRoom = spot[3];
+            spot[3].alternativeRoom = spot[4];
+            spot[4].alternativeRoom = spot[5];
+            spot[5].alternativeRoom = spot[6];
+            spot[6].alternativeRoom = spot[0];
             
             this.calcDoorConnect(spot[0]);
             this.calcDoorConnect(spot[1]);
             this.calcDoorConnect(spot[2]);
+            this.calcDoorConnect(spot[3]);
+            this.calcDoorConnect(spot[4]);
+            this.calcDoorConnect(spot[5]);
+            this.calcDoorConnect(spot[6]);
             
             this.clearRoom(spot[0]);
             this.clearRoom(spot[1]);
             this.clearRoom(spot[2]);
+            this.clearRoom(spot[3]);
+            this.clearRoom(spot[4]);
+            this.clearRoom(spot[5]);
+            this.clearRoom(spot[6]);
             
 //            this.fillRoomsWith(spot[0]);
   //          this.fillRoomsWith(spot[1]);

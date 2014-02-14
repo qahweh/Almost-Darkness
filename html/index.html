@@ -231,6 +231,13 @@
                     else if(tile==2) { imgx = 3; imgy = 0; } 
                     else if(tile==4) { imgx = 3; imgy = 1; } 
                     else if(tile==5) { imgx = 4; imgy = 1; } 
+
+                    else if(tile==14) { imgx = 5; imgy = 0; } 
+                    else if(tile==15) { imgx = 5; imgy = 1; } 
+
+                    else if(tile==24) { imgx = 5; imgy = 2; } 
+                    else if(tile==25) { imgx = 5; imgy = 5; } 
+
                     else if(tile instanceof Door) { imgx = 4; imgy = 0; }
                     if(tile!=-1)gamecanvasC.drawImage(img,imgx*28,imgy*38,28,38,(x-camera.x)*28,(y-camera.y)*38,28,38);
                 }

@@ -45,10 +45,28 @@ function Door()
             }
         }
         
-        if(this.toRoom.matris[this.startx+this.starty*this.toRoom.width] != -1) return this.toRoom;
-        if(this.toRoom.alternativeRoom.matris[this.startx+this.starty*this.toRoom.alternativeRoom.width] != -1) return this.toRoom.alternativeRoom;
+        if(this.toRoom.matris[this.startx+this.starty*this.toRoom.width] != -1)
+            return this.toRoom;
+
+        if(this.toRoom.alternativeRoom.matris[this.startx+this.starty*this.toRoom.alternativeRoom.width] != -1)
+            return this.toRoom.alternativeRoom;
+
+        if(this.toRoom.alternativeRoom.alternativeRoom.matris[this.startx+this.starty*this.toRoom.alternativeRoom.width] != -1)
+            return this.toRoom.alternativeRoom.alternativeRoom;
+
+        if(this.toRoom.alternativeRoom.alternativeRoom.alternativeRoom.matris[this.startx+this.starty*this.toRoom.alternativeRoom.width] != -1)
+            return this.toRoom.alternativeRoom.alternativeRoom.alternativeRoom;
+
+        if(this.toRoom.alternativeRoom.alternativeRoom.alternativeRoom.alternativeRoom.matris[this.startx+this.starty*this.toRoom.alternativeRoom.width] != -1)
+            return this.toRoom.alternativeRoom.alternativeRoom.alternativeRoom.alternativeRoom;
+
+        if(this.toRoom.alternativeRoom.alternativeRoom.alternativeRoom.alternativeRoom.alternativeRoom.matris[this.startx+this.starty*this.toRoom.alternativeRoom.width] != -1)
+            return this.toRoom.alternativeRoom.alternativeRoom.alternativeRoom.alternativeRoom.alternativeRoom;
+
+        if(this.toRoom.alternativeRoom.alternativeRoom.alternativeRoom.alternativeRoom.alternativeRoom.alternativeRoom.matris[this.startx+this.starty*this.toRoom.alternativeRoom.width] != -1)
+            return this.toRoom.alternativeRoom.alternativeRoom.alternativeRoom.alternativeRoom.alternativeRoom.alternativeRoom;
         
-        return this.toRoom.alternativeRoom.alternativeRoom;
+        return this.toRoom.alternativeRoom.alternativeRoom.alternativeRoom.alternativeRoom.alternativeRoom.alternativeRoom.alternativeRoom;
     }
     
 };

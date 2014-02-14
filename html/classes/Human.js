@@ -48,6 +48,11 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         return c;
     }
 
+    this.canWalkOn = function(t)
+    {
+        return (t==0 || t==4 || t==5 || t==14 || t==15 || t==24 || t==25);
+    }
+
     this.move = function(dx,dy)
     {
         if(this.hurt)return;
@@ -57,7 +62,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         var b = false;
         if(p != null) b = this.pieceEvent(p);
 
-        if(!b && (t==0 || t==4 || t==5)){ this.x2 += dx; this.y2 += dy; return; }
+        if(!b && this.canWalkOn(t)){ this.x2 += dx; this.y2 += dy; return; }
 
 
         if(t instanceof Door && this == human)
