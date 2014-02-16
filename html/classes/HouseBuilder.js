@@ -2,10 +2,10 @@ function HouseBuilder()
 {
 	this.house = new Array();
 
-    var startx = 5;
-    var starty = 8;
-    this.width = 11;
-    this.height = 11;
+    var startx = 1;
+    var starty = 2;
+    this.width = 3;
+    this.height = 3;
 
     this.caller = 0;
 
@@ -106,25 +106,36 @@ function HouseBuilder()
         return false;
     }
     
-    this.splitRoom = function(room)
+    this.canSplitRoom = function(room)
     {
-        if(room.roomType == RoomType.ENTRANCE)return;
+        if(room.beenSplited) return false;
+        if(room.roomType == RoomType.ENTRANCE) return false;
+        return true;
+    }
+
+    this.splitRoom = function(room,r)
+    {
+        if( !this.canSplitRoom(room) ) return;
+        room.beenSplited = true;
         var x=0; var y=0;
-        var r = parseInt(Math.random()*2);
-        r = 1;
-        if(r==0)
+//        var r = parseInt(Math.random()*2);
+       // r = 1;
+        if(r==0 || r == 2)
         {
+            var yHandler = function(y) { return y; }
+            if(r==2)var yHandler = function(y) { return 18-y; }// mirror
+
             x = 10;
-            for(y=3; y<10; y++){room.matris[x+y*room.width] = 1;}
-            for(x=11; x<20; x++){for(y=3; y<10; y++){room.matris[x+y*room.width]=4;}}
-            for(x=21; x<38; x++){for(y=3; y<10; y++){room.matris[x+y*room.width]=5;}}
-            for(x=31; x<38; x++){for(y=10; y<16; y++){room.matris[x+y*room.width]=5;}}
+            for(y=3; y<10; y++){room.matris[x+yHandler(y)*room.width] = 1;}
+            for(x=11; x<20; x++){for(y=3; y<10; y++){room.matris[x+yHandler(y)*room.width]=4;}}
+            for(x=21; x<38; x++){for(y=3; y<10; y++){room.matris[x+yHandler(y)*room.width]=5;}}
+            for(x=31; x<38; x++){for(y=10; y<16; y++){room.matris[x+yHandler(y)*room.width]=5;}}
             y = 10;
-            for(x=10; x<31; x++){room.matris[x+y*room.width] = 2;}
-            x = 30;for(y=11; y<16; y++){room.matris[x+y*room.width] = 1;}
-            x = 20;for(y=3; y<10; y++){room.matris[x+y*room.width] = 1;}
-            x = 25; y=10;room.matris[x+y*room.width] = 10;
-            x = 10; y=7;room.matris[x+y*room.width] = 10;
+            for(x=10; x<31; x++){room.matris[x+yHandler(y)*room.width] = 2;}
+            x = 30;for(y=11; y<16; y++){room.matris[x+yHandler(y)*room.width] = 1;}
+            x = 20;for(y=3; y<10; y++){room.matris[x+yHandler(y)*room.width] = 1;}
+            x = 25; y=10;room.matris[x+yHandler(y)*room.width] = 10;
+            x = 10; y=7;room.matris[x+yHandler(y)*room.width] = 10;
         }
         else if(r==1)
         {
@@ -190,7 +201,7 @@ function HouseBuilder()
         }
 
 
-        }
+        }else throw "type not implemented";
     }
 
     this.isFloor = function(x)
@@ -305,7 +316,7 @@ function HouseBuilder()
     this.house[0] = new Array( roomE );
     this.startRoom = room;
 
-    for(var x2 = 0; x2<this.width-1; x2++)
+    for(var x2 = 0; x2<this.width; x2++)
     {
         
         
@@ -336,9 +347,12 @@ function HouseBuilder()
                 
                 if(dir==DirType.RIGHT)
                 {
-                    var x = thisRoom.width-3;
-                    var y = parseInt(Math.random()*(thisRoom.height-6))+3;
-                    while( this.nearOtherDoorInY(y,x, thisRoom) ) y = parseInt(Math.random()*(thisRoom.height-6))+3;
+                    if(x2!=this.width-1) // do not build to right when far right
+                    {
+                        var x = thisRoom.width-3;
+                        var y = parseInt(Math.random()*(thisRoom.height-6))+3;
+                        while( this.nearOtherDoorInY(y,x, thisRoom) ) y = parseInt(Math.random()*(thisRoom.height-6))+3;
+                    }
                 }
                 if(dir==DirType.DOWN)
                 {
@@ -415,6 +429,20 @@ function HouseBuilder()
         }
     }
 
+    this.getRandomSpot = function()
+    {
+        var i = parseInt(Math.random()*(this.width*this.height));
+        var spot = this.house[i];
+        return spot;
+    }
+
+    //make two rooms of the type of three rooms. but other type reverse.
+    var spot = this.getRandomSpot();
+    while(!this.canSplitRoom(spot[0])) spot = this.getRandomSpot();
+    this.splitRoom(spot[0],0);
+    while(!this.canSplitRoom(spot[0])) spot = this.getRandomSpot();
+    this.splitRoom(spot[0],2);
+
     for(var i = 0; i<this.width*this.height; i++)
     {
         var spot = this.house[i];
@@ -422,7 +450,7 @@ function HouseBuilder()
        
         if(spot)
         {
-        this.splitRoom(spot[0]);
+        this.splitRoom(spot[0],1);
 
             spot[1] = this.cloneRoom(spot[0]);
             spot[2] = this.cloneRoom(spot[0]); 

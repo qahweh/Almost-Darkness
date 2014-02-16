@@ -21,11 +21,12 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.update2 = function()
     {
         this.moved = 0;
+        var steplength = 1;
         var odir = this.dir;
-        if(this.action[68] == true && this.action[65] == false) { this.moveRight(1); this.moved++; this.dir = 0;}
-        if(this.action[68] == false && this.action[65] == true) { this.moveLeft(1); this.moved++; this.dir = 1;}
-        if(this.action[87] == true && this.action[83] == false) { this.moveUp(1); this.moved++; this.dir = 2;}
-        if(this.action[87] == false && this.action[83] == true) { this.moveDown(1); this.moved++; this.dir = 3;}
+        if(this.action[68] == true && this.action[65] == false) { this.moveRight(steplength); this.moved++; this.dir = 0;}
+        if(this.action[68] == false && this.action[65] == true) { this.moveLeft(steplength); this.moved++; this.dir = 1;}
+        if(this.action[87] == true && this.action[83] == false) { this.moveUp(steplength); this.moved++; this.dir = 2;}
+        if(this.action[87] == false && this.action[83] == true) { this.moveDown(steplength); this.moved++; this.dir = 3;}
         if(this.moved>0){this.anim++; if(this.anim%26==13){mixer.play(2);}}
         if(this.moved>1)this.dir = odir; //if diagonal then do not change dir.
         if(this.moved==0)this.anim=23;
