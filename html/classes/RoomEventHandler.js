@@ -4,16 +4,33 @@ function RoomEventHandler()
     this.fishmanRoomLevel = 0;
     this.beenHandled = new Array();
 
+    this.itemsToCome = new Array();
+    
+
+    obj = new Object();
+    obj.f = function(x,y,room){ return new RunningShoes(x,y,room)};
+    obj.w = 2;
+    this.itemsToCome.push( obj)
+
+    var obj = new Object();
+    obj.f = function(x,y,room){ return new Key(x,y,room)};
+    obj.w = 11;
+
+    this.itemsToCome.push( obj)
+
     this.handleRoom = function(room, doNotBuildHere)
     {
         this.doNotBuildHere = doNotBuildHere;
-
-
         if(!(room instanceof Room))throw "room must be instance of Room";
 
 
         for(var i=0; i<this.beenHandled.length; i++) if(this.beenHandled[i]==room) return;
         this.beenHandled.push(room);
+
+        if(this.itemsToCome.length>0)
+        {
+            if(this.itemsToCome[0].w < this.beenHandled.length){ this.fillRoomsWith(room, this.itemsToCome[0].f, 1); this.itemsToCome.splice(0,1); return; }
+        }
         
         var r = Math.random();
         if(r<0.4)

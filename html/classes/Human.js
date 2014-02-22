@@ -17,18 +17,26 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.action[87] = false;
     this.action[83] = false;
     this.offsetImg = new Point(14,35);
+    this.startrunningCooldown = 0;
+    this.steplength = 1;
+    this.walklength = 1;
+    this.runlength = 1; //start as 1. when get shoes then 2
 
     this.update2 = function()
     {
+        if(this.startrunningCooldown>0){ this.startrunningCooldown--; } else this.steplength = this.walklength;
+
         this.moved = 0;
-        var steplength = 1;
         var odir = this.dir;
-        if(this.action[68] == true && this.action[65] == false) { this.moveRight(steplength); this.moved++; this.dir = 0;}
-        if(this.action[68] == false && this.action[65] == true) { this.moveLeft(steplength); this.moved++; this.dir = 1;}
-        if(this.action[87] == true && this.action[83] == false) { this.moveUp(steplength); this.moved++; this.dir = 2;}
-        if(this.action[87] == false && this.action[83] == true) { this.moveDown(steplength); this.moved++; this.dir = 3;}
-        if(this.moved>0){this.anim++; if(this.anim%26==13){mixer.play(2);}}
-        if(this.moved>1)this.dir = odir; //if diagonal then do not change dir.
+        if(this.action[68] == true && this.action[65] == false) { if(this.startrunningCooldown>0 && this.startrunningCooldown<14)this.steplength=this.runlength; this.moveRight(this.steplength); this.startrunningCooldown = 15; this.moved++; this.dir = 0;}
+        if(this.action[68] == false && this.action[65] == true) { if(this.startrunningCooldown>0 && this.startrunningCooldown<14)this.steplength=this.runlength; this.moveLeft(this.steplength); this.startrunningCooldown = 15; this.moved++; this.dir = 1;}
+        if(this.action[87] == true && this.action[83] == false) { if(this.startrunningCooldown>0 && this.startrunningCooldown<14)this.steplength=this.runlength; this.moveUp(this.steplength); this.startrunningCooldown = 15; this.moved++; this.dir = 2;}
+        if(this.action[87] == false && this.action[83] == true) { if(this.startrunningCooldown>0 && this.startrunningCooldown<14)this.steplength=this.runlength; this.moveDown(this.steplength); this.startrunningCooldown = 15; this.moved++; this.dir = 3;}
+
+        if(this.dir != odir)this.startrunningCooldown=0; //force cooldown down to make player walk
+
+        if(this.moved>0){this.anim += this.steplength; if(this.anim%26==13){mixer.play(2);}}
+        if(this.moved>1){ this.dir = odir; this.startrunningCooldown=0;} //if diagonal then do not change dir. and force cooldown down to make player walk
         if(this.moved==0)this.anim=23;
     }
 
@@ -138,5 +146,7 @@ this.update = function()
 Human.prototype.pieceEvent = function(piece)
 {
     if(piece instanceof Ammobox){piece.currentRoom = null; ammo=ammo+3; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
+    if(piece instanceof Key){piece.currentRoom = null; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
+    if(piece instanceof RunningShoes){piece.currentRoom = null; human.runlength=2; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     return true;
 }
