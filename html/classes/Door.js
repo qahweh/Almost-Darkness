@@ -11,7 +11,14 @@ function Door()
     this.belongToRoom = null;
     this.position = null;
     this.counter = 1;
-    
+    this.locked = ( parseInt(Math.random()*5)==3 ? true : false);
+
+    this.getImage = function()
+    {
+        if(this.locked) return new Point(6,2);
+        return new Point(4,0);
+    }
+
     this.getToRoom = function()
     {
         if(this.toRoom == null)
