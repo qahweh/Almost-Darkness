@@ -4,9 +4,13 @@ function RoomEventHandler()
     this.fishmanRoomLevel = 0;
     this.beenHandled = new Array();
 
-    this.handleRoom = function(room)
+    this.handleRoom = function(room, doNotBuildHere)
     {
+        this.doNotBuildHere = doNotBuildHere;
+
+
         if(!(room instanceof Room))throw "room must be instance of Room";
+
 
         for(var i=0; i<this.beenHandled.length; i++) if(this.beenHandled[i]==room) return;
         this.beenHandled.push(room);
@@ -21,6 +25,8 @@ function RoomEventHandler()
         }
         else if(r<0.8)
         {
+
+
             var diff = this.ammoRoomLevel-this.fishmanRoomLevel;
             if(diff<-2)this.ammoRoomLevel+=5;
             else this.ammoRoomLevel++;
@@ -42,7 +48,7 @@ function RoomEventHandler()
                 var y = parseInt(Math.random()*room.height);
                 var t = room.getTile(x,y);
                 var p = room.getPiece(x,y);
-                if( (t==0 || t==4 || t==5 || t==14 || t==15  || t==24 || t==25 ) && p==null) { pieces.push( withWhat(x,y,room) ); break; }
+                if( (t==0 || t==4 || t==5 || t==14 || t==15  || t==24 || t==25 ) && p==null && !this.doNotBuildHere(x,y)) { pieces.push( withWhat(x,y,room) ); break; }
             }
         }
     }

@@ -77,7 +77,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
             human.y2 = door.starty*38+30;
             human.currentRoom = room;
             drawRoom(true);
-            reh.handleRoom(room);
+            reh.handleRoom(room, function(x,y){ return (  (Math.abs(x-parseInt(human.x2/28)) + Math.abs(y-parseInt(human.y2/38)))<4 ) }); //do fix so they are even some spaces away also
         }
     }
 

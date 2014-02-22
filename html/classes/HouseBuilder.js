@@ -140,7 +140,12 @@ function HouseBuilder()
         else if(r==1)
         {
             var x2 = 7+parseInt(Math.random()*10);
+            if(!(room.matris[x2+2*room.width]==2 && room.matris[x2+16*room.width]==2)){ x2 = 7+parseInt(Math.random()*10); console.log("!!");}
+
             var x3 = x2+parseInt(Math.random()*11)+6;
+            if(!(room.matris[x3+2*room.width]==2 && room.matris[x3+16*room.width]==2)){ x3 = x2+parseInt(Math.random()*11)+6; console.log("!!"); }
+
+
             x=x2;
             for(y=3; y<16; y++){room.matris[x+y*room.width] = 1;}            
             for(x=x2+1; x<x3; x++){for(y=3; y<16; y++){room.matris[x+y*room.width]=0;}}
@@ -149,6 +154,8 @@ function HouseBuilder()
             for(x=3; x<x2; x++){for(y=3; y<16; y++){room.matris[x+y*room.width]=0;}}
 
             var height = 6+parseInt(Math.random()*7);
+            while( room.matris[2+height*room.width] !=1 ) { height = 6+parseInt(Math.random()*7); console.log("??1");}
+
             var c = 0;
             var h = 2;
             for(var x = 3; x<38; x++)
@@ -160,6 +167,7 @@ function HouseBuilder()
                     room.matris[x+height*room.width] = 2;
                     h--;
                     height = 6+parseInt(Math.random()*7);
+                    while( room.matris[2+height*room.width] !=1) { height = 6+parseInt(Math.random()*7); console.log("??2");}
                     c = 0;
                 }
                 if(c!=3)room.matris[x+height*room.width] = 2;
@@ -227,7 +235,7 @@ function HouseBuilder()
         {        
             for(var y=1; y<room.height-2; y++)
             {      
-                if( room.matris[x+y*room.width] == 2 ) 
+                if( room.matris[x+y*room.width] == 2 || room.matris[x+y*room.width] == 1 || room.matris[x+y*room.width] instanceof Door ) 
                 {
                     var c = 0;
                     if( room.matris[x+1+y*room.width] == -1 ) c++;
@@ -284,9 +292,10 @@ function HouseBuilder()
                 if(room.matris[x-1+y*room.width] == 2 && room.matris[x+(y+1)*room.width] == 1 && room.matris[x+y*room.width] == 1)room.matris[x+y*room.width] = 2;
                 if(room.matris[x+y*room.width] == 2 && room.matris[x+(y+1)*room.width] == 2){room.matris[x+y*room.width] = 1; room.matris[x+(y+1)*room.width] = 1;}
                 if(room.matris[x-1+y*room.width] == 2 && room.matris[x+(y+1)*room.width] instanceof Door && room.matris[x+y*room.width] == 1)room.matris[x+y*room.width] = 2;
-                if(room.matris[x+y*room.width] instanceof Door && !this.isFloor(room.matris[x+(y+1)*room.width]) && !this.isFloor(room.matris[x+(y-1)*room.width]) && !this.isFloor(room.matris[x-1+(y)*room.width]) && !this.isFloor(room.matris[x+1+(y+1)*room.width]) ) room.matris[x+y*room.width] = -1;
+                //if(room.matris[x+y*room.width] instanceof Door && !this.isFloor(room.matris[x+(y+1)*room.width]) && !this.isFloor(room.matris[x+(y-1)*room.width]) && !this.isFloor(room.matris[x-1+(y)*room.width]) && !this.isFloor(room.matris[x+1+(y+1)*room.width]) ) room.matris[x+y*room.width] = -1;
                 if(room.matris[x+y*room.width] == 1 && room.matris[x+(y-1)*room.width] ==-1 && room.matris[x+(y+1)*room.width] == 1)room.matris[x+y*room.width] = 2;
                 if(room.matris[x+y*room.width] == 1 && room.matris[x+(y+1)*room.width] ==-1 && room.matris[x+(y-1)*room.width] instanceof Door )room.matris[x+y*room.width] = 2;
+                this.clearWhereAroundVoid(room);
 
             }
         }
