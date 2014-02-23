@@ -151,5 +151,6 @@ Human.prototype.pieceEvent = function(piece)
     if(piece instanceof Ammobox){piece.currentRoom = null; ammo=ammo+3; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     if(piece instanceof Key){piece.currentRoom = null; human.hasKey=true; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     if(piece instanceof RunningShoes){piece.currentRoom = null; human.runlength=2; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
+    if(piece instanceof Health){piece.currentRoom = null; human.health++; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     return true;
 }

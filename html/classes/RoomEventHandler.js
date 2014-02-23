@@ -52,6 +52,7 @@ function RoomEventHandler()
         else
         {
             this.fillRoomsWith(room, function(x,y,room){ return new QuestItem(x,y,room); },1);
+            this.fillRoomsWith(room, function(x,y,room){ return new Health(x,y,room); },1);
         }
     }
 
