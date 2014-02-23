@@ -14,7 +14,7 @@ function RoomEventHandler()
 
     var obj = new Object();
     obj.f = function(x,y,room){ return new Key(x,y,room)};
-    obj.w = 11;
+    obj.w = 4;
 
     this.itemsToCome.push( obj)
 
