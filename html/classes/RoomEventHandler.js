@@ -66,7 +66,7 @@ function RoomEventHandler()
                 var y = parseInt(Math.random()*room.height);
                 var t = room.getTile(x,y);
                 var p = room.getPiece(x,y);
-                if( (t==0 || t==4 || t==5 || t==14 || t==15  || t==24 || t==25 ) && p==null && !this.doNotBuildHere(x,y)) { pieces.push( withWhat(x,y,room) ); break; }
+                if( (t==0 || t==4 || t==5 || t==14 || t==15  || t==24 || t==25 || (t instanceof Object && t.canWalkOn)) && p==null && !this.doNotBuildHere(x,y)) { pieces.push( withWhat(x,y,room) ); break; }
             }
         }
     }

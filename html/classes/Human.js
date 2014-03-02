@@ -24,6 +24,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.hasKey = false;
     this.update2 = function()
     {
+
         if(this.startrunningCooldown>0){ this.startrunningCooldown--; } else this.steplength = this.walklength;
 
         this.moved = 0;
@@ -38,6 +39,30 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         if(this.moved>0){this.anim += this.steplength; if(this.anim%26==13){mixer.play(2);}}
         if(this.moved>1){ this.dir = odir; this.startrunningCooldown=0;} //if diagonal then do not change dir. and force cooldown down to make player walk
         if(this.moved==0)this.anim=23;
+
+        this.updateLight(10);
+    }
+
+    this.updateLight = function(effect)
+    {
+        var p = parseInt(Math.random()*7);
+        for(var x=-1; x<2; x++)
+        {
+            for(var y=-1; y<2; y++)
+            {
+                var r = Math.abs(x)+Math.abs(y);
+                var b = 8*effect;
+                if(r==1)b = 4*effect;
+                if(r==2)b = 1*effect;
+
+
+                var t = this.currentRoom.getTile( parseInt(  ((this.x2)/28)+x) ,parseInt((this.y2)/38)+y );
+                if(t instanceof Object)
+                {
+                    t.brightness += b+p;
+                }
+            }
+        }
     }
 
     this.releaseAction = function(c)
@@ -59,6 +84,10 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
 
     this.canWalkOn = function(t)
     {
+        if(t instanceof Object)
+        {
+            return t.canWalkOn;
+        }
         return (t==0 || t==4 || t==5 || t==14 || t==15 || t==24 || t==25);
     }
 
@@ -80,6 +109,8 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
             var room = door.openDoor(human);
             if(room!==false)
             {
+                gamecanvasC.clearRect(0,0,1120,722);
+                forceDrawAll = true;
                 doors = doors + door.counter;
                 door.counter =  0;  
                 camera = room.getCameraOnCenter();

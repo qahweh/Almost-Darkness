@@ -10,6 +10,7 @@ function Fishman(x,y,room)
 
     r.update = function()
     {
+        this.updateLight(6);
         if(this.cooldown>0){this.cooldown--; return;}
         this.cooldown = 30;
         var dim = ( Math.random() < 0.5 );
@@ -33,6 +34,7 @@ function Fishman(x,y,room)
             else if(a.y < f.y)this.moveDown(38);
         }
         if(Math.random()<0.2)this.cooldown = 10;
+
     }
 
     r.pieceEvent = function(piece)

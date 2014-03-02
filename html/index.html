@@ -19,8 +19,8 @@
         <style>
         #canvas_container{margin:0 auto 0 auto; width: 1340px}
         body{background: #000}
-        #gamecanvas{background:#111; border: 2px solid #ddd; float:left}
-        #statuscanvas{background:#111; border: 2px solid #ddd; margin-left: 10px;}
+        #gamecanvas{background:#000; border: 0; float:left}
+        #statuscanvas{background:#111; border: 0; margin-left: 10px;}
        </style>
     </head>
     <body>
@@ -38,6 +38,9 @@
             var gamecanvasC = gamecanvas.getContext('2d');
 
             var reh = new RoomEventHandler();
+
+            var forceDrawAll = false;
+            
 
             var statuscanvas = document.getElementById('statuscanvas');
             var statuscanvasC = statuscanvas.getContext('2d');
@@ -60,6 +63,17 @@
             {
                 frame++;
                 var updateTile = new Array();
+
+                for(var x=0; x<human.currentRoom.width; x++)
+                {
+                    for(var y=0; y<human.currentRoom.height; y++)
+                    {            
+                        var t = human.currentRoom.getTile(x,y);
+                        if(t instanceof Object) t.brightness = 22;
+                    }
+                }
+
+
                 human.update2();
    
 
@@ -93,6 +107,8 @@
                         updateTile.push(c-human.currentRoom.width-1);
                     }
                 }
+
+
                 drawRoom(updateTile);
 
                 for(var i=0; i<dt.length; i++)
@@ -106,6 +122,7 @@
                 {
                     refreshStatus();
                 }
+
             }
 
             function drawText(x,y,text)
@@ -213,13 +230,19 @@
 
             function drawRoom(updateTile)
             {
+                gamecanvasC.fillStyle="rgb(0,0,0)";
+
+                //updateTile = false;
+
+                updateTile = false;
 
                 if(!(updateTile instanceof Array))
                 {
-                    gamecanvasC.clearRect(0,0,1120,722);
+                    //gamecanvasC.clearRect(0,0,1120,722);
                     updateTile = new Array();
                     for(var i=0; i<human.currentRoom.width*human.currentRoom.height; i++) updateTile.push(i);
                 }
+
 
                 for(var i = 0; i<updateTile.length; i++)
                 {
@@ -247,9 +270,23 @@
 
                         else if(tile==24) { imgx = 5; imgy = 2; } 
                         else if(tile==25) { imgx = 5; imgy = 5; } 
+
                     }
-                    if(tile!=-1)gamecanvasC.drawImage(img,imgx*28,imgy*38,28,38,(x-camera.x)*28,(y-camera.y)*38,28,38);
+                    if(tile!=-1)
+                    {
+                        var alpha = 1-( tile.getDarkness ? tile.getDarkness() : 0 );
+                        gamecanvasC.globalAlpha = alpha;
+                        if(forceDrawAll || ( tile.skipDraw && !tile.skipDraw() ) )
+                        {
+
+                            tile.obrightness = tile.brightness;
+                            gamecanvasC.clearRect((x-camera.x)*28,(y-camera.y)*38,28,38);
+                            gamecanvasC.drawImage(img,imgx*28,imgy*38,28,38,(x-camera.x)*28,(y-camera.y)*38,28,38);
+                        }
+                    }
                 }
+                forceDrawAll = false;
+                gamecanvasC.globalAlpha=1;
             }
 
             function refreshStatus()

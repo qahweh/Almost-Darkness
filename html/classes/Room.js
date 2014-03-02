@@ -225,5 +225,39 @@ Room.prototype._makeSquare = function(x,y,width,height)
 
 Room.prototype.getTile = function(x,y)
 {
-    return this.matris[x+y*this.width];
+    var r = this.matris[x+y*this.width];
+    if(r==0 || r==1 || r==2 || r==4 || r==5 || r==14 || r==15 || r==24 || r==25)
+    {
+        var or = r;
+        r = new Object();
+        r.brightness = 0;
+        if(or==0) r.getImage = function() { return new Point(1,0); }
+        if(or==1) r.getImage = function() { return new Point(2,0); }
+        if(or==2) r.getImage = function() { return new Point(3,0); }
+
+        if(or==4) r.getImage = function() { return new Point(3,1); }
+        if(or==5) r.getImage = function() { return new Point(4,1); }
+        if(or==14) r.getImage = function() { return new Point(5,0); }
+        if(or==15) r.getImage = function() { return new Point(5,1); }
+        if(or==24) r.getImage = function() { return new Point(5,2); }
+        if(or==25) r.getImage = function() { return new Point(5,5); }
+
+
+        r.canWalkOn = !( or==1 || or==2 );
+
+        r.skipDraw = function()
+        {
+            return (this.obrightness == this.brightness);
+        }
+
+        r.getDarkness = function()
+        {
+            var abrightness = this.brightness/100;
+
+            if(abrightness>1)return 0;
+            return ( abrightness < 1 ? 1-abrightness : 1);
+        }
+        this.matris[x+y*this.width] = r;
+    }
+    return r;
 }

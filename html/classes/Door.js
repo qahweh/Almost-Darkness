@@ -81,6 +81,20 @@ function Door()
         
         return this.toRoom.alternativeRoom.alternativeRoom.alternativeRoom.alternativeRoom.alternativeRoom.alternativeRoom.alternativeRoom;
     }
+
+
+    this.getDarkness = function()
+    {
+            var abrightness = this.brightness/100;
+
+            if(abrightness>1)return 0;
+            return ( abrightness < 1 ? 1-abrightness : 1);
+    }
+
+    this.skipDraw = function()
+    {
+        return (this.obrightness == this.brightness);
+    }
     
 };
 
