@@ -150,6 +150,48 @@ Room.prototype._makeRoomMatrisByRandom = function()
         this.matris[177] = this._makeDoor(random,177);
         this.matris[190] = this._makeDoor(random,190);
 
+        this.matris[391] = new Table(this,391);
+        this.matris[392] = new Table(this,392);
+        this.matris[393] = new Table(this,393);
+
+
+        this.matris[381] = new Table(this,391);
+        this.matris[382] = new Table(this,392);
+        this.matris[383] = new Table(this,393);
+
+        this.matris[418] = new Table(this,391);
+        this.matris[419] = new Table(this,392);
+        this.matris[420] = new Table(this,393);
+
+        this.matris[520] = new Table(this,391);
+        this.matris[521] = new Table(this,392);
+        this.matris[522] = new Table(this,393);
+
+        this.matris[505] = new Table(this,391);
+        this.matris[506] = new Table(this,392);
+        this.matris[507] = new Table(this,393);
+
+        for(var i=0; i<7; i++)
+        {
+            this.matris[552-i*41] = new Carpet(this,393);
+            this.matris[553-i*41] = new Carpet(this,393);
+        }
+
+        for(var i=0; i<13; i++)
+        {
+            this.matris[553-7*41-i] = new Carpet(this,393);
+            this.matris[553-6*41-i] = new Carpet(this,393);
+        }
+
+
+        this.matris[271] = new Table(this,271);
+        this.matris[272] = new Table(this,272);
+        this.matris[273] = new Table(this,273);
+
+        this.matris[234] = new Table(this,271);
+        this.matris[235] = new Table(this,272);
+        this.matris[236] = new Table(this,273);
+
     }
     else if(this.roomType == RoomType.EMPTY)
     {

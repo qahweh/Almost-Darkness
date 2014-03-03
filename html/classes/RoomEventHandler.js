@@ -23,6 +23,14 @@ function RoomEventHandler()
         this.doNotBuildHere = doNotBuildHere;
         if(!(room instanceof Room))throw "room must be instance of Room";
 
+        pieces.push(  new Candle(13,9,room) );
+        pieces.push(  new Candle(15,12,room) );
+        pieces.push(  new Candle(22,9,room) );
+        pieces.push(  new Candle(26,6,room) );
+        pieces.push(  new Candle(30,12,room) );
+        pieces.push(  new Candle(31,5,room) );
+
+        pieces.push(  new Candle(8,10,room) );
 
         for(var i=0; i<this.beenHandled.length; i++) if(this.beenHandled[i]==room) return;
         this.beenHandled.push(room);
