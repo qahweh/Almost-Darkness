@@ -19,6 +19,7 @@
         <script src="classes/Table.js"></script>
         <script src="classes/Candle.js"></script>
         <script src="classes/Carpet.js"></script>
+        <script src="classes/Lamp.js"></script>
         <style>
         #canvas_container{margin:0 auto 0 auto; width: 1340px}
         body{background: #000}
@@ -159,7 +160,10 @@
 
             var hb = new HouseBuilder();
             
-            var human = new Human(19,5,hb.getStartRoom());
+            var roomstart = hb.getStartRoom();
+            var human = new Human(19,5,roomstart);
+            reh.handleRoom(roomstart,function(x,y){return false;});
+
             human.isHuman=true;
             pieces.push(human);             
            

@@ -23,17 +23,45 @@ function RoomEventHandler()
         this.doNotBuildHere = doNotBuildHere;
         if(!(room instanceof Room))throw "room must be instance of Room";
 
-        pieces.push(  new Candle(13,9,room) );
-        pieces.push(  new Candle(15,12,room) );
-        pieces.push(  new Candle(22,9,room) );
-        pieces.push(  new Candle(26,6,room) );
-        pieces.push(  new Candle(30,12,room) );
-        pieces.push(  new Candle(31,5,room) );
-
-        pieces.push(  new Candle(8,10,room) );
-
         for(var i=0; i<this.beenHandled.length; i++) if(this.beenHandled[i]==room) return;
         this.beenHandled.push(room);
+
+        if(this.beenHandled.length == 1)
+        {
+            pieces.push(  new Candle(13,9,room) );
+            pieces.push(  new Candle(15,12,room) );
+            pieces.push(  new Candle(22,9,room) );
+            pieces.push(  new Candle(26,6,room) );
+            pieces.push(  new Candle(30,12,room) );
+            pieces.push(  new Candle(31,5,room) );
+            pieces.push(  new Candle(8,10,room) );
+
+            return;
+        }
+
+        for(var i = 0; i<room.width*room.height; i++)
+        {
+            if(room.matris[i] instanceof Object)
+            {
+                var p = PointgetPointByIndex(i);
+                pieces.push(  new Lamp(p.x+1,p.y+1,room) );
+                break;
+            }
+        }
+
+        for(var i = 0; i<room.width*room.height; i++)
+        {
+            var f = room.width*room.height -i -1;
+            if(room.matris[f] instanceof Object)
+            {
+                var p = PointgetPointByIndex(f);
+                var lamp = new Lamp(p.x-1,p.y-1,room);
+                lamp.offsetImg = new Point(-16,-18);
+                pieces.push(  lamp );
+                break;
+            }
+        }
+
 
         if(this.itemsToCome.length>0)
         {
