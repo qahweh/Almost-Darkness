@@ -21,7 +21,7 @@ function Door()
 
     this.openDoor = function()
     {
-        if(this.locked && !human.hasKey)return false;
+        if(this.locked && !game.human.hasKey)return false;
         return this.getToRoom();
     }
 

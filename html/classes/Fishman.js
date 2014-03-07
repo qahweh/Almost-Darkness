@@ -16,7 +16,7 @@ function Fishman(x,y,room)
         var dim = ( Math.random() < 0.5 );
 
 
-        var f = new Point( parseInt(human.x2/28), parseInt(human.y2/38));
+        var f = new Point( parseInt(game.human.x2/28), parseInt(game.human.y2/38));
         var a = new Point( parseInt(this.x2/28), parseInt(this.y2/38));
 
 

@@ -84,9 +84,9 @@ function Room(roomType,random, buildRoom, deep)
         var nx = parseInt(x/28);
         var ny = parseInt(y/38);
 //        console.log(nx+","+ny);
-        for(var index = 0; index < pieces.length; index++)
+        for(var index = 0; index < game.pieces.length; index++)
         {
-            var p = pieces[index];
+            var p = game.pieces[index];
             if(p.currentRoom == this && p!=not && parseInt(p.x2/28)==nx && parseInt(p.y2/38)==ny)
             {
                 return p;
@@ -100,11 +100,10 @@ function Room(roomType,random, buildRoom, deep)
 
 Room.prototype.getPiece = function(x,y)
 {
-    console.log("!"+x+" "+y);
     var index;
-    for(index = 0; index < pieces.length; index++)
+    for(index = 0; index < game.pieces.length; index++)
     {
-        var p = pieces[index];
+        var p = game.pieces[index];
         if(p.currentRoom == this && p.x==x && p.y==y) return p;
     }
     return null;

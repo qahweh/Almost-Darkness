@@ -103,22 +103,22 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         if(!b && this.canWalkOn(t)){ this.x2 += dx; this.y2 += dy; return; }
 
 
-        if(t instanceof Door && this == human)
+        if(t instanceof Door && this == game.human)
         {
             var door = t;
-            var room = door.openDoor(human);
+            var room = door.openDoor(game.human);
             if(room!==false)
             {
                 gamecanvasC.clearRect(0,0,1120,722);
-                forceDrawAll = true;
-                doors = doors + door.counter;
+                game.forceDrawAll = true;
+                game.doors = game.doors + door.counter;
                 door.counter =  0;  
-                camera = room.getCameraOnCenter();
-                human.x2 = door.startx*28+14;
-                human.y2 = door.starty*38+30;
-                human.currentRoom = room;
+                game.camera = room.getCameraOnCenter();
+                game.human.x2 = door.startx*28+14;
+                game.human.y2 = door.starty*38+30;
+                game.human.currentRoom = room;
                 drawRoom(true);
-                reh.handleRoom(room, function(x,y){ return (  (Math.abs(x-parseInt(human.x2/28)) + Math.abs(y-parseInt(human.y2/38)))<4 ) }); //do fix so they are even some spaces away also
+                game.reh.handleRoom(room, function(x,y){ return (  (Math.abs(x-parseInt(game.human.x2/28)) + Math.abs(y-parseInt(game.human.y2/38)))<4 ) }); //do fix so they are even some spaces away also
             }
         }
     }
@@ -179,9 +179,9 @@ this.update = function()
 
 Human.prototype.pieceEvent = function(piece)
 {
-    if(piece instanceof Ammobox){piece.currentRoom = null; ammo=ammo+3; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
-    if(piece instanceof Key){piece.currentRoom = null; human.hasKey=true; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
-    if(piece instanceof RunningShoes){piece.currentRoom = null; human.runlength=2; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
-    if(piece instanceof Health){piece.currentRoom = null; human.health++; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
+    if(piece instanceof Ammobox){piece.currentRoom = null; game.ammo=game.ammo+3; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
+    if(piece instanceof Key){piece.currentRoom = null; game.human.hasKey=true; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
+    if(piece instanceof RunningShoes){piece.currentRoom = null; game.human.runlength=2; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
+    if(piece instanceof Health){piece.currentRoom = null; game.human.health++; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     return true;
 }

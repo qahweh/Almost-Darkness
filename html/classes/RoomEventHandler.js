@@ -6,6 +6,8 @@ function RoomEventHandler()
 
     this.itemsToCome = new Array();
     
+    this.pieces = game.pieces;
+
 
     obj = new Object();
     obj.f = function(x,y,room){ return new RunningShoes(x,y,room)};
@@ -28,13 +30,13 @@ function RoomEventHandler()
 
         if(this.beenHandled.length == 1)
         {
-            pieces.push(  new Candle(13,9,room) );
-            pieces.push(  new Candle(15,12,room) );
-            pieces.push(  new Candle(22,9,room) );
-            pieces.push(  new Candle(26,6,room) );
-            pieces.push(  new Candle(30,12,room) );
-            pieces.push(  new Candle(31,5,room) );
-            pieces.push(  new Candle(8,10,room) );
+            this.pieces.push(  new Candle(13,9,room) );
+            this.pieces.push(  new Candle(15,12,room) );
+            this.pieces.push(  new Candle(22,9,room) );
+            this.pieces.push(  new Candle(26,6,room) );
+            this.pieces.push(  new Candle(30,12,room) );
+            this.pieces.push(  new Candle(31,5,room) );
+            this.pieces.push(  new Candle(8,10,room) );
 
             return;
         }
@@ -44,7 +46,7 @@ function RoomEventHandler()
             if(room.matris[i] instanceof Object)
             {
                 var p = PointgetPointByIndex(i);
-                pieces.push(  new Lamp(p.x+1,p.y+1,room) );
+                this.pieces.push(  new Lamp(p.x+1,p.y+1,room) );
                 break;
             }
         }
@@ -57,7 +59,7 @@ function RoomEventHandler()
                 var p = PointgetPointByIndex(f);
                 var lamp = new Lamp(p.x-1,p.y-1,room);
                 lamp.offsetImg = new Point(-16,-18);
-                pieces.push(  lamp );
+                this.pieces.push(  lamp );
                 break;
             }
         }
@@ -102,7 +104,7 @@ function RoomEventHandler()
                 var y = parseInt(Math.random()*room.height);
                 var t = room.getTile(x,y);
                 var p = room.getPiece(x,y);
-                if( (t==0 || t==4 || t==5 || t==14 || t==15  || t==24 || t==25 || (t instanceof Object && t.canWalkOn)) && p==null && !this.doNotBuildHere(x,y)) { pieces.push( withWhat(x,y,room) ); break; }
+                if( (t==0 || t==4 || t==5 || t==14 || t==15  || t==24 || t==25 || (t instanceof Object && t.canWalkOn)) && p==null && !this.doNotBuildHere(x,y)) { this.pieces.push( withWhat(x,y,room) ); break; }
             }
         }
     }
