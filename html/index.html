@@ -23,7 +23,7 @@
         <style>
         #canvas_container{margin:0 auto 0 auto; width: 1340px}
         body{background: #000}
-        #gamecanvas{background:#000; border: 0; float:left}
+        #gamecanvas{background:#000; border: 0; float:left; border: 1px solid #f00}
         #statuscanvas{background:#111; border: 0; margin-left: 10px;}
        </style>
     </head>
@@ -62,10 +62,27 @@
             var frame = 0;
 
             var frameskip = 1;
-
+            var human;
             function gamelogic()
             {
                 frame++;
+                if(frame<80){ drawText(13,4,"almost darkness",gamecanvasC); return; }
+
+                if(frame==80)
+                {
+                    var hb = new HouseBuilder();
+                    
+                    var roomstart = hb.getStartRoom();
+                    currentRoom = roomstart;
+                    human = new Human(19,5,roomstart);
+                    reh.handleRoom(roomstart,function(x,y){return false;});
+
+                    human.isHuman=true;
+                    pieces.push(human);             
+                    human.currentRoom=roomstart;
+                }
+
+
                 var updateTile = new Array();
 
                 for(var x=0; x<human.currentRoom.width; x++)
@@ -127,15 +144,17 @@
                     refreshStatus();
                 }
 
+
+
             }
 
-            function drawText(x,y,text)
+            function drawText(x,y,text,canvas)
             {
                 var i;
                 for(i=0; i<text.length; i++)
                 {
-                    var imgx = 0;
-                    var imgy = 2;
+                    var imgx = -1;
+                    var imgy = -1;
                     if(text[i]=="1"){imgx=1; imgy=2;}
                     if(text[i]=="2"){imgx=2; imgy=2;}
                     if(text[i]=="3"){imgx=3; imgy=2;}
@@ -146,8 +165,28 @@
                     if(text[i]=="8"){imgx=3; imgy=3;}
                     if(text[i]=="9"){imgx=4; imgy=3;}
                     if(text[i]=="0"){imgx=0; imgy=2;}
-                    if(text[i]=="a"){imgx=0; imgy=0;}
-                    statuscanvasC.drawImage(img,imgx*28,imgy*38,28,38,x*28,y*38,28,38);
+                    if(text[i]=="a"){imgx=1; imgy=8;}
+                    if(text[i]=="b"){imgx=2; imgy=8;}
+                    if(text[i]=="c"){imgx=3; imgy=8;}
+                    if(text[i]=="d"){imgx=4; imgy=8;}
+                    if(text[i]=="e"){imgx=5; imgy=8;}
+                    if(text[i]=="f"){imgx=6; imgy=8;}
+                    if(text[i]=="g"){imgx=7; imgy=8;}
+                    if(text[i]=="h"){imgx=8; imgy=8;}
+                    if(text[i]=="i"){imgx=7; imgy=7;}
+                    if(text[i]=="j"){imgx=8; imgy=7;}
+                    if(text[i]=="k"){imgx=7; imgy=6;}
+                    if(text[i]=="l"){imgx=8; imgy=6;}
+                    if(text[i]=="m"){imgx=7; imgy=5;}
+                    if(text[i]=="n"){imgx=8; imgy=5;}
+                    if(text[i]=="o"){imgx=7; imgy=4;}
+                    if(text[i]=="p"){imgx=8; imgy=4;}
+                    if(text[i]=="q"){imgx=7; imgy=3;}
+                    if(text[i]=="r"){imgx=8; imgy=3;}
+                    if(text[i]=="s"){imgx=7; imgy=2;}
+                    if(text[i]=="t"){imgx=8; imgy=2;}
+
+                    if(imgx>-1)canvas.drawImage(img,imgx*28,imgy*38,28,38,x*28,y*38,28,38);
                     x++;
                 }
             }
@@ -158,14 +197,6 @@
 
             var random = new Random(1211);
 
-            var hb = new HouseBuilder();
-            
-            var roomstart = hb.getStartRoom();
-            var human = new Human(19,5,roomstart);
-            reh.handleRoom(roomstart,function(x,y){return false;});
-
-            human.isHuman=true;
-            pieces.push(human);             
            
 
             setInterval(gamelogic,14);
@@ -301,13 +332,13 @@
                 statuscanvasC.clearRect(0,0,140,722);               
                 statuscanvasC.drawImage(img,2*28,1*38,28,38,0,0,28,38);
                 statuscanvasC.drawImage(img,4*28,0*38,28,38,0,38,28,38);
-                drawText(1,0,""+ammo);
-                drawText(1,1,""+doors);
+                drawText(1,0,""+ammo,statuscanvasC);
+                drawText(1,1,""+doors,statuscanvasC);
 
                 if(human.runlength==2)statuscanvasC.drawImage(img,6*28,3*38,28,38,0,38*2,28,38);
                 if(human.hasKey)statuscanvasC.drawImage(img,6*28,1*38,28,38,0,38*3,28,38);
                 statuscanvasC.drawImage(img,6*28,0*38,28,38,0,38*4,28,38);
-                drawText(1,4,""+( human.health>0 ? human.health : 0));
+                drawText(1,4,""+( human.health>0 ? human.health : 0),statuscanvasC);
 
             }
 
