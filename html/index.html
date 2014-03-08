@@ -21,6 +21,7 @@
         <script src="classes/Carpet.js"></script>
         <script src="classes/Lamp.js"></script>
         <script src="classes/Game.js"></script>
+        <script src="classes/tiles/TileFactory.js"></script>
         <style>
         #canvas_container{margin:0 auto 0 auto; width: 1340px}
         body{background: #000}
@@ -39,6 +40,7 @@
         </div>
         <script>
             var game = new Game();
+            var tileFactory = new TileFactory();
             game.init();
             var mixer = new Mixer();
             var gamecanvas = document.getElementById('gamecanvas');
@@ -206,14 +208,15 @@
                     }
                     if(tile!=-1)
                     {
-                        var alpha = 1-( tile.getDarkness ? tile.getDarkness() : 0 );
-                        gamecanvasC.globalAlpha = alpha;
+                        var alpha = ( tile.getDarkness ? tile.getDarkness() : 0 );
                         if(game.forceDrawAll || ( tile.skipDraw && !tile.skipDraw() ) )
                         {
 
                             tile.obrightness = tile.brightness;
-                            gamecanvasC.clearRect((x-game.camera.x)*28,(y-game.camera.y)*38,28,38);
+                            gamecanvasC.globalAlpha = 1;
                             gamecanvasC.drawImage(img,imgx*28,imgy*38,28,38,(x-game.camera.x)*28,(y-game.camera.y)*38,28,38);
+                            gamecanvasC.globalAlpha = alpha;
+                            gamecanvasC.fillRect((x-game.camera.x)*28,(y-game.camera.y)*38,28,38);
                         }
                     }
                 }

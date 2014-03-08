@@ -290,14 +290,7 @@ Room.prototype.getTile = function(x,y)
         {
             return (this.obrightness == this.brightness);
         }
-
-        r.getDarkness = function()
-        {
-            var abrightness = this.brightness/100;
-
-            if(abrightness>1)return 0;
-            return ( abrightness < 1 ? 1-abrightness : 1);
-        }
+        r.getDarkness = tileFactory.getDarkness
         this.matris[x+y*this.width] = r;
     }
     return r;
