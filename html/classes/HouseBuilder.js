@@ -1,4 +1,4 @@
-function HouseBuilder()
+function HouseBuilder(level)
 {
 
 
@@ -553,7 +553,7 @@ function HouseBuilder()
   //  {
     //    
         var first = true;
-        var initr = 2;
+        var initr = level*100;
         var randomObject = new Random(initr);
         while(this.roomCounter!=game.rooms.length || first)
         {

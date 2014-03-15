@@ -13,8 +13,10 @@ function Game()
         this.gameState = 1;
         this.option = 0;
         this.sleep = 0;
-        this.frameskip = 20;
+        this.frameskip = 9;
+        this.menu = 0;
         this.rooms = new Array();
+        this.level = 1;
     }
 
     this.getRandomRoom = function(random)
@@ -42,9 +44,18 @@ function Game()
         if(this.gameState==1)
         {
             drawText(13,4,"almost darkness",gamecanvasC);
-            
-            drawText(17,12,(this.option==0 ? ";" : " ")+"start"+(this.option==0 ? ";" : " "),gamecanvasC);
-            drawText(16,13,(this.option==1 ? ";" : " ")+"options"+(this.option==1 ? ";" : " "),gamecanvasC);
+         
+            if(this.menu==0)
+            {   
+                drawText(17,12,(this.option==0 ? ";" : " ")+"start"+(this.option==0 ? ";" : " "),gamecanvasC);
+                drawText(16,13,(this.option==1 ? ";" : " ")+"options"+(this.option==1 ? ";" : " "),gamecanvasC);
+            }
+            else if(this.menu==1)
+            {   
+                drawText(14,12,(this.option==0 ? ";" : " ")+"frameskip "+this.frameskip+(this.option==0 ? ";" : " "),gamecanvasC);
+                drawText(16,13,(this.option==1 ? ";" : " ")+"level "+this.level+(this.option==1 ? ";" : " "),gamecanvasC);
+                drawText(16,14,(this.option==2 ? ";" : " ")+"return"+(this.option==2 ? ";" : " "),gamecanvasC);
+            }
         }
 
         if(this.gameState==2)
@@ -57,7 +68,7 @@ function Game()
 
         if(this.gameState==3)
         {
-            var hb = new HouseBuilder();
+            var hb = new HouseBuilder(this.level);
             var roomstart = hb.getStartRoom();
             currentRoom = roomstart;
             this.human = new Human(20,13,roomstart);
@@ -112,7 +123,7 @@ function Game()
                 }
             }
 
-            if(this.frame%this.frameskip!=0)return;
+            if(this.frame%(this.frameskip+1)!=0)return;
 
             drawRoom(updateTile);
 
@@ -150,10 +161,29 @@ function Game()
         {
             if(key==13)
             {
-                this.gameState = 2;
+                if(this.menu==0)
+                {
+                    if(this.option==0) {                 gamecanvasC.clearRect(0,0,1120,722);
+this.gameState = 2;}
+                    else if(this.option==1) {                gamecanvasC.clearRect(0,0,1120,722);
+this.menu = 1; this.option=2; }
+                }
+                else if(this.menu==1)
+                {
+                    if(this.option==0) { this.frameskip++; if(this.frameskip>9)this.frameskip=0;}
+                    else if(this.option==1) { this.level++; if(this.level>9)this.level=1; }
+                    else if(this.option==2) {                gamecanvasC.clearRect(0,0,1120,722);
+this.menu = 0; this.option=1; }
+
+                }
             }
-            if(key==87 || key==83)this.option++;
-            if(this.option>1)this.option=0;
+            if(key==87)this.option--;
+            if(key==83)this.option++;
+
+            if(this.option<0) this.option=0;
+            if(this.menu==0) if(this.option>1)this.option=1;
+            if(this.menu==1) if(this.option>2)this.option=2;
+
         }
         if(this.gameState==4)
         {
