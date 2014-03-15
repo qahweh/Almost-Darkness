@@ -95,6 +95,15 @@ function Room(roomType,random, buildRoom, deep)
         return null;
     }
 
+    this.nextToDoor = function(x,y)
+    {
+        if(this.getTile(x+1,y) instanceof Door)return true;
+        if(this.getTile(x-1,y) instanceof Door)return true;
+        if(this.getTile(x,y+1) instanceof Door)return true;
+        if(this.getTile(x,y-1) instanceof Door)return true;
+        return false;
+    }
+
 
 }
 

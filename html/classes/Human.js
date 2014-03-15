@@ -7,8 +7,8 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.imgy = 0;
     this.hurtAnimation = false;
     this.health = 4;
-    this.x2 = x*28;
-    this.y2 = y*38;
+    this.x2 = x*28+14;
+    this.y2 = y*38+19;
     this.anim = 0;
     this.action = new Array();
     this.dir = 0;
@@ -118,7 +118,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
                 game.human.y2 = door.starty*38+30;
                 game.human.currentRoom = room;
                 drawRoom(true);
-                game.reh.handleRoom(room, function(x,y){ return (  (Math.abs(x-parseInt(game.human.x2/28)) + Math.abs(y-parseInt(game.human.y2/38)))<4 ) }); //do fix so they are even some spaces away also
+                game.reh.handleRoom(room, function(x,y){ return (  (Math.abs(x-parseInt(game.human.x2/28)) + Math.abs(y-parseInt(game.human.y2/38)))<4   ||    room.nextToDoor(x,y)  ) });
             }
         }
     }

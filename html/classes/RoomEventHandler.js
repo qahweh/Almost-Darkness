@@ -46,6 +46,10 @@ function RoomEventHandler()
             if(room.matris[i] instanceof Object)
             {
                 var p = PointgetPointByIndex(i);
+                while(this.doNotBuildHere(p.x+1,p.y+1))
+                {
+                    p.x++;
+                }
                 this.pieces.push(  new Lamp(p.x+1,p.y+1,room) );
                 break;
             }
@@ -57,7 +61,12 @@ function RoomEventHandler()
             if(room.matris[f] instanceof Object)
             {
                 var p = PointgetPointByIndex(f);
-                var lamp = new Lamp(p.x-1,p.y-1,room);
+                var lamp = false;
+                while(this.doNotBuildHere(p.x-1,p.y-1))
+                {
+                    p.x--;
+                }
+                lamp = new Lamp(p.x-1,p.y-1,room);
                 lamp.offsetImg = new Point(-16,-18);
                 this.pieces.push(  lamp );
                 break;

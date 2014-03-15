@@ -60,7 +60,8 @@ function Game()
             var hb = new HouseBuilder();
             var roomstart = hb.getStartRoom();
             currentRoom = roomstart;
-            this.human = new Human(19,5,roomstart);
+            this.human = new Human(20,13,roomstart);
+            this.human.dir = 2;
             this.reh.handleRoom(roomstart,function(x,y){return false;});
             this.human.isHuman=true;
             this.pieces.push(this.human);             

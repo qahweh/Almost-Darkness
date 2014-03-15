@@ -85,7 +85,7 @@ function HouseBuilder()
     {
         this.caller++;
         if(this.caller>1000) throw "build loop might been freezed";
-        for(var i=y-1; i<y+3; i++)
+        for(var i=y-2; i<y+4; i++)
         if(room.matris[x+room.width*i] instanceof Door)return true;
         return false;
     }
@@ -94,7 +94,7 @@ function HouseBuilder()
     {
         this.caller++;
         if(this.caller>1000) throw "build loop might been freezed";
-        for(var i=x-1; i<x+3; i++)
+        for(var i=x-3; i<x+8; i++)
         if(room.matris[i+room.width*y] instanceof Door)return true;
         return false;
     }
@@ -433,7 +433,7 @@ function HouseBuilder()
                 
                 var l = 0;//thisRoom.getNumberOfDoors();
 
-                for(var u=0; u<6; u++)
+                for(var u=0; u<3; u++)
                 {
                     var dir = DirGetDirByRandom(this.randomObject);
                     while(dir == DirType.LEFT || dir == DirType.UP) dir = DirGetDirByRandom(this.randomObject);

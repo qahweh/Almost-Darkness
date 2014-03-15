@@ -6,7 +6,7 @@ function Fishman(x,y,room)
     r.isFishman = true; 
     r.health = 2;
     r.cooldown = 10;
-    r.offsetImg = new Point(0,0);
+    r.offsetImg = new Point(14,35);
 
     r.update = function()
     {
