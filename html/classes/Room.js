@@ -133,7 +133,7 @@ Room.prototype._makeRoomMatrisByRandom = function()
     if(this.isBuild)return;
     this.isBuild= true;
 
-    var random = new Random(this.random);
+    var random = false;
 
     if(this.roomType == RoomType.ENTRANCE)
     {

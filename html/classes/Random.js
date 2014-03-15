@@ -7,8 +7,10 @@ function Random(random)
 
 Random.prototype.nextInt = function(x)
 {
-//    this.random = (parseInt( Math.abs( (Math.sin(  (((this.random) )+1))*10000)))+234)%5000; 
     this.random = Math.abs(Math.sin(this.random)*12314);
     this.c++;
-    return parseInt((this.random+this.c)%x);
+    var f = (this.random+this.c);
+    var r = parseInt(f%x);
+    if(parseInt(r)!==r)throw "None valid random value "+x+" "+f+" "+this.c+" "+this.random;
+    return r;
 }

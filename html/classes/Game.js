@@ -13,7 +13,25 @@ function Game()
         this.gameState = 1;
         this.option = 0;
         this.sleep = 0;
-        this.frameskip = 1;
+        this.frameskip = 20;
+        this.rooms = new Array();
+    }
+
+    this.getRandomRoom = function(random)
+    {
+        random = typeof random !=='undefined' ? random : false;
+        var r = false;
+        if(random===false)
+        {
+            r = parseInt(Math.random()*this.rooms.length);
+        }
+        else
+        {
+            r = random.nextInt(this.rooms.length);
+        }
+
+        
+        return this.rooms[r];
     }
 
     this.update = function()
@@ -55,7 +73,6 @@ function Game()
 
         if(this.gameState==4)
         {
-            if(this.frame%this.frameskip!=0)return;
 
             var updateTile = new Array();
 
@@ -93,6 +110,9 @@ function Game()
                     updateTile.push(c-this.human.currentRoom.width-1);
                 }
             }
+
+            if(this.frame%this.frameskip!=0)return;
+
             drawRoom(updateTile);
 
             for(var i=0; i<dt.length; i++)

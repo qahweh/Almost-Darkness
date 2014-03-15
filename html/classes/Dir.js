@@ -22,4 +22,8 @@ function DirGetDirByRandom(random)
     {
         return parseInt(Math.random()*4)+1;
     }
+    else
+    {
+        return random.nextInt(4)+1;
+    }
 }
