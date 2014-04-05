@@ -11,15 +11,19 @@ function Candle(x,y,room)
     this.getImage = function()
     {
         //TODO: make sure images have even animation steps. and make animation more random in what order images happen
-        if(this.frame%11<3)return new Point(6,4);
-        if(this.frame%11<7)return new Point(6,5);
-        return new Point(6,7);
+
+        //now only draw candle when new img. TODO: but redraw tile under first and always draw when tile is being redrawn
+        if(this.frame%11==3)return new Point(6,4);
+        if(this.frame%11==7)return new Point(6,5);
+        if(this.frame%11==0)return new Point(6,7);
+        return false;
     }
     this.update = function() { this.frame+=parseInt(Math.random()*2) ; this.updateLight(7);}
 
     this.updateLight = function(effect)
     {
         var p = parseInt(Math.random()*7);
+        if(game.noLightEffect)p = 3;
         for(var x=-1; x<2; x++)
         {
             for(var y=-1; y<2; y++)

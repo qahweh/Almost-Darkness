@@ -16,10 +16,6 @@ function Carpet(room,pos)
             return ( abrightness < 1 ? 1-abrightness : 1);
     }
 
-    this.skipDraw = function()
-    {
-        return (this.obrightness == this.brightness);
-    }
-    
+    this.skipDraw = tileFactory.skipDraw;
 };
 

@@ -7,4 +7,10 @@ function TileFactory()
         if(darkness>1)return 1;
         return darkness;
     }
+
+    this.skipDraw = function()
+    {
+        return (this.obrightness == this.brightness); 
+    }
+
 }

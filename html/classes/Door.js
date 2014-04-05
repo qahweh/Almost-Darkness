@@ -85,10 +85,7 @@ function Door()
 
     this.getDarkness = tileFactory.getDarkness;
 
-    this.skipDraw = function()
-    {
-        return (this.obrightness == this.brightness);
-    }
+    this.skipDraw = tileFactory.skipDraw;
     
 };
 

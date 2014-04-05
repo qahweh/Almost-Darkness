@@ -13,7 +13,8 @@ function Game()
         this.gameState = 1;
         this.option = 0;
         this.sleep = 0;
-        this.frameskip = 9;
+        this.frameskip = 1;
+        this.noLightEffect = true;
         this.menu = 0;
         this.rooms = new Array();
         this.level = 1;
@@ -93,7 +94,7 @@ function Game()
                 for(var y=0; y<this.human.currentRoom.height; y++)
                 {            
                     var t = this.human.currentRoom.getTile(x,y);
-                    if(t instanceof Object) t.brightness = 22;
+                    if(t instanceof Object) t.brightness = 38;
                 }
             }
 

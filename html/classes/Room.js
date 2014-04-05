@@ -295,10 +295,7 @@ Room.prototype.getTile = function(x,y)
 
         r.canWalkOn = !( or==1 || or==2 );
 
-        r.skipDraw = function()
-        {
-            return (this.obrightness == this.brightness);
-        }
+        r.skipDraw = tileFactory.skipDraw;
         r.getDarkness = tileFactory.getDarkness
         this.matris[x+y*this.width] = r;
     }
