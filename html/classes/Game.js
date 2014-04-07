@@ -18,6 +18,8 @@ function Game()
         this.menu = 0;
         this.rooms = new Array();
         this.level = 1;
+        this.config = new Object();
+        this.config.light = 1;
     }
 
     this.getRandomRoom = function(random)
@@ -89,6 +91,8 @@ function Game()
 
             var updateTile = new Array();
 
+            if(game.config.light!=0)
+            {
             for(var x=0; x<this.human.currentRoom.width; x++)
             {
                 for(var y=0; y<this.human.currentRoom.height; y++)
@@ -96,6 +100,7 @@ function Game()
                     var t = this.human.currentRoom.getTile(x,y);
                     if(t instanceof Object) t.brightness = 38;
                 }
+            }
             }
 
             this.human.update2();

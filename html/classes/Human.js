@@ -23,7 +23,30 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.runlength = 1; //start as 1. when get shoes then 2
     this.hasKey = false;
 
-    this.update2 = characterFactory.update2;
+    this.update2 = function()
+    {
+        this.u = characterFactory.update2;
+        //console.log(this.u);
+        this.u();
+
+        var a = this.getAimed();
+        if(a) this.dir = common.getDirByPoints( new Point(this.x2,this.y2), new Point(a.x2,a.y2)); 
+    }
+
+    this.getAimed = function()
+    {
+        for(index = 0; index < game.pieces.length; index++)
+        {
+            var p = game.pieces[index];
+            if(p.currentRoom == game.human.currentRoom && !p.hurt)
+            {
+                if(p.isFishman){return p;}
+            }
+        }
+        return false;
+    }
+
+
 
     this.updateLight = function(effect)
     {

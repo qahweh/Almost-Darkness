@@ -24,6 +24,7 @@
         <script src="classes/tiles/TileFactory.js"></script>
         <script src="classes/Animation.js"></script>
         <script src="classes/characters/CharacterFactory.js"></script>
+        <script src="classes/Common.js"></script>
  
         <style>
         #canvas_container{margin:0 auto 0 auto; width: 1340px}
@@ -45,6 +46,7 @@
             var game = new Game();
             var tileFactory = new TileFactory();
             var characterFactory = new CharacterFactory();
+            var common = new Common();
             game.init();
             var mixer = new Mixer();
             var gamecanvas = document.getElementById('gamecanvas');
@@ -147,7 +149,7 @@
                     gamecanvasC.drawImage(img,x*28,y*38,28,38,p.x2-game.camera.x*28-offset.x,p.y2-game.camera.y*38-offset.y,28,38);
                 }
                 x = 3; y = 4;
-                if(getAimed()==p)gamecanvasC.drawImage(img,x*28,y*38,28,38,p.x2-game.camera.x*28-offset.x,p.y2-game.camera.y*38-offset.y,28,38);
+                if(game.human.getAimed()==p)gamecanvasC.drawImage(img,x*28,y*38,28,38,p.x2-game.camera.x*28-offset.x,p.y2-game.camera.y*38-offset.y,28,38);
                 p.hurtAnimation = false;
             }
 
@@ -155,21 +157,8 @@
             {
                 mixer.play(1);
                 if(Math.random()<0.2)return;
-                var f = getAimed();
+                var f = game.human.getAimed();
                 if(f)f.getHit();
-            }
-
-            function getAimed()
-            {
-                for(index = 0; index < game.pieces.length; index++)
-                {
-                    var p = game.pieces[index];
-                    if(p.currentRoom == game.human.currentRoom && !p.hurt)
-                    {
-                        if(p.isFishman){return p;}
-                    }
-                }
-                return false;
             }
 
             function drawRoom(updateTile)
@@ -220,9 +209,12 @@
                             tile.obrightness = tile.brightness;
                             gamecanvasC.globalAlpha = 1;
                             gamecanvasC.drawImage(img,imgx*28,imgy*38,28,38,(x-game.camera.x)*28,(y-game.camera.y)*38,28,38);
+                            if(game.config.light!=0)
+                            {
                             numberOfDraw++;
                             gamecanvasC.globalAlpha = alpha;
                             gamecanvasC.fillRect((x-game.camera.x)*28,(y-game.camera.y)*38,28,38);
+                            }
                         }
                     }
                 }

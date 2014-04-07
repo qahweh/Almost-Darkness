@@ -10,6 +10,7 @@ function TileFactory()
 
     this.skipDraw = function()
     {
+        if(game.config.light==0)return true;
         return (this.obrightness == this.brightness); 
     }
 
