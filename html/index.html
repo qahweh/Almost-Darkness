@@ -28,20 +28,15 @@
         <script src="classes/Bullet.js"></script>
         <script src="classes/pieces/PieceFactory.js"></script> 
         <style>
-        #canvas_container{margin:0 auto 0 auto; width: 1340px}
+        #canvas_container{margin:0 auto 0 auto; width: 1150px}
         body{background: #000}
-        #gamecanvas{background:#000; border: 0; float:left; border: 1px solid #f00}
+        #gamecanvas{background:#000; border: 0; float:left;}
         #statuscanvas{background:#111; border: 0; margin-left: 10px;}
        </style>
     </head>
     <body>
         <div id="canvas_container">
             <canvas id="gamecanvas" width="1140" height="722"></canvas>
-            <div style="float:left" >
-                <canvas id="statuscanvas" width="140" height="422"></canvas>
-                <br/><input type="button" value="no frameskip" onclick="frameskip=1"/>
-                <br/><input type="button" value="frameskip" onclick="frameskip=4"/>
-            </div>
         </div>
         <script>
             var game = new Game();
@@ -54,7 +49,6 @@
             var gamecanvas = document.getElementById('gamecanvas');
             var gamecanvasC = gamecanvas.getContext('2d');
             var statuscanvas = document.getElementById('statuscanvas');
-            var statuscanvasC = statuscanvas.getContext('2d');
             var img = new Image();
             img.src = "sprite.png";
             document.addEventListener("keydown",kdh,false);
@@ -226,18 +220,16 @@
             }
 
             function refreshStatus()
-            {
-                statuscanvasC.clearRect(0,0,140,722);               
-                statuscanvasC.drawImage(img,2*28,1*38,28,38,0,0,28,38);
-                statuscanvasC.drawImage(img,4*28,0*38,28,38,0,38,28,38);
-                drawText(1,0,""+game.ammo,statuscanvasC);
-                drawText(1,1,""+game.doors,statuscanvasC);
+            {  
+                gamecanvasC.drawImage(img,2*28,1*38,28,38,0,0,28,38);
+                gamecanvasC.drawImage(img,4*28,0*38,28,38,0,38,28,38);
+                drawText(1,0,""+game.ammo,gamecanvasC);
+                drawText(1,1,""+game.doors,gamecanvasC);
 
-                if(game.human.runlength==2)statuscanvasC.drawImage(img,6*28,3*38,28,38,0,38*2,28,38);
-                if(game.human.hasKey)statuscanvasC.drawImage(img,6*28,1*38,28,38,0,38*3,28,38);
-                statuscanvasC.drawImage(img,6*28,0*38,28,38,0,38*4,28,38);
-                drawText(1,4,""+( game.human.health>0 ? game.human.health : 0),statuscanvasC);
-
+                if(game.human.runlength==2)gamecanvasC.drawImage(img,6*28,3*38,28,38,0,38*2,28,38);
+                if(game.human.hasKey)gamecanvasC.drawImage(img,6*28,1*38,28,38,0,38*3,28,38);
+                gamecanvasC.drawImage(img,6*28,0*38,28,38,0,38*4,28,38);
+                drawText(1,4,""+( game.human.health>0 ? game.human.health : 0),gamecanvasC);
             }
         </script>
     </body>

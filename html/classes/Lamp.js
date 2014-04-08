@@ -17,8 +17,7 @@ function Lamp(x,y,room)
     this.updateLight = function(effect)
     {
         if(game.config.light==0) return;
-        var p = parseInt(Math.random()*7);
-        if(game.noLightEffect)p = 3;
+        var p = 3;
         for(var x=-5; x<6; x++)
         {
             for(var y=-5; y<6; y++)

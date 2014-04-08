@@ -14,7 +14,7 @@ function Game()
         this.option = 0;
         this.sleep = 0;
         this.frameskip = 1;
-        this.noLightEffect = true;
+        this.noLightEffect = false;
         this.menu = 0;
         this.rooms = new Array();
         this.level = 1;
