@@ -79,7 +79,7 @@ function Room(roomType,random, buildRoom, deep)
     }
 
 
-    this.getPiece2 = function(x,y,not)
+    this.getPiece2 = function(x,y,not,ignorePiece)
     {
         var nx = parseInt(x/28);
         var ny = parseInt(y/38);
@@ -89,7 +89,7 @@ function Room(roomType,random, buildRoom, deep)
             var p = game.pieces[index];
             if(p.currentRoom == this && p!=not && parseInt(p.x2/28)==nx && parseInt(p.y2/38)==ny)
             {
-                return p;
+                if(!ignorePiece || !ignorePiece(p)) return p;
             }
         }
         return null;

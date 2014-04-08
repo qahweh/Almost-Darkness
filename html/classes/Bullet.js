@@ -8,7 +8,7 @@ function Bullet(x,y,room, shooter)
     this.dir = shooter.dir;
     this.shooter = shooter;
     this.ignoreTileCollision = function(t){ return t.canWalkOn }
-
+    this.ignorePieceCollision = function(p) { return (p.hurt)  }
     this.getImage = function()
     {
         return new Point(1,1);
