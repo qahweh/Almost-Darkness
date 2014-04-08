@@ -35,6 +35,8 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         //console.log(this.u);
         this.u();
 
+       if(this.hurt)this.hasGun = false;
+
         var a = this.getAimed();
         if(a) this.dir = common.getDirByPoints( new Point(this.x2,this.y2), new Point(a.x2,a.y2)); 
     }

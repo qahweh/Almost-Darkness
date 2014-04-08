@@ -115,8 +115,11 @@ function RoomEventHandler()
     {
         for(var i =0; i<q; i++)
         {
+            var c = 0;
             while(true)
             {
+                c++;
+                if(c>1000) throw "loop freeze";
                 var x = parseInt(Math.random()*room.width);
                 var y = parseInt(Math.random()*room.height);
                 var t = room.getTile(x,y);
