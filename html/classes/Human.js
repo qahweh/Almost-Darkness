@@ -16,15 +16,21 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.action[68] = false;
     this.action[87] = false;
     this.action[83] = false;
+    this.action[74] = false;
     this.offsetImg = new Point(14,35);
     this.startrunningCooldown = 0;
     this.steplength = 1;
     this.walklength = 1;
     this.runlength = 1; //start as 1. when get shoes then 2
     this.hasKey = false;
-    this.animation = new Animation(2);
+    this.animation = new Animation(3);
     this.update2 = function()
     {
+        if(this.action[75])
+        {
+            this.currentAim = this.nextAim();
+            this.action[75] = false;
+        }
         this.u = characterFactory.update2;
         //console.log(this.u);
         this.u();
@@ -35,18 +41,25 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
 
     this.getAimed = function()
     {
+        if(this.currentAim && !this.currentAim.hurt) return this.currentAim;
+        if(this.currentAim && this.currentAim.hurt) this.currentAim = this.nextAim(true);
+        return this.currentAim;
+    }
+
+    this.nextAim = function(loop)
+    {
         for(index = 0; index < game.pieces.length; index++)
         {
             var p = game.pieces[index];
-            if(p.currentRoom == game.human.currentRoom && !p.hurt)
+            if(p.currentRoom == game.human.currentRoom && !p.hurt && p.isFishman)
             {
-                if(p.isFishman){return p;}
+                if(!this.currentAim) return p;
+                if(this.currentAim==p) this.currentAim = false;
             }
         }
-        return false;
+        if(loop){ this.currentAim = false; return this.nextAim(false); }
+        return false; 
     }
-
-
 
     this.updateLight = function(effect)
     {
@@ -169,7 +182,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     {
         this.u = characterFactory.getImage;
         var f = this.u();
-        
+        if(!this.hasGun) return f;
         if(this.dir==0)
         {
             f.o = new Point(0,9);
@@ -205,8 +218,9 @@ this.update = function()
 
 this.shoot = function()
 {
-                mixer.play(1);
- 
+    if(!this.hasGun)return;
+    game.ammo--;
+    mixer.play(1);
     game.pieces.push( new Bullet(this.x2,this.y2,this.currentRoom, this) );
 }
 
@@ -220,6 +234,7 @@ Human.prototype.pieceEvent = function(piece)
     if(piece instanceof Key){piece.currentRoom = null; game.human.hasKey=true; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     if(piece instanceof RunningShoes){piece.currentRoom = null; game.human.runlength=2; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     if(piece instanceof Health){piece.currentRoom = null; game.human.health++; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
+    if(piece instanceof Gun){ piece.currentRoom = null; game.human.hasGun = true; this.animation = new Animation(2); }
     return true;
 }
 

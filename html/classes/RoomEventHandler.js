@@ -14,6 +14,12 @@ function RoomEventHandler()
     obj.w = 2;
     this.itemsToCome.push( obj)
 
+    obj = new Object();
+    obj.f = function(x,y,room){ return new Gun(x,y,room)};
+    obj.w = 2;
+    this.itemsToCome.push( obj)
+
+
     var obj = new Object();
     obj.f = function(x,y,room){ return new Key(x,y,room)};
     obj.w = 4;
@@ -73,14 +79,16 @@ function RoomEventHandler()
             }
         }
 
-
+        var itemsToComeHandled = false;
         if(this.itemsToCome.length>0)
         {
-            if(this.itemsToCome[0].w < this.beenHandled.length){ this.fillRoomsWith(room, this.itemsToCome[0].f, 1); this.itemsToCome.splice(0,1); return; }
+            while(this.itemsToCome[0].w < this.beenHandled.length){ this.fillRoomsWith(room, this.itemsToCome[0].f, 1); this.itemsToCome.splice(0,1);itemsToComeHandled = true;  }
         }
-        
+        if(itemsToComeHandled)return;        
+
+
         var r = Math.random();
-        if(r<0.4)
+        if(r<0.99)
         {
             var diff = this.fishmanRoomLevel-this.ammoRoomLevel;
             if(diff<-2)this.fishmanRoomLevel+=5;
