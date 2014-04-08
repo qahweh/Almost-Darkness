@@ -273,7 +273,7 @@ Room.prototype._makeSquare = function(x,y,width,height)
     }
 }
 
-Room.prototype.getTile = function(x,y)
+Room.prototype.getTile = function(x,y,ignoreFunction)
 {
     var r = this.matris[x+y*this.width];
     if(r==0 || r==1 || r==2 || r==4 || r==5 || r==14 || r==15 || r==24 || r==25)
@@ -299,5 +299,6 @@ Room.prototype.getTile = function(x,y)
         r.getDarkness = tileFactory.getDarkness
         this.matris[x+y*this.width] = r;
     }
+    if(ignoreFunction && ignoreFunction(r))return null;
     return r;
 }

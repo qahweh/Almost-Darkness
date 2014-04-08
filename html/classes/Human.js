@@ -22,7 +22,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.walklength = 1;
     this.runlength = 1; //start as 1. when get shoes then 2
     this.hasKey = false;
-
+    this.animation = new Animation(2);
     this.update2 = function()
     {
         this.u = characterFactory.update2;
@@ -165,6 +165,31 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         return r;
     }
 
+    this.getImage = function()
+    {
+        this.u = characterFactory.getImage;
+        var f = this.u();
+        
+        if(this.dir==0)
+        {
+            f.o = new Point(0,9);
+            f.of = new Point(2,0);
+        }
+         if(this.dir==1)
+        {
+            f.o = new Point(4,9);
+            f.of = new Point(-2,0);
+        }
+         if(this.dir==2)
+        {
+        }
+         if(this.dir==3)
+        {
+            f.o = new Point(5,9);
+            f.of = new Point(-2,6);
+        }
+        return f;
+    }
 
 this.getHit = function()
 {
@@ -176,6 +201,13 @@ this.getHit = function()
 this.update = function()
 {
     this.hurtAnimation = false;
+}
+
+this.shoot = function()
+{
+                mixer.play(1);
+ 
+    game.pieces.push( new Bullet(this.x2,this.y2,this.currentRoom, this) );
 }
 
 };
@@ -190,3 +222,5 @@ Human.prototype.pieceEvent = function(piece)
     if(piece instanceof Health){piece.currentRoom = null; game.human.health++; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     return true;
 }
+
+
