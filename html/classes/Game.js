@@ -6,7 +6,7 @@ function Game()
         this.pieces = new Array();
         this.reh = new RoomEventHandler();
         this.forceDrawAll = false;
-        this.ammo = 60;
+        this.ammo = 12;
         this.doors = 0;
         this.camera = new Point(0,0);
         this.frame = 0;

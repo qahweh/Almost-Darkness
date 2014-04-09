@@ -88,7 +88,7 @@ function RoomEventHandler()
 
 
         var r = Math.random();
-        if(r<0.99)
+        if(r<0.45)
         {
             var diff = this.fishmanRoomLevel-this.ammoRoomLevel;
             if(diff<-2)this.fishmanRoomLevel+=5;
