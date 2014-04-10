@@ -24,6 +24,10 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.runlength = 1; //start as 1. when get shoes then 2
     this.hasKey = false;
     this.animation = new Animation(3);
+
+    this.forceToCenter = characterFactory.forceToCenter;
+    this.hurtUpdate = characterFactory.hurtUpdate;
+
     this.update2 = function()
     {
         if(this.action[75])
@@ -35,7 +39,6 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         //console.log(this.u);
         this.u();
 
-       if(this.hurt)this.hasGun = false;
 
         var a = this.getAimed();
         if(a) this.dir = common.getDirByPoints( new Point(this.x2,this.y2), new Point(a.x2,a.y2)); 
@@ -111,9 +114,9 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         return (t==0 || t==4 || t==5 || t==14 || t==15 || t==24 || t==25);
     }
 
-    this.move = function(dx,dy)
+    this.move = function(dx,dy,force)
     {
-        if(this.hurt)return;
+        if(this.hurt && !force)return;
         var t = this.currentRoom.getTile( parseInt(  ((this.x2+dx)/28)) ,parseInt((this.y2+dy)/38) );
         var p = this.currentRoom.getPiece2( this.x2+dx, this.y2+dy, this );
 
@@ -143,10 +146,10 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         }
     }
 
-    this.moveLeft = function(d){ this.move(-d,0);}
-    this.moveRight = function(d){ this.move(d,0);}
-    this.moveUp = function(d){ this.move(0,-d);}
-    this.moveDown = function(d){ this.move(0,d);}
+    this.moveLeft = function(d,force){ this.move(-d,0,force);}
+    this.moveRight = function(d,force){ this.move(d,0,force);}
+    this.moveUp = function(d,force){ this.move(0,-d,force);}
+    this.moveDown = function(d,force){ this.move(0,d,force);}
 
     this.getImage = function()
     {

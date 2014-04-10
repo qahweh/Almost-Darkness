@@ -11,7 +11,6 @@ function Fishman(x,y,room)
 
     r.update = function()
     {
-        if(this.hurt)return;
         this.update2 = characterFactory.update2;
         this.update2();
 
