@@ -71,7 +71,8 @@ function Game()
 
         if(this.gameState==3)
         {
-            var hb = new HouseBuilder(this.level);
+            if(this.level==1) var hb = new HouseBuilder2(this.level);
+            else var hb = new HouseBuilder(this.level);
             var roomstart = hb.getStartRoom();
             currentRoom = roomstart;
             this.human = new Human(20,13,roomstart);

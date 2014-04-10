@@ -4,7 +4,8 @@ RoomType = {
 ENTRANCE: 1,
 HALLWAY: 2,
 DINING_ROOM: 3,
-EMPTY: 4
+EMPTY: 4,
+VOID: 5
 }
 
 RoomValue = {

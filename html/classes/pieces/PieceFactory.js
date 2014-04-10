@@ -15,4 +15,5 @@ function PieceFactory()
        this.currentRoom = null;
        //TODO: remove from piece list as well
     }
+
 }

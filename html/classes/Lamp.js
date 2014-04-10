@@ -14,9 +14,14 @@ function Lamp(x,y,room)
     }
     this.update = function() { this.frame+=parseInt(Math.random()*2) ; this.updateLight(1);}
 
+
     this.updateLight = function(effect)
     {
         if(game.config.light==0) return;
+
+        if(!this.cachedLight)
+        {
+        this.cachedLight = new Array();
         var p = 3;
         for(var x=-5; x<6; x++)
         {
@@ -38,10 +43,26 @@ function Lamp(x,y,room)
 
 
                 var t = this.currentRoom.getTile( parseInt(  ((this.x2)/28)+x) ,parseInt((this.y2)/38)+y );
+                
                 if(t instanceof Object)
                 {
+                var o = new Object();
+                o.l = b+p;
+                o.t = t;
+                this.cachedLight.push( o );
                     t.brightness += b+p;
                 }
+            }
+        
+        }
+        
+        }
+        else
+        {
+            for(var u=0; u < this.cachedLight.length; u++)
+            {
+                var o = this.cachedLight[u];
+                o.t.brightness += o.l;
             }
         }
     }

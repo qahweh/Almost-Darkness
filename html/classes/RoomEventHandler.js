@@ -35,15 +35,23 @@ function RoomEventHandler()
         this.beenHandled.push(room);
 
         if(this.beenHandled.length == 1)
-        {
-            this.pieces.push(  new Candle(13,9,room) );
-            this.pieces.push(  new Candle(15,12,room) );
-            this.pieces.push(  new Candle(22,9,room) );
-            this.pieces.push(  new Candle(26,6,room) );
-            this.pieces.push(  new Candle(30,12,room) );
-            this.pieces.push(  new Candle(31,5,room) );
-            this.pieces.push(  new Candle(8,10,room) );
-
+        {           
+            if(game.level==1)
+            {
+                this.pieces.push ( new Lamp(13,9,room) );
+                this.pieces.push ( new Lamp(22,13,room) );
+                this.pieces.push ( new Lamp(11,16,room) );
+            }
+            else
+            {
+                this.pieces.push(  new Candle(13,9,room) );
+                this.pieces.push(  new Candle(15,12,room) );
+                this.pieces.push(  new Candle(22,9,room) );
+                this.pieces.push(  new Candle(26,6,room) );
+                this.pieces.push(  new Candle(30,12,room) );
+                this.pieces.push(  new Candle(31,5,room) );
+                this.pieces.push(  new Candle(8,10,room) );
+            }
             return;
         }
 
