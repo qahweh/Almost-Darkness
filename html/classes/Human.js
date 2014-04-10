@@ -24,12 +24,18 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.runlength = 1; //start as 1. when get shoes then 2
     this.hasKey = false;
     this.animation = new Animation(3);
-
+    this.height = 50;
     this.forceToCenter = characterFactory.forceToCenter;
     this.hurtUpdate = characterFactory.hurtUpdate;
 
+    this.getHeight = function()
+    {
+        return this.height;
+    }
+
     this.update2 = function()
     {
+        if(this.height>0)this.height--;
         if(this.action[75])
         {
             this.currentAim = this.nextAim();
