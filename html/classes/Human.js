@@ -27,15 +27,24 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.height = 50;
     this.forceToCenter = characterFactory.forceToCenter;
     this.hurtUpdate = characterFactory.hurtUpdate;
+    this.jump = 0;
 
     this.getHeight = function()
     {
-        return this.height;
+        if(this.jump>0) return ( this.height<0.8 ? 0 : this.height);
+        return 0;
     }
 
     this.update2 = function()
     {
-        if(this.height>0)this.height--;
+        if(this.action[76]==true && this.jump==0) this.jump = 58;
+
+        if(this.jump>0) { this.action[65] = true; this.jump--; if(this.jump==0) this.action[65] = false;  }
+        this.height = Math.sin(this.jump/16)*20;
+
+
+        //console.log(this.jump);
+
         if(this.action[75])
         {
             this.currentAim = this.nextAim();
