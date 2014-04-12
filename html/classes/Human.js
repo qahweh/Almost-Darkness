@@ -28,16 +28,26 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.forceToCenter = characterFactory.forceToCenter;
     this.hurtUpdate = characterFactory.hurtUpdate;
     this.jump = 0;
-
     this.getHeight = function()
     {
         if(this.jump>0) return ( this.height<0.8 ? 0 : this.height);
         return 0;
     }
 
+    this.dropFeel = function()
+    {
+        this.currentRoom.resetFeel();
+        var y = parseInt((this.y2)/38);
+        var x = parseInt(((this.x2)/28)); 
+        var t = this.currentRoom.getTile( x, y);
+        console.log(t);
+        t.setFeel(1000000);
+    }
+
+
     this.update2 = function()
     {
-        if(this.action[76]==true && this.jump==0) this.jump = 58;
+        if(this.action[76]==true && this.jump==0) { this.jump = 58; this.dropFeel(); }
 
         if(this.jump>0) { this.action[65] = true; this.jump--; if(this.jump==0) this.action[65] = false;  }
         this.height = Math.sin(this.jump/16)*20;
@@ -134,6 +144,10 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         if(this.hurt && !force)return;
         var t = this.currentRoom.getTile( parseInt(  ((this.x2+dx)/28)) ,parseInt((this.y2+dy)/38) );
         var p = this.currentRoom.getPiece2( this.x2+dx, this.y2+dy, this );
+
+         
+
+        if(game.frame%10==1)console.log(t.feel);
 
         var b = false;
         if(p != null) b = this.pieceEvent(p);

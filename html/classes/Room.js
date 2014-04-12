@@ -35,6 +35,14 @@ function Room(roomType,random, buildRoom, deep)
         return x;
     }
 
+    this.resetFeel = function()
+    {
+        for(var i=0; i<this.width*this.height; i++) this.matris[i].feel = 0;
+    }
+
+
+
+
     this.getCameraOnCenter = function()
     {
         var xLeft = this.width;
@@ -295,9 +303,14 @@ Room.prototype.getTile = function(x,y,ignoreFunction)
 
 
         r.canWalkOn = !( or==1 || or==2 );
+        if(r.canWalkOn) r.setFeel = tileFactory.setFeel;
+
+        r.currentRoom = this;
+        r.x = x;
+        r.y = y;
 
         r.skipDraw = tileFactory.skipDraw;
-        r.getDarkness = tileFactory.getDarkness
+        r.getDarkness = tileFactory.getDarkness;
         this.matris[x+y*this.width] = r;
     }
     if(ignoreFunction && ignoreFunction(r))return null;
