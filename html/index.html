@@ -223,7 +223,8 @@
                             if(game.config.light!=0)
                             {
                             numberOfDraw++;
-                            gamecanvasC.globalAlpha = alpha;
+                            
+                            gamecanvasC.globalAlpha = ( tile.feel ? Math.sqrt(tile.feel/10)/316 : 0 );
                             gamecanvasC.fillRect((x-game.camera.x)*28,(y-game.camera.y)*38,28,38);
                             }
                         }

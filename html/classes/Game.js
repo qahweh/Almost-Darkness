@@ -39,10 +39,40 @@ function Game()
         return this.rooms[r];
     }
 
+    this.getRandomTile = function()
+    {
+        if(!this.human) return;
+        if(!this.human.currentRoom) return;
+    	r = parseInt(Math.random()*this.human.currentRoom.width*this.human.currentRoom.height);
+        return this.human.currentRoom.matris[r];
+    }
+
     this.update = function()
     {
         if(this.sleep>0){this.sleep--; return;}
         this.frame++;
+
+        var ttt = this.getRandomTile();  //Instead of get random try remeber what next tile is to split feel on
+        if(ttt instanceof Object && ttt.feel)
+        {
+            var ttr = this.human.currentRoom.getTile(ttt.x+1,ttt.y);
+            if(ttr instanceof Object) ttr.feel += ttt.feel*0.19;
+
+            var ttr = this.human.currentRoom.getTile(ttt.x-1,ttt.y);
+            if(ttr instanceof Object) ttr.feel += ttt.feel*0.19;
+ 
+            var ttr = this.human.currentRoom.getTile(ttt.x,ttt.y+1);
+            if(ttr instanceof Object) ttr.feel += ttt.feel*0.19;
+ 
+            var ttr = this.human.currentRoom.getTile(ttt.x,ttt.y-1);
+            if(ttr instanceof Object) ttr.feel += ttt.feel*0.19;
+ 
+            var ttr = this.human.currentRoom.getTile(ttt.x,ttt.y);
+            if(ttr instanceof Object) ttr.feel = ttt.feel*0.19;
+
+
+       
+     }
 
         if(this.gameState==1)
         {

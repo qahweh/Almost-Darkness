@@ -40,8 +40,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         var y = parseInt((this.y2)/38);
         var x = parseInt(((this.x2)/28)); 
         var t = this.currentRoom.getTile( x, y);
-        console.log(t);
-        t.setFeel(1000000);
+        t.feel = 1000000;
     }
 
 
