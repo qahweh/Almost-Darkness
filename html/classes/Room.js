@@ -37,7 +37,7 @@ function Room(roomType,random, buildRoom, deep)
 
     this.resetFeel = function()
     {
-        for(var i=0; i<this.width*this.height; i++) this.matris[i].feel = 0;
+        for(var i=0; i<this.width*this.height; i++) if( !this.matris[i].feel && this.matris[i].canWalkOn )this.matris[i].feel = 0;
     }
 
 

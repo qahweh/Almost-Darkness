@@ -46,7 +46,10 @@ function Fishman(x,y,room)
         var leftFeel = this.currentRoom.getTile(    parseInt(this.x2/28)-1,   parseInt(this.y2/38)  ).feel;
         var upFeel = this.currentRoom.getTile(   parseInt(this.x2/28),   parseInt(this.y2/38)-1   ).feel;
         var downFeel = this.currentRoom.getTile(    parseInt(this.x2/28),   parseInt(this.y2/38)+1  ).feel;
-
+        if(!downFeel)downFeel=0;
+        if(!upFeel)upFeel=0;
+        if(!rightFeel)rightFeel =0;
+        if(!leftFeel)leftFeel = 0;
 
         //console.log(t.feel);
 

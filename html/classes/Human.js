@@ -41,6 +41,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         var x = parseInt(((this.x2)/28)); 
         var t = this.currentRoom.getTile( x, y);
         t.feel = 1000000;
+        game.nextFeel.push(t);
     }
 
 
@@ -146,12 +147,24 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
 
          
 
-        if(game.frame%10==1)console.log(t.feel);
+        //if(game.frame%10==1)console.log(t.feel);
 
         var b = false;
         if(p != null) b = this.pieceEvent(p);
 
-        if(!b && this.canWalkOn(t)){ this.x2 += dx; this.y2 += dy; return; }
+        if(!b && this.canWalkOn(t)){ 
+
+        var t2 = this.currentRoom.getTile( parseInt(  ((this.x2)/28)) ,parseInt((this.y2)/38) );
+        var dropFeel = false;
+        if(t2!=t && !this.isFishman) dropFeel = true; 
+this.x2 += dx; this.y2 += dy; 
+
+if(dropFeel)this.dropFeel();
+
+return;
+
+
+ }
 
 
         if(t instanceof Door && this == game.human)

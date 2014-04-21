@@ -38,6 +38,7 @@ function RoomEventHandler()
         {           
             if(game.level==1)
             {
+                this.pieces.push ( new Fishman(13,8,room) );
                 this.pieces.push ( new Fishman(13,13,room) );
                 this.pieces.push ( new Lamp(13,9,room) );
                 this.pieces.push ( new Lamp(22,13,room) );

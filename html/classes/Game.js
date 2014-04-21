@@ -47,32 +47,75 @@ function Game()
         return this.human.currentRoom.matris[r];
     }
 
+    this.nextFeel = new Array();
+
     this.update = function()
     {
         if(this.sleep>0){this.sleep--; return;}
         this.frame++;
 
-        var ttt = this.getRandomTile();  //Instead of get random try remeber what next tile is to split feel on
+        var ttt = false;
+        if(this.nextFeel.length==0)
+        {
+            ttt = this.getRandomTile();  //Instead of get random try remeber what next tile is to split feel on
+        }
+        else
+        {
+            ttt = this.nextFeel[0];
+            this.nextFeel.splice(0,1);
+        }
+
+
         if(ttt instanceof Object && ttt.feel)
         {
+            if(ttt.feel*0.10>0.1)
+            {
+
+                var currentFeel = ttt.feel;
+
             var ttr = this.human.currentRoom.getTile(ttt.x+1,ttt.y);
-            if(ttr instanceof Object) ttr.feel += ttt.feel*0.19;
+            if(ttr instanceof Object) 
+            {
+                if(currentFeel>ttr.feel)
+                {
+                    ttr.feel += ttt.feel*0.10;
+                    this.nextFeel.push(ttr);
+           }}
 
             var ttr = this.human.currentRoom.getTile(ttt.x-1,ttt.y);
-            if(ttr instanceof Object) ttr.feel += ttt.feel*0.19;
- 
+            if(ttr instanceof Object)
+            {
+                 if(currentFeel>ttr.feel)
+                {
+                ttr.feel += ttt.feel*0.10;
+                 this.nextFeel.push(ttr);
+     }       }
+
             var ttr = this.human.currentRoom.getTile(ttt.x,ttt.y+1);
-            if(ttr instanceof Object) ttr.feel += ttt.feel*0.19;
- 
+            if(ttr instanceof Object)
+            {
+                  if(currentFeel>ttr.feel)
+                {
+               ttr.feel += ttt.feel*0.10;
+                  this.nextFeel.push(ttr);
+    }        }
+
             var ttr = this.human.currentRoom.getTile(ttt.x,ttt.y-1);
-            if(ttr instanceof Object) ttr.feel += ttt.feel*0.19;
- 
+            if(ttr instanceof Object)
+            {
+                   if(currentFeel>ttr.feel)
+                {
+              ttr.feel += ttt.feel*0.10;
+                   this.nextFeel.push(ttr);
+   }         }
+
             var ttr = this.human.currentRoom.getTile(ttt.x,ttt.y);
-            if(ttr instanceof Object) ttr.feel = ttt.feel*0.19;
-
-
-       
-     }
+            if(ttr instanceof Object)
+            {
+                ttr.feel = ttt.feel*0.6;
+            }
+}
+        }
 
         if(this.gameState==1)
         {
@@ -114,6 +157,7 @@ function Game()
             drawText(0,1,"...done",gamecanvasC);
             this.gameState=4;
             this.sleep = 100;
+            this.human.currentRoom.resetFeel();
             return;
         }
 
