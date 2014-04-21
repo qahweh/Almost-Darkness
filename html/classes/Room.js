@@ -301,6 +301,10 @@ Room.prototype.getTile = function(x,y,ignoreFunction)
         if(or==24) r.getImage = function() { return new Point(5,2); }
         if(or==25) r.getImage = function() { return new Point(5,5); }
 
+        r.getPiece = function()
+        {
+            return this.currentRoom.getPiece2( this.x*28, this.y*38 );
+        }
 
         r.canWalkOn = !( or==1 || or==2 );
         if(r.canWalkOn) r.setFeel = tileFactory.setFeel;

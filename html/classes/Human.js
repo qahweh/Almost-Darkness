@@ -39,8 +39,9 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         this.currentRoom.resetFeel();
         var y = parseInt((this.y2)/38);
         var x = parseInt(((this.x2)/28)); 
-        var t = this.currentRoom.getTile( x, y);
+        var t = this.currentRoom.getTile(x,y);
         t.feel = 1000000;
+        game.nextFeel = new Array();
         game.nextFeel.push(t);
     }
 

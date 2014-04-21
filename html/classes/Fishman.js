@@ -24,9 +24,9 @@ function Fishman(x,y,room)
 
         //t.getImage = function() { return new Point(0,0) };
 
-        if(!t.feel)return;
+       // if(!t.feel)return;
         
-        this.cooldown = 30;
+        this.cooldown = 10;
 /*
         var dim = ( Math.random() < 0.5 );
 
@@ -42,23 +42,37 @@ function Fishman(x,y,room)
         this.action[83] = false;
 
         var currentFeel = t.feel;
-        var rightFeel = this.currentRoom.getTile(   parseInt(this.x2/28)+1,   parseInt(this.y2/38)   ).feel;
-        var leftFeel = this.currentRoom.getTile(    parseInt(this.x2/28)-1,   parseInt(this.y2/38)  ).feel;
-        var upFeel = this.currentRoom.getTile(   parseInt(this.x2/28),   parseInt(this.y2/38)-1   ).feel;
-        var downFeel = this.currentRoom.getTile(    parseInt(this.x2/28),   parseInt(this.y2/38)+1  ).feel;
-        if(!downFeel)downFeel=0;
-        if(!upFeel)upFeel=0;
-        if(!rightFeel)rightFeel =0;
-        if(!leftFeel)leftFeel = 0;
+        var dir = new Array();
+        dir[0] = this.currentRoom.getTile(   parseInt(this.x2/28)+1,   parseInt(this.y2/38)   ).feel;
+        dir[1] = this.currentRoom.getTile(    parseInt(this.x2/28)-1,   parseInt(this.y2/38)  ).feel;
+        dir[2] = this.currentRoom.getTile(   parseInt(this.x2/28),   parseInt(this.y2/38)-1   ).feel;
+        dir[3] = this.currentRoom.getTile(    parseInt(this.x2/28),   parseInt(this.y2/38)+1  ).feel;
+
+        if(!dir[0]) dir[0]=0;
+        if(!dir[1]) dir[1]=0;
+        if(!dir[2]) dir[2]=0;
+        if(!dir[3]) dir[3]=0;
+
+        dir[this.dir] += 1; //make current dir be the dir if top feel exist twice or more.
 
         //console.log(t.feel);
 
+        var j = 0;
+        var b = -1;
+        for(var u=0; u<4; u++)
+        {
+            if(j<dir[u])
+            {
+                j=dir[u];
+                b=u;
+            }
+        }
         
-        if(leftFeel>=rightFeel && leftFeel>=downFeel && leftFeel>=upFeel) this.action[65]=true;
-        if(rightFeel>=leftFeel && rightFeel>=downFeel && rightFeel>=upFeel) this.action[68]=true;
-        if(upFeel>=leftFeel && upFeel>=downFeel && upFeel>=rightFeel) this.action[87]=true;
-        if(downFeel>=leftFeel && downFeel>=upFeel && downFeel>=rightFeel) this.action[83]=true;
-        t.feel = 0;
+        if(b==1) this.action[65]=true;
+        if(b==0) this.action[68]=true;
+        if(b==2) this.action[87]=true;
+        if(b==3) this.action[83]=true;
+        t.feel = t.feel*0.5; //TODO: make feel drop around
 /*
         if(dim)
         {

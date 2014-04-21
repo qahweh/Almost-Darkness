@@ -56,7 +56,8 @@ function Game()
             var ttt = false;
             if(this.nextFeel.length==0)
             {
-                ttt = this.getRandomTile();  //Instead of get random try remeber what next tile is to split feel on
+                return;
+              //  ttt = this.getRandomTile();  //Instead of get random try remeber what next tile is to split feel on
             }
             else
             {
@@ -67,50 +68,49 @@ function Game()
 
             if(ttt instanceof Object && ttt.feel)
             {
-                if(ttt.feel*0.10>0.1)
+                var spreadEffect = ttt.feel*0.15;
+                if(spreadEffect>0.1)
                 {
                     var numberOfSpread = 0;
-
-                    var currentFeel = ttt.feel;
                     var ttr = this.human.currentRoom.getTile(ttt.x+1,ttt.y);
-                    if(ttr instanceof Object) 
+                    if(ttr instanceof Object && ttr.getPiece && ttr.getPiece()==null) 
                     {
-                        if(currentFeel*0.1>ttr.feel)
+                        if(spreadEffect>ttr.feel)
                         {
-                            ttr.feel += ttt.feel*0.10;
+                            ttr.feel += spreadEffect;
                             this.nextFeel.push(ttr);
                             numberOfSpread++;
                         }
                     }    
 
                     var ttr = this.human.currentRoom.getTile(ttt.x-1,ttt.y);
-                    if(ttr instanceof Object)
+                    if(ttr instanceof Object && ttr.getPiece && ttr.getPiece()==null)
                     {
-                        if(currentFeel*0.1>ttr.feel)
+                        if(spreadEffect>ttr.feel)
                         {
-                            ttr.feel += ttt.feel*0.10;
+                            ttr.feel += spreadEffect;
                             this.nextFeel.push(ttr);
                             numberOfSpread++;
                         }
                     }
 
                     var ttr = this.human.currentRoom.getTile(ttt.x,ttt.y+1);
-                    if(ttr instanceof Object)
+                    if(ttr instanceof Object && ttr.getPiece && ttr.getPiece()==null)
                     {
-                        if(currentFeel*0.1>ttr.feel)
+                        if(spreadEffect>ttr.feel)
                         {
-                            ttr.feel += ttt.feel*0.10;
+                            ttr.feel += spreadEffect;
                             this.nextFeel.push(ttr);
                             numberOfSpread++;
                         }
                     }
 
                     var ttr = this.human.currentRoom.getTile(ttt.x,ttt.y-1);
-                    if(ttr instanceof Object)
+                    if(ttr instanceof Object && ttr.getPiece && ttr.getPiece()==null)
                     {
-                        if(currentFeel*0.1>ttr.feel)
+                        if(spreadEffect>ttr.feel)
                         {
-                            ttr.feel += ttt.feel*0.10;
+                            ttr.feel += spreadEffect;
                             this.nextFeel.push(ttr);
                             numberOfSpread++;
                         }
@@ -119,10 +119,10 @@ function Game()
                     var ttr = this.human.currentRoom.getTile(ttt.x,ttt.y);
                     if(ttr instanceof Object)
                     {
-                        if(numberOfSpread==4)ttr.feel = ttt.feel*0.6;
-                        else if(numberOfSpread==3)ttr.feel = ttt.feel*0.7;
-                        else if(numberOfSpread==2)ttr.feel = ttt.feel*0.8;
-                        else if(numberOfSpread==1)ttr.feel = ttt.feel*0.9;
+                        if(numberOfSpread==4) ttr.feel = ttt.feel*0.40;
+                        else if(numberOfSpread==3) ttr.feel = ttt.feel*0.55;
+                        else if(numberOfSpread==2) ttr.feel = ttt.feel*0.70;
+                        else if(numberOfSpread==1) ttr.feel = ttt.feel*0.85;
                     }
                 }
             }
