@@ -49,90 +49,90 @@ function Game()
 
     this.nextFeel = new Array();
 
+    this.feelHandler = function()
+    {
+        for(var i=0; i<100; i++)
+        {
+            var ttt = false;
+            if(this.nextFeel.length==0)
+            {
+                ttt = this.getRandomTile();  //Instead of get random try remeber what next tile is to split feel on
+            }
+            else
+            {
+                ttt = this.nextFeel[0];
+                this.nextFeel.splice(0,1);
+            }
+
+
+            if(ttt instanceof Object && ttt.feel)
+            {
+                if(ttt.feel*0.10>0.1)
+                {
+                    var numberOfSpread = 0;
+
+                    var currentFeel = ttt.feel;
+                    var ttr = this.human.currentRoom.getTile(ttt.x+1,ttt.y);
+                    if(ttr instanceof Object) 
+                    {
+                        if(currentFeel*0.1>ttr.feel)
+                        {
+                            ttr.feel += ttt.feel*0.10;
+                            this.nextFeel.push(ttr);
+                            numberOfSpread++;
+                        }
+                    }    
+
+                    var ttr = this.human.currentRoom.getTile(ttt.x-1,ttt.y);
+                    if(ttr instanceof Object)
+                    {
+                        if(currentFeel*0.1>ttr.feel)
+                        {
+                            ttr.feel += ttt.feel*0.10;
+                            this.nextFeel.push(ttr);
+                            numberOfSpread++;
+                        }
+                    }
+
+                    var ttr = this.human.currentRoom.getTile(ttt.x,ttt.y+1);
+                    if(ttr instanceof Object)
+                    {
+                        if(currentFeel*0.1>ttr.feel)
+                        {
+                            ttr.feel += ttt.feel*0.10;
+                            this.nextFeel.push(ttr);
+                            numberOfSpread++;
+                        }
+                    }
+
+                    var ttr = this.human.currentRoom.getTile(ttt.x,ttt.y-1);
+                    if(ttr instanceof Object)
+                    {
+                        if(currentFeel*0.1>ttr.feel)
+                        {
+                            ttr.feel += ttt.feel*0.10;
+                            this.nextFeel.push(ttr);
+                            numberOfSpread++;
+                        }
+                    }
+
+                    var ttr = this.human.currentRoom.getTile(ttt.x,ttt.y);
+                    if(ttr instanceof Object)
+                    {
+                        if(numberOfSpread==4)ttr.feel = ttt.feel*0.6;
+                        else if(numberOfSpread==3)ttr.feel = ttt.feel*0.7;
+                        else if(numberOfSpread==2)ttr.feel = ttt.feel*0.8;
+                        else if(numberOfSpread==1)ttr.feel = ttt.feel*0.9;
+                    }
+                }
+            }
+        }
+    }
+
     this.update = function()
     {
         if(this.sleep>0){this.sleep--; return;}
         this.frame++;
-
-        var ttt = false;
-        if(this.nextFeel.length==0)
-        {
-            ttt = this.getRandomTile();  //Instead of get random try remeber what next tile is to split feel on
-        }
-        else
-        {
-            ttt = this.nextFeel[0];
-            this.nextFeel.splice(0,1);
-        }
-
-
-        if(ttt instanceof Object && ttt.feel)
-        {
-            if(ttt.feel*0.10>0.1)
-            {
-
-                var currentFeel = ttt.feel;
-
-            var ttr = this.human.currentRoom.getTile(ttt.x+1,ttt.y);
-            if(ttr instanceof Object) 
-            {
-                if(currentFeel>ttr.feel)
-                {
-                    ttr.feel += ttt.feel*0.10;
-                    this.nextFeel.push(ttr);
-           }}
-
-            var ttr = this.human.currentRoom.getTile(ttt.x-1,ttt.y);
-            if(ttr instanceof Object)
-            {
-                 if(currentFeel>ttr.feel)
-                {
-                ttr.feel += ttt.feel*0.10;
-                 this.nextFeel.push(ttr);
-     }       }
-
-            var ttr = this.human.currentRoom.getTile(ttt.x,ttt.y+1);
-            if(ttr instanceof Object)
-            {
-                  if(currentFeel>ttr.feel)
-                {
-               ttr.feel += ttt.feel*0.10;
-                  this.nextFeel.push(ttr);
-    }        }
-
-            var ttr = this.human.currentRoom.getTile(ttt.x,ttt.y-1);
-            if(ttr instanceof Object)
-            {
-                   if(currentFeel>ttr.feel)
-                {
-              ttr.feel += ttt.feel*0.10;
-                   this.nextFeel.push(ttr);
-   }         }
-
-            var ttr = this.human.currentRoom.getTile(ttt.x,ttt.y);
-            if(ttr instanceof Object)
-            {
-                ttr.feel = ttt.feel*0.6;
-            }
-}
-        }
-
-        if(this.gameState==1)
-        {
-            drawText(13,4,"almost darkness",gamecanvasC);
-         
-            if(this.menu==0)
-            {   
-                drawText(17,12,(this.option==0 ? ";" : " ")+"start"+(this.option==0 ? ";" : " "),gamecanvasC);
-                drawText(16,13,(this.option==1 ? ";" : " ")+"options"+(this.option==1 ? ";" : " "),gamecanvasC);
-            }
-            else if(this.menu==1)
-            {   
-                drawText(14,12,(this.option==0 ? ";" : " ")+"frameskip "+this.frameskip+(this.option==0 ? ";" : " "),gamecanvasC);
-                drawText(16,13,(this.option==1 ? ";" : " ")+"level "+this.level+(this.option==1 ? ";" : " "),gamecanvasC);
-                drawText(16,14,(this.option==2 ? ";" : " ")+"return"+(this.option==2 ? ";" : " "),gamecanvasC);
-            }
-        }
 
         if(this.gameState==2)
         {
@@ -161,11 +161,29 @@ function Game()
             return;
         }
 
+        if(this.gameState==1)
+        {
+            drawText(13,4,"almost darkness",gamecanvasC);
+         
+            if(this.menu==0)
+            {   
+                drawText(17,12,(this.option==0 ? ";" : " ")+"start"+(this.option==0 ? ";" : " "),gamecanvasC);
+                drawText(16,13,(this.option==1 ? ";" : " ")+"options"+(this.option==1 ? ";" : " "),gamecanvasC);
+            }
+            else if(this.menu==1)
+            {   
+                drawText(14,12,(this.option==0 ? ";" : " ")+"frameskip "+this.frameskip+(this.option==0 ? ";" : " "),gamecanvasC);
+                drawText(16,13,(this.option==1 ? ";" : " ")+"level "+this.level+(this.option==1 ? ";" : " "),gamecanvasC);
+                drawText(16,14,(this.option==2 ? ";" : " ")+"return"+(this.option==2 ? ";" : " "),gamecanvasC);
+            }
+        }
+
+
         if(this.gameState==4)
         {
 
             var updateTile = new Array();
-
+            this.feelHandler();
             if(game.config.light!=0)
             {
             for(var x=0; x<this.human.currentRoom.width; x++)
