@@ -8,12 +8,14 @@ function Fishman(x,y,room)
     r.cooldown = 10;
     r.offsetImg = new Point(14,35);
     r.animation = new Animation(1);
+    r.hurtFrame = 0;
 
     r.update = function()
     {
         this.update2 = characterFactory.update2;
         this.update2();
-
+        if(this.hurt)this.hurtFrame++;
+        if(this.hurtFrame==100) { this.currentRoom = null;  game.pieces.push ( new Ammobox( parseInt(this.x2/28),  parseInt(this.y2/38),   room) ); }
         this.updateLight(6);
         if(this.cooldown>0){this.cooldown--; return;}
         

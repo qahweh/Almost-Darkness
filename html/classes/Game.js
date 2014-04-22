@@ -20,6 +20,7 @@ function Game()
         this.level = 1;
         this.config = new Object();
         this.config.light = 1;
+        this.zLevel=3;
     }
 
     this.getRandomRoom = function(random)
@@ -48,6 +49,28 @@ function Game()
     }
 
     this.nextFeel = new Array();
+
+    this.nextLevelHandler = function()
+    {
+        var f = function(pieces)
+        {
+            for(var i=0; i<pieces.length; i++)
+            {
+                if(pieces[i].isFishman && !pieces[i].hurt) return false;
+            }
+            return true; 
+        }
+
+        if(f(this.pieces))
+        {
+            this.zLevel++;
+            for(var t=0; t<this.zLevel; t++)
+            {
+                this.pieces.push ( new Fishman(12+parseInt(t/2),8+(t%2)*7,this.human.currentRoom) );
+            }
+        }
+
+    }
 
     this.feelHandler = function()
     {
@@ -184,6 +207,7 @@ function Game()
 
             var updateTile = new Array();
             this.feelHandler();
+            this.nextLevelHandler();
             if(game.config.light!=0)
             {
             for(var x=0; x<this.human.currentRoom.width; x++)
