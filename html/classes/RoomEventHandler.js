@@ -44,6 +44,7 @@ function RoomEventHandler()
                 this.pieces.push ( new Lamp(13,9,room) );
                 this.pieces.push ( new Lamp(22,13,room) );
                 this.pieces.push ( new Lamp(11,16,room) );
+                this.pieces.push ( new Gun(22,14,room) );
             }
             else
             {

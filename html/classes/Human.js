@@ -40,7 +40,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         var y = parseInt((this.y2)/38);
         var x = parseInt(((this.x2)/28)); 
         var t = this.currentRoom.getTile(x,y);
-        t.feel = 1000000;
+        if(typeof t.feel != 'undefined') t.feel = 1000000;
         game.nextFeel = new Array();
         game.nextFeel.push(t);
     }
@@ -48,9 +48,18 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
 
     this.update2 = function()
     {
-        if(this.action[76]==true && this.jump==0) { this.jump = 58; this.dropFeel(); }
+        if(this.action[76]==true && this.jump==0) { this.jump = 58; this.jumpdir=-1; if(this.dir==1)this.jumpdir=DirType.LEFT; if(this.dir==0)this.jumpdir=DirType.RIGHT; if(this.dir==2)this.jumpdir=DirType.UP; if(this.jumpdir==3) this.jumpdir==DirType.DOWN; }
 
-        if(this.jump>0) { this.action[65] = true; this.jump--; if(this.jump==0) this.action[65] = false;  }
+        if(this.jump>0)
+        {
+            var k = -1;
+            if(this.jumpdir==DirType.LEFT) k=65;
+            if(this.jumpdir==DirType.RIGHT) k=68;
+            if(this.jumpdir==DirType.UP) k=87;
+            if(this.jumpdir==DirType.DOWN) k=83;
+            this.action[k] = true; this.jump--; if(this.jump==0) this.action[k] = false;
+        }
+
         this.height = Math.sin(this.jump/16)*20;
 
 
@@ -153,7 +162,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         var b = false;
         if(p != null) b = this.pieceEvent(p);
 
-        if(!b && this.canWalkOn(t)){ 
+        if(!b && (this.canWalkOn(t) || this.jump>0)  ){ 
 
         var t2 = this.currentRoom.getTile( parseInt(  ((this.x2)/28)) ,parseInt((this.y2)/38) );
         var dropFeel = false;
