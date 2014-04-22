@@ -72,7 +72,17 @@ function Fishman(x,y,room)
         if(b==0) this.action[68]=true;
         if(b==2) this.action[87]=true;
         if(b==3) this.action[83]=true;
-        t.feel = t.feel*0.5; //TODO: make feel drop around
+        t.feel = t.feel*0.4; //TODO: make feel drop around
+        var t3 = t.getNextToTile(DirType.LEFT);
+        t3.feel = t3.feel*0.6;
+        var t3 = t.getNextToTile(DirType.RIGHT);
+        t3.feel = t3.feel*0.6;
+        var t3 = t.getNextToTile(DirType.UP);
+        t3.feel = t3.feel*0.6;
+        var t3 = t.getNextToTile(DirType.DOWN);
+        t3.feel = t3.feel*0.6;
+
+
 /*
         if(dim)
         {

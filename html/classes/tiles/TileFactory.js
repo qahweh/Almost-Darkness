@@ -1,5 +1,10 @@
 function TileFactory()
 {
+
+    this.init = function()
+    {
+    }
+
     this.getDarkness = function()
     {
         var darkness = 1-this.brightness/100;
@@ -39,5 +44,19 @@ function TileFactory()
         }
         }
     }
+
+    this.getNextToTile = function(dir)
+    {
+        if(!this.nextToTiles)
+        {
+            this.nextToTiles = new Array();
+            this.nextToTiles[DirType.LEFT] = this.currentRoom.getTile( this.x-1,this.y);
+            this.nextToTiles[DirType.RIGHT] = this.currentRoom.getTile( this.x+1,this.y);
+            this.nextToTiles[DirType.UP] = this.currentRoom.getTile( this.x,this.y-1);
+            this.nextToTiles[DirType.DOWN] = this.currentRoom.getTile(this.x,this.y+1);
+        }
+        return this.nextToTiles[dir];
+    }
+
 
 }

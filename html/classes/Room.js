@@ -301,7 +301,7 @@ Room.prototype.getTile = function(x,y,ignoreFunction)
         if(or==24) r.getImage = function() { return new Point(5,2); }
         if(or==25) r.getImage = function() { return new Point(5,5); }
 
-        r.getPiece = function()
+       r.getPiece = function()
         {
             return this.currentRoom.getPiece2( this.x*28, this.y*38 );
         }
@@ -313,8 +313,12 @@ Room.prototype.getTile = function(x,y,ignoreFunction)
         r.x = x;
         r.y = y;
 
+        r.init = tileFactory.init;
+        r.init();
+ 
         r.skipDraw = tileFactory.skipDraw;
         r.getDarkness = tileFactory.getDarkness;
+        r.getNextToTile = tileFactory.getNextToTile;
         this.matris[x+y*this.width] = r;
     }
     if(ignoreFunction && ignoreFunction(r))return null;
