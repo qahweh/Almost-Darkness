@@ -28,6 +28,9 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.forceToCenter = characterFactory.forceToCenter;
     this.hurtUpdate = characterFactory.hurtUpdate;
     this.jump = 0;
+    this.inWater=0; 
+    this.respawnPos = false;
+
     this.getHeight = function()
     {
         if(this.jump>0) return ( this.height<0.8 ? 0 : this.height);
@@ -48,7 +51,19 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
 
     this.update2 = function()
     {
-        if(this.action[76]==true && this.jump==0) { this.jump = 58; this.jumpdir=-1; if(this.dir==1)this.jumpdir=DirType.LEFT; if(this.dir==0)this.jumpdir=DirType.RIGHT; if(this.dir==2)this.jumpdir=DirType.UP; if(this.dir==3) this.jumpdir=DirType.DOWN; }
+        if(this.action[76]==true && this.jump==0)
+        {
+            this.respawnPos = new Point(this.x2,this.y2);
+            this.jump = 58; this.jumpdir=-1; 
+            if(this.dir==1)this.jumpdir=DirType.LEFT; if(this.dir==0)this.jumpdir=DirType.RIGHT; 
+            if(this.dir==2)this.jumpdir=DirType.UP; if(this.dir==3) this.jumpdir=DirType.DOWN;
+        }
+
+        if(this.inWater>0)
+        {
+            this.inWater++;
+            if(this.inWater>50) {this.inWater=0; this.x2 = this.respawnPos.x; this.y2 = this.respawnPos.y; this.health--;};
+        }
 
         if(this.jump>0)
         {
@@ -74,9 +89,14 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         //console.log(this.u);
         this.u();
 
+        var t = this.currentRoom.getTile( parseInt(  ((this.x2)/28)) ,parseInt((this.y2)/38) );
+        if(t.isWater && this.jump==0 && this.inWater==0) this.inWater = 1;
 
         var a = this.getAimed();
-        if(a) this.dir = common.getDirByPoints( new Point(this.x2,this.y2), new Point(a.x2,a.y2)); 
+        if(a) this.dir = common.getDirByPoints( new Point(this.x2,this.y2), new Point(a.x2,a.y2));
+
+        if(this.health<=0)this.hurt = true;  
+ 
     }
 
     this.getAimed = function()
@@ -240,6 +260,9 @@ return;
     this.getImage = function()
     {
         this.u = characterFactory.getImage;
+
+        if(this.inWater && this.jump==0)return new Point(9,8);
+
         var f = this.u();
         if(!this.hasGun) return f;
         if(this.dir==0)
@@ -267,7 +290,7 @@ this.getHit = function()
 {
     this.hurtAnimation = true;
     this.health--;
-    if(this.health<=0)this.hurt = true;   
+    
 }
 
 this.update = function()
