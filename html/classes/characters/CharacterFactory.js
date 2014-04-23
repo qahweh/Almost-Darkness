@@ -15,22 +15,22 @@ function CharacterFactory()
         if(this.action[68] == true && this.action[65] == false)
         {
             if(this.startrunningCooldown>0 && this.startrunningCooldown<14) this.steplength=this.runlength;
-            this.moveRight(this.steplength); this.startrunningCooldown = 15; this.moved++; this.dir = 0;
+            if(this.jump==0)this.moveRight(this.steplength); this.startrunningCooldown = 15; this.moved++; this.dir = 0;
         }
         if(this.action[68] == false && this.action[65] == true)
         {
             if(this.startrunningCooldown>0 && this.startrunningCooldown<14) this.steplength=this.runlength;
-            this.moveLeft(this.steplength); this.startrunningCooldown = 15; this.moved++; this.dir = 1;
+            if(this.jump==0)this.moveLeft(this.steplength); this.startrunningCooldown = 15; this.moved++; this.dir = 1;
         }
         if(this.action[87] == true && this.action[83] == false)
         {
             if(this.startrunningCooldown>0 && this.startrunningCooldown<14) this.steplength=this.runlength;
-            this.moveUp(this.steplength); this.startrunningCooldown = 15; this.moved++; this.dir = 2;
+            if(this.jump==0)this.moveUp(this.steplength); this.startrunningCooldown = 15; this.moved++; this.dir = 2;
         }
         if(this.action[87] == false && this.action[83] == true)
         {
             if(this.startrunningCooldown>0 && this.startrunningCooldown<14) this.steplength=this.runlength;
-            this.moveDown(this.steplength); this.startrunningCooldown = 15; this.moved++; this.dir = 3;
+            if(this.jump==0) this.moveDown(this.steplength); this.startrunningCooldown = 15; this.moved++; this.dir = 3;
         }
         if(this.dir != odir)this.startrunningCooldown=0; //force cooldown down to make player walk
 
@@ -45,6 +45,7 @@ function CharacterFactory()
 
     this.forceToCenter = function()
     {
+        if(this.jump>0)return;
         if(this.action[68]==false && this.action[65]==false)
         {
             var x = parseInt(this.x2/28)*28+14;

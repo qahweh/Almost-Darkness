@@ -48,16 +48,16 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
 
     this.update2 = function()
     {
-        if(this.action[76]==true && this.jump==0) { this.jump = 58; this.jumpdir=-1; if(this.dir==1)this.jumpdir=DirType.LEFT; if(this.dir==0)this.jumpdir=DirType.RIGHT; if(this.dir==2)this.jumpdir=DirType.UP; if(this.jumpdir==3) this.jumpdir==DirType.DOWN; }
+        if(this.action[76]==true && this.jump==0) { this.jump = 58; this.jumpdir=-1; if(this.dir==1)this.jumpdir=DirType.LEFT; if(this.dir==0)this.jumpdir=DirType.RIGHT; if(this.dir==2)this.jumpdir=DirType.UP; if(this.dir==3) this.jumpdir=DirType.DOWN; }
 
         if(this.jump>0)
         {
             var k = -1;
-            if(this.jumpdir==DirType.LEFT) k=65;
-            if(this.jumpdir==DirType.RIGHT) k=68;
-            if(this.jumpdir==DirType.UP) k=87;
-            if(this.jumpdir==DirType.DOWN) k=83;
-            this.action[k] = true; this.jump--; if(this.jump==0) this.action[k] = false;
+            if(this.jumpdir==DirType.LEFT) this.moveLeft(1);
+            if(this.jumpdir==DirType.RIGHT) this.moveRight(1);
+            if(this.jumpdir==DirType.UP) this.moveUp(1);
+            if(this.jumpdir==DirType.DOWN) this.moveDown(1);
+            this.jump--;
         }
 
         this.height = Math.sin(this.jump/16)*20;
@@ -155,7 +155,8 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         var t = this.currentRoom.getTile( parseInt(  ((this.x2+dx)/28)) ,parseInt((this.y2+dy)/38) );
         var p = this.currentRoom.getPiece2( this.x2+dx, this.y2+dy, this );
 
-         
+console.log(dx);        
+//console.log(dy);        
 
         //if(game.frame%10==1)console.log(t.feel);
 
@@ -163,6 +164,8 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         if(p != null) b = this.pieceEvent(p);
 
         if(!b && (this.canWalkOn(t) || this.jump>0)  ){ 
+
+
 
         var t2 = this.currentRoom.getTile( parseInt(  ((this.x2)/28)) ,parseInt((this.y2)/38) );
         var dropFeel = false;
