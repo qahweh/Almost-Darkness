@@ -22,7 +22,7 @@ function Bullet(x,y,room, shooter)
         else if(this.dir==1) this.u(-7,0);
         else if(this.dir==2) this.u(0,-7);
         else this.u(0,7);
-
+        if(this.currentRoom==null)return;
         for(var i=0; i<2; i++)
         {
             var t = this.currentRoom.getTile( parseInt(  ((this.x2)/28)-i) ,parseInt((this.y2)/38) );

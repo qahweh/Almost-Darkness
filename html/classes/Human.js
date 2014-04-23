@@ -30,6 +30,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.jump = 0;
     this.inWater=0; 
     this.respawnPos = false;
+    this.blinkTime=0;
 
     this.getHeight = function()
     {
@@ -51,6 +52,9 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
 
     this.update2 = function()
     {
+
+        if(this.blinkTime>0) this.blinkTime--;
+
         if(this.action[76]==true && this.jump==0)
         {
             this.respawnPos = new Point(this.x2,this.y2);
@@ -77,16 +81,12 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
 
         this.height = Math.sin(this.jump/16)*20;
 
-
-        //console.log(this.jump);
-
         if(this.action[75])
         {
             this.currentAim = this.nextAim();
             this.action[75] = false;
         }
         this.u = characterFactory.update2;
-        //console.log(this.u);
         this.u();
 
         var t = this.currentRoom.getTile( parseInt(  ((this.x2)/28)) ,parseInt((this.y2)/38) );
@@ -95,8 +95,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         var a = this.getAimed();
         if(a) this.dir = common.getDirByPoints( new Point(this.x2,this.y2), new Point(a.x2,a.y2));
 
-        if(this.health<=0)this.hurt = true;  
- 
+
     }
 
     this.getAimed = function()
@@ -156,7 +155,6 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.getTilePos = function()
     {
         var c = parseInt(this.x2/28)+( parseInt(this.y2/38)*this.currentRoom.width);
-        //console.log(c);
         return c;
     }
 
@@ -175,29 +173,18 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         var t = this.currentRoom.getTile( parseInt(  ((this.x2+dx)/28)) ,parseInt((this.y2+dy)/38) );
         var p = this.currentRoom.getPiece2( this.x2+dx, this.y2+dy, this );
 
-console.log(dx);        
-//console.log(dy);        
-
-        //if(game.frame%10==1)console.log(t.feel);
-
         var b = false;
         if(p != null) b = this.pieceEvent(p);
 
-        if(!b && (this.canWalkOn(t) || this.jump>0)  ){ 
-
-
-
-        var t2 = this.currentRoom.getTile( parseInt(  ((this.x2)/28)) ,parseInt((this.y2)/38) );
-        var dropFeel = false;
-        if(t2!=t && !this.isFishman) dropFeel = true; 
-this.x2 += dx; this.y2 += dy; 
-
-if(dropFeel)this.dropFeel();
-
-return;
-
-
- }
+        if(!b && (this.canWalkOn(t) || this.jump>0)  )
+        {
+            var t2 = this.currentRoom.getTile( parseInt(  ((this.x2)/28)) ,parseInt((this.y2)/38) );
+            var dropFeel = false;
+            if(t2!=t && !this.isFishman) dropFeel = true; 
+            this.x2 += dx; this.y2 += dy;
+            if(dropFeel)this.dropFeel();
+            return;
+        }
 
 
         if(t instanceof Door && this == game.human)
@@ -260,7 +247,7 @@ return;
     this.getImage = function()
     {
         this.u = characterFactory.getImage;
-
+        if( parseInt(this.blinkTime/4)%2==1)return false;
         if(this.inWater && this.jump==0)return new Point(9,8);
 
         var f = this.u();
@@ -286,11 +273,12 @@ return;
         return f;
     }
 
-this.getHit = function()
+this.getHit = function(setBlinkTime)
 {
+    if(this.blinkTime>0) return;
     this.hurtAnimation = true;
     this.health--;
-    
+    this.blinkTime = setBlinkTime; 
 }
 
 this.update = function()

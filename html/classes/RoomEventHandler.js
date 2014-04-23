@@ -17,7 +17,7 @@ function RoomEventHandler()
     obj = new Object();
     obj.f = function(x,y,room){ return new Gun(x,y,room)};
     obj.w = 2;
-    this.itemsToCome.push( obj)
+    this.itemsToCome.push( obj);
 
 
     var obj = new Object();

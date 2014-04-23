@@ -41,6 +41,9 @@ function CharacterFactory()
         this.forceToCenter();
 
         this.updateLight(10);
+
+        if(this.health<=0)this.hurt = true;  
+ 
     }
 
     this.forceToCenter = function()

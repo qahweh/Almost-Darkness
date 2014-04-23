@@ -105,7 +105,7 @@ function Fishman(x,y,room)
 
     r.pieceEvent = function(piece)
     {
-        if(piece.isHuman)piece.getHit();
+        if(piece.isHuman)piece.getHit(60);
         return true;
     }
 
