@@ -31,7 +31,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.inWater=0; 
     this.respawnPos = false;
     this.blinkTime=0;
-
+    this.strafeDir = -1;
     this.getHeight = function()
     {
         if(this.jump>0) return ( this.height<0.8 ? 0 : this.height);
@@ -83,18 +83,20 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
 
         if(this.action[75])
         {
-            this.currentAim = this.nextAim();
-            this.action[75] = false;
+           if(this.strafeDir==-1) this.strafeDir = this.dir;
+           // this.currentAim = this.nextAim();
+          //  this.action[75] = false;
         }
+        else this.strafeDir = -1;
         this.u = characterFactory.update2;
         this.u();
 
         var t = this.currentRoom.getTile( parseInt(  ((this.x2)/28)) ,parseInt((this.y2)/38) );
         if(t.isWater && this.jump==0 && this.inWater==0) this.inWater = 1;
 
-        var a = this.getAimed();
-        if(a) this.dir = common.getDirByPoints( new Point(this.x2,this.y2), new Point(a.x2,a.y2));
-
+        //var a = this.getAimed();
+        //if(a) this.dir = common.getDirByPoints( new Point(this.x2,this.y2), new Point(a.x2,a.y2));
+        if(this.strafeDir!=-1)this.dir = this.strafeDir;
 
     }
 
@@ -305,7 +307,7 @@ Human.prototype.pieceEvent = function(piece)
     if(piece instanceof RunningShoes){piece.currentRoom = null; game.human.runlength=2; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     if(piece instanceof Health){piece.currentRoom = null; game.human.health++; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     if(piece instanceof Gun){ piece.currentRoom = null; game.human.hasGun = true; this.animation = new Animation(2); }
-    return true;
+    return false;
 }
 
 

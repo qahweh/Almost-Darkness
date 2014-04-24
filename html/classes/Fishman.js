@@ -9,7 +9,8 @@ function Fishman(x,y,room)
     r.offsetImg = new Point(14,35);
     r.animation = new Animation(1);
     r.hurtFrame = 0;
-
+    r.steplength=0.8;
+    r.walklength = 0.75;
     r.update = function()
     {
         this.update2 = characterFactory.update2;
@@ -105,7 +106,7 @@ function Fishman(x,y,room)
 
     r.pieceEvent = function(piece)
     {
-        if(piece.isHuman)piece.getHit(60);
+        if(piece.isHuman && !this.hurt)piece.getHit(60);
         return true;
     }
 
