@@ -47,19 +47,25 @@ function CharacterFactory()
         }
         if(this.dir != odir)this.startrunningCooldown=0; //force cooldown down to make player walk
 
-        if(this.moved>0){this.anim += this.steplength; if(this.anim%26==13){mixer.play(2);}}
-        if(this.moved>1){ this.dir = odir; this.startrunningCooldown=0;} //if diagonal then do not change dir. and force cooldown down to make player walk
+               if(this.moved>1){ this.dir = odir; this.startrunningCooldown=0;} //if diagonal then do not change dir. and force cooldown down to make player walk
        // if(this.moved==0)this.anim=23;
 
-        if( this.forceToCenter() || this.moved==0)this.anim=23;
-
+        if( !(this.forceToCenter(false) || this.moved>0))
+        {
+            this.anim=23;
+        }
+        else
+        {
+            this.anim += this.steplength; if(this.anim%26==13){mixer.play(2);}
+           //this.anim=0;
+        }
         this.updateLight(10);
 
         if(this.health<=0)this.hurt = true;  
  
     }
 
-    this.forceToCenter = function()
+    this.forceToCenter = function(close)
     {
         if(this.jump>0)return false;
         var t = false;
@@ -68,11 +74,19 @@ function CharacterFactory()
             var x = parseInt(this.x2/28)*28+14;
             if(x-this.x2!=0)
             {
+                if(!close)
+                {
+                    if(this.lastXdir==1) this.moveRight(1,true);
+                    else if(this.lastXdir==-1) this.moveLeft(1,true);
+         //           this.anim += this.steplength; if(this.anim%26==13){mixer.play(2);}
+                    t= true;
+                }
+                else
+                {
+                    if(this.x2>x) this.moveLeft(1,true);
+                    if(this.x2<x) this.moveRight(1,true); 
+                }
 
-                if(this.lastXdir==1) this.moveRight(1,true);
-                else if(this.lastXdir==-1) this.moveLeft(1,true);
-                this.anim += this.steplength; if(this.anim%26==13){mixer.play(2);}
-                t= true;
                 /*
                 if(this.dir==0) this.moveRight(1,true);
                 else if(this.dir==1) this.moveLeft(1,true);
@@ -90,12 +104,18 @@ function CharacterFactory()
             var y = parseInt(this.y2/38)*38+19;
             if(y-this.y2)
             {
-
-                if(this.lastYdir==-1) this.moveUp(1,true);
-                else if(this.lastYdir==1) this.moveDown(1,true);
-                this.anim += this.steplength; if(this.anim%26==13){mixer.play(2);}
-                t= true;
-
+                if(!close)
+                {
+                    if(this.lastYdir==-1) this.moveUp(1,true);
+                    else if(this.lastYdir==1) this.moveDown(1,true);
+           //         this.anim += this.steplength; if(this.anim%26==13){mixer.play(2);}
+                    t= true;
+                }
+                else
+                {
+                    if(this.y2>y) this.moveUp(1,true);
+                    if(this.y2<y) this.moveDown(1,true); 
+                }
                 /*
                 if(this.dir==2) this.moveUp(1,true);
                 else if(this.dir==3) this.moveDown(1,true);
@@ -118,7 +138,7 @@ function CharacterFactory()
         this.action[65]=false;
         this.action[68]=false;
         this.offsetImg = new Point(14,19);
-        this.forceToCenter();
+        this.forceToCenter(true);
     }
 
     this.getImage = function()
@@ -127,6 +147,8 @@ function CharacterFactory()
         var x = 1;
         var y = 5;
         var p = new Point(0,0);
+
+      //  return this.animation.images[this.anim];
 
         if(this.dir==1)p = this.animation.images[9];
         if(this.dir==0)p = this.animation.images[0];
