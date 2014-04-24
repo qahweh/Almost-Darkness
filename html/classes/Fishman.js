@@ -11,6 +11,30 @@ function Fishman(x,y,room)
     r.hurtFrame = 0;
     r.steplength=0.8;
     r.walklength = 0.75;
+    r.dir = DirGetDirByRandom()-1;
+
+    // Override to forceToCenter function so it will always use close as true. Fishman moved in a weird way when use close = false. 
+    // Works better when true and fishman movement is not in need of that close = false logic
+    r.forceToCenter = function(close)
+    {
+        this.f = characterFactory.forceToCenter;
+        this.f(true);
+    }
+
+    r.collideTileEvent = function(t)
+    {
+        if(this.canWalkOn(t)) return;
+        this.action[65] = false;
+        this.action[68] = false;
+        this.action[87] = false;
+        this.action[83] = false;
+        var x = DirGetDirByRandom();
+        if(x==DirType.RIGHT) this.action[68] = true;
+        if(x==DirType.LEFT) this.action[65] = true;
+        if(x==DirType.DOWN) this.action[83] = true;
+        if(x==DirType.UP) this.action[87] = true;
+    }
+
     r.update = function()
     {
         this.update2 = characterFactory.update2;
@@ -84,24 +108,6 @@ function Fishman(x,y,room)
         t3.feel = t3.feel*0.6;
         var t3 = t.getNextToTile(DirType.DOWN);
         t3.feel = t3.feel*0.6;
-
-
-/*
-        if(dim)
-        {
-            if(a.x > f.x)this.action[65] = true;
-            else if(a.x < f.x)this.action[68] = true;
-        }
-        else
-        {
-            if(a.y > f.y)this.action[87] = true;
-            else if(a.y < f.y)this.action[83] = true;
-        }
-        //TODO: This cooldown do make fishman rush do not work in the way code been changed. skip rush logic or alter code to make it work 
-        if(Math.random()<0.2)this.cooldown = 10;
-*/
-
-
     }
 
     r.pieceEvent = function(piece)

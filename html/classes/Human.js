@@ -203,6 +203,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
             return;
         }
 
+        if(this.collideTileEvent && t!=null) this.collideTileEvent(t);
 
         if(t instanceof Door && this == game.human)
         {

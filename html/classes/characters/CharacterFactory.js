@@ -67,6 +67,7 @@ function CharacterFactory()
 
     this.forceToCenter = function(close)
     {
+
         if(this.jump>0)return false;
         var t = false;
         if(this.action[68]==false && this.action[65]==false)
@@ -102,7 +103,7 @@ function CharacterFactory()
         if(this.action[87]==false && this.action[83]==false)
         {
             var y = parseInt(this.y2/38)*38+19;
-            if(y-this.y2)
+            if(y-this.y2!=0)
             {
                 if(!close)
                 {
