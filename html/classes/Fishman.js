@@ -54,9 +54,12 @@ function Fishman(x,y,room)
        // if(!t.feel)return;
         
         this.cooldown = 10;
-/*
-        var dim = ( Math.random() < 0.5 );
 
+        var rush = ( Math.random() < 0.07 );
+        if(rush) this.walklength = 2;
+        this.walklength-=0.1;
+        if(this.walklength<0.75)this.walklength=0.75;
+/*
         var f = new Point( parseInt(game.human.x2/28), parseInt(game.human.y2/38));
         var a = new Point( parseInt(this.x2/28), parseInt(this.y2/38));
 
