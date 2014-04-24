@@ -32,6 +32,8 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.respawnPos = false;
     this.blinkTime=0;
     this.strafeDir = -1;
+    this.walkDir = -1;
+
     this.getHeight = function()
     {
         if(this.jump>0) return ( this.height<0.8 ? 0 : this.height);
@@ -59,8 +61,8 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         {
             this.respawnPos = new Point(this.x2,this.y2);
             this.jump = 58; this.jumpdir=-1; 
-            if(this.dir==1)this.jumpdir=DirType.LEFT; if(this.dir==0)this.jumpdir=DirType.RIGHT; 
-            if(this.dir==2)this.jumpdir=DirType.UP; if(this.dir==3) this.jumpdir=DirType.DOWN;
+            if(this.walkDir==1)this.jumpdir=DirType.LEFT; if(this.walkDir==0)this.jumpdir=DirType.RIGHT; 
+            if(this.walkDir==2)this.jumpdir=DirType.UP;   if(this.walkDir==3) this.jumpdir=DirType.DOWN;
         }
 
         if(this.inWater>0)
@@ -171,9 +173,21 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
 
     this.move = function(dx,dy,force)
     {
+
+        var dx2 = 0;
+        var dy2 = 0;
+        if(dx<0) dx2=-14;
+        if(dx>0) dx2=14;
+        if(dy<0) dy2=-19;
+        if(dy>0) dy2=19;
+
+
+
+
         if(this.hurt && !force)return;
         var t = this.currentRoom.getTile( parseInt(  ((this.x2+dx)/28)) ,parseInt((this.y2+dy)/38) );
         var p = this.currentRoom.getPiece2( this.x2+dx, this.y2+dy, this );
+        var t = this.currentRoom.getTile(  parseInt((this.x2+dx2)/28) ,parseInt((this.y2+dy2)/38)  );
 
         var b = false;
         if(p != null) b = this.pieceEvent(p);

@@ -10,35 +10,48 @@ function CharacterFactory()
 
        if(this.startrunningCooldown>0){ this.startrunningCooldown--; } else this.steplength = this.walklength;
 
+        var k = -1;
+        var j=0;
+        if(this.action[68]==true) { k=0; j++; }
+        if(this.action[65]==true) { k=1; j++; }
+        if(this.action[87]==true) { k=2; j++; }
+        if(this.action[83]==true) { k=3; j++; }
+        if(k>-1 && j==1)this.walkDir = k;
+        else this.walkDir = -1;
+
         this.moved = 0;
         var odir = this.dir;
         if(this.action[68] == true && this.action[65] == false)
         {
             if(this.startrunningCooldown>0 && this.startrunningCooldown<14) this.steplength=this.runlength;
             if(this.jump==0)this.moveRight(this.steplength); this.startrunningCooldown = 15; this.moved++; this.dir = 0;
+            this.lastXdir=1;
         }
         if(this.action[68] == false && this.action[65] == true)
         {
             if(this.startrunningCooldown>0 && this.startrunningCooldown<14) this.steplength=this.runlength;
             if(this.jump==0)this.moveLeft(this.steplength); this.startrunningCooldown = 15; this.moved++; this.dir = 1;
+            this.lastXdir=-1;
         }
         if(this.action[87] == true && this.action[83] == false)
         {
             if(this.startrunningCooldown>0 && this.startrunningCooldown<14) this.steplength=this.runlength;
             if(this.jump==0)this.moveUp(this.steplength); this.startrunningCooldown = 15; this.moved++; this.dir = 2;
+            this.lastYdir=-1;
         }
         if(this.action[87] == false && this.action[83] == true)
         {
             if(this.startrunningCooldown>0 && this.startrunningCooldown<14) this.steplength=this.runlength;
             if(this.jump==0) this.moveDown(this.steplength); this.startrunningCooldown = 15; this.moved++; this.dir = 3;
+            this.lastYdir=1;
         }
         if(this.dir != odir)this.startrunningCooldown=0; //force cooldown down to make player walk
 
         if(this.moved>0){this.anim += this.steplength; if(this.anim%26==13){mixer.play(2);}}
         if(this.moved>1){ this.dir = odir; this.startrunningCooldown=0;} //if diagonal then do not change dir. and force cooldown down to make player walk
-        if(this.moved==0)this.anim=23;
+       // if(this.moved==0)this.anim=23;
 
-        this.forceToCenter();
+        if( this.forceToCenter() || this.moved==0)this.anim=23;
 
         this.updateLight(10);
 
@@ -48,20 +61,54 @@ function CharacterFactory()
 
     this.forceToCenter = function()
     {
-        if(this.jump>0)return;
+        if(this.jump>0)return false;
+        var t = false;
         if(this.action[68]==false && this.action[65]==false)
         {
             var x = parseInt(this.x2/28)*28+14;
-            if(this.x2<x) this.moveRight(1,true);
-            if(this.x2>x) this.moveLeft(1,true);
+            if(x-this.x2!=0)
+            {
+
+                if(this.lastXdir==1) this.moveRight(1,true);
+                else if(this.lastXdir==-1) this.moveLeft(1,true);
+                this.anim += this.steplength; if(this.anim%26==13){mixer.play(2);}
+                t= true;
+                /*
+                if(this.dir==0) this.moveRight(1,true);
+                else if(this.dir==1) this.moveLeft(1,true);
+                else
+                {
+                    if(this.x2>x) this.moveLeft(1,true);
+                    if(this.x2<x) this.moveRight(1,true);
+                }
+                */
+            }
         }
 
         if(this.action[87]==false && this.action[83]==false)
         {
             var y = parseInt(this.y2/38)*38+19;
-            if(this.y2>y) this.moveUp(1,true);
-            if(this.y2<y) this.moveDown(1,true);
-        }
+            if(y-this.y2)
+            {
+
+                if(this.lastYdir==-1) this.moveUp(1,true);
+                else if(this.lastYdir==1) this.moveDown(1,true);
+                this.anim += this.steplength; if(this.anim%26==13){mixer.play(2);}
+                t= true;
+
+                /*
+                if(this.dir==2) this.moveUp(1,true);
+                else if(this.dir==3) this.moveDown(1,true);
+                else
+                {
+                    if(this.y2>y) this.moveUp(1,true);
+                    if(this.y2<y) this.moveDown(1,true);
+                }
+                */
+                
+            }
+            return t;
+       }
     }
     this.hurtUpdate = function()
     {
