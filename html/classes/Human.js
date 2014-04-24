@@ -33,6 +33,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.blinkTime=0;
     this.strafeDir = -1;
     this.walkDir = -1;
+    this.shootCooldown = 0;
 
     this.getHeight = function()
     {
@@ -54,8 +55,8 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
 
     this.update2 = function()
     {
-
         if(this.blinkTime>0) this.blinkTime--;
+        if(this.shootCooldown>0) this.shootCooldown--;
 
         if(this.action[76]==true && this.jump==0)
         {
@@ -305,6 +306,8 @@ this.update = function()
 this.shoot = function()
 {
     if(!this.hasGun)return;
+    if(this.shootCooldown>0)return;
+    this.shootCooldown=8;
     game.ammo--;
     mixer.play(1);
     game.pieces.push( new Bullet(this.x2,this.y2,this.currentRoom, this) );

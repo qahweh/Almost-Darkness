@@ -52,6 +52,7 @@ function Game()
 
     this.nextLevelHandler = function()
     {
+        return;
         var f = function(pieces)
         {
             for(var i=0; i<pieces.length; i++)
@@ -74,7 +75,7 @@ function Game()
 
     this.feelHandler = function()
     {
-        for(var i=0; i<100; i++)
+        for(var i=0; i<60; i++)
         {
             var ttt = false;
             if(this.nextFeel.length==0)
@@ -250,12 +251,15 @@ function Game()
 
             drawRoom(updateTile);
 
-            for(var i=0; i<dt.length; i++)
+            for(var y=0; y<this.human.currentRoom.height; y++)
             {
-                var p = dt[i];
-                drawPiece(p);
+                for(var i=0; i<dt.length; i++)
+                {
+                    var p = dt[i];
+                    if( parseInt(p.y2/38)==y) drawPiece(p);
+                }
             }
-        
+
             if(Math.random()<0.1 )
             {
                 refreshStatus();

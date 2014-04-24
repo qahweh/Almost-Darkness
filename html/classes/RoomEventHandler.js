@@ -143,7 +143,7 @@ function RoomEventHandler()
         }
 
         this.fillRoomsWith(room, function(x,y,room){ return new Chest(x,y,room); },1);
-        this.fillRoomsWith(room, function(x,y,room){ return new StoneBlock(x,y,room); },1);
+        this.fillRoomsWith(room, function(x,y,room){ return new StoneBlock(x,y,room); },5);
 
     }
 
