@@ -40,7 +40,7 @@ function RoomEventHandler()
             {
                 this.pieces.push ( new Fishman(13,8,room) );
                 this.pieces.push ( new Fishman(13,13,room) );
-                this.pieces.push ( new Fishman(16,8,room) );
+           //     this.pieces.push ( new Fishman(16,8,room) );
                 this.pieces.push ( new Lamp(13,9,room) );
                 this.pieces.push ( new Lamp(22,13,room) );
                 this.pieces.push ( new Lamp(11,16,room) );
@@ -121,6 +121,30 @@ function RoomEventHandler()
             this.fillRoomsWith(room, function(x,y,room){ return new QuestItem(x,y,room); },1);
             this.fillRoomsWith(room, function(x,y,room){ return new Health(x,y,room); },1);
         }
+
+        for(var i=0; i<room.width*room.height; i++)
+        {
+            
+            if(room.matris[i].isFloor)break;
+        }
+        
+        var n=0;
+        while(true)
+        {
+            n = parseInt( Math.random()*14 )+1;
+            if(room.matris[i+room.width*(n+1)].isFloor)break; 
+        }
+        var s = i+room.width*n;
+ 
+        for(var t=s; t<s+100; t++)
+        {
+            if(room.matris[t].isFloor) room.matris[t] = new Water(); 
+            else break;
+        }
+
+        this.fillRoomsWith(room, function(x,y,room){ return new Chest(x,y,room); },1);
+        this.fillRoomsWith(room, function(x,y,room){ return new StoneBlock(x,y,room); },1);
+
     }
 
     this.fillRoomsWith = function(room,withWhat,q)
