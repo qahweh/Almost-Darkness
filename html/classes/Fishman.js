@@ -116,7 +116,7 @@ function Fishman(x,y,room)
     r.pieceEvent = function(piece)
     {
         if(piece.isHuman && !this.hurt)piece.getHit(60);
-        return true;
+        return false;
     }
 
     r.getImage = characterFactory.getImage;

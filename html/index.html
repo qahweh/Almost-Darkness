@@ -140,10 +140,12 @@
                 }
             }
   
-            function drawPiece(p)
+            function drawPiece(p,drawShadow)
             {
-                var height = 0;
+                 var height = 0;
                 if(p.getHeight)height = p.getHeight();
+               if(!drawShadow)
+                {
                 var imgC = p.getImage();
                 if(imgC==false)return;
                 var x = imgC.x;
@@ -168,10 +170,11 @@
                 x = 3; y = 4;
                 if(game.human.getAimed()==p)gamecanvasC.drawImage(img,x*28,y*38,28,38,p.x2-game.camera.x*28-offset.x,p.y2-game.camera.y*38-offset.y-height,28,38);
                 p.hurtAnimation = false;
-
+                }
+                else
+                {
                 if(height>0)gamecanvasC.drawImage(img,9*28,9*38,28,38,p.x2-game.camera.x*28-14,p.y2-game.camera.y*38-22,28,38);
-
-                
+                }
             }
 
             function drawRoom(updateTile)

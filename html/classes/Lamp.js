@@ -3,9 +3,9 @@ function Lamp(x,y,room)
     this.x = x;
     this.y = y;
     this.currentRoom = room;
-    this.x2 = x*28;
-    this.y2 = y*38;
-    this.offsetImg = new Point(0,0);
+    this.x2 = x*28+14;
+    this.y2 = y*38+19;
+    this.offsetImg = new Point(14,0);
     this.frame = 0;
 
     this.getImage = function()
@@ -14,6 +14,7 @@ function Lamp(x,y,room)
     }
     this.update = function() { this.frame+=parseInt(Math.random()*2) ; this.updateLight(1);}
 
+    this.getHeight = function(){ return 90; }
 
     this.updateLight = function(effect)
     {

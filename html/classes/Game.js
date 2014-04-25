@@ -251,12 +251,19 @@ function Game()
 
             drawRoom(updateTile);
 
+            for(var g=0; g<2; g++)
+            { 
             for(var y=0; y<this.human.currentRoom.height; y++)
             {
-                for(var i=0; i<dt.length; i++)
-                {
-                    var p = dt[i];
-                    if( parseInt(p.y2/38)==y) drawPiece(p);
+                   for(var i=0; i<dt.length; i++)
+                    {
+                             var p = dt[i];
+                             var h = ( p.getHeight ? p.getHeight() : 0 );
+                         
+                       
+                           if( parseInt(p.y2/38)==y) drawPiece(p, (g==0));
+                        
+                    }
                 }
             }
 

@@ -12,7 +12,7 @@ function Door()
     this.position = null;
     this.counter = 1;
     this.locked = ( parseInt(Math.random()*15)==3 ? true : false);
-
+    this.isWall = true;
     this.getImage = function()
     {
         if(this.locked) return new Point(6,2);

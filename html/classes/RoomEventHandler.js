@@ -114,7 +114,6 @@ function RoomEventHandler()
                     p.x--;
                 }
                 lamp = new Lamp(p.x-1,p.y-1,room);
-                lamp.offsetImg = new Point(-16,-18);
                 this.pieces.push(  lamp );
                 break;
             }

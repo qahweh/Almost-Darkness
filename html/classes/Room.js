@@ -190,14 +190,14 @@ Room.prototype._makeRoomMatrisByRandom = function()
 
         for(var i=0; i<7; i++)
         {
-            this.matris[552-i*41] = new Carpet(this,393);
-            this.matris[553-i*41] = new Carpet(this,393);
+            this.matris[552-i*41] = new Carpet(this,552-i*41);
+            this.matris[553-i*41] = new Carpet(this,553-i*41);
         }
 
         for(var i=0; i<13; i++)
         {
-            this.matris[553-7*41-i] = new Carpet(this,393);
-            this.matris[553-6*41-i] = new Carpet(this,393);
+            this.matris[553-7*41-i] = new Carpet(this,553-7*41-i);
+            this.matris[553-6*41-i] = new Carpet(this,553-6*41-i);
         }
 
 
@@ -310,7 +310,7 @@ Room.prototype.getTile = function(x,y,ignoreFunction)
         if(r.canWalkOn) r.setFeel = tileFactory.setFeel;
 
         if(or==4 || or==5 || or==14 || or==15 || or==24 || or==25) r.isFloor = true;
-
+        if(or==1 || or==2) r.isWall = true; 
         r.currentRoom = this;
         r.x = x;
         r.y = y;
