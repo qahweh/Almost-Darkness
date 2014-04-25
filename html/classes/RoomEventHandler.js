@@ -59,6 +59,35 @@ function RoomEventHandler()
             return;
         }
 
+
+
+        for(var i=0; i<room.width*room.height; i++)
+        {
+            
+            if(room.matris[i].isFloor)break;
+        }
+
+        var n=0;
+        while(true)
+        {
+            n = parseInt( Math.random()*14 )+1;
+            if( room.matris[i+room.width*(n+1)] && room.matris[i+room.width*(n+1)].isFloor)break; 
+        }
+        var s = i+room.width*n;
+ 
+        for(var t=s; t<s+100; t++)
+        {
+            if(room.matris[t].isFloor) 
+            {
+                if( !(room.matris[t-1] instanceof Door) &&  !(room.matris[t+1] instanceof Door))
+                room.matris[t] = new Water();
+                
+            } 
+            else break;
+        }
+
+
+
         for(var i = 0; i<room.width*room.height; i++)
         {
             if(room.matris[i] instanceof Object)
@@ -100,14 +129,14 @@ function RoomEventHandler()
 
 
         var r = Math.random();
-        if(r<0.45)
+        if(r<0.8)
         {
             var diff = this.fishmanRoomLevel-this.ammoRoomLevel;
             if(diff<-2)this.fishmanRoomLevel+=5;
             else this.fishmanRoomLevel++;
             this.fillRoomsWith(room, function(x,y,room){ return new Fishman(x,y,room); },this.fishmanRoomLevel)
         }
-        else if(r<0.8)
+        else if(r<0.9)
         {
 
 
@@ -122,26 +151,7 @@ function RoomEventHandler()
             this.fillRoomsWith(room, function(x,y,room){ return new Health(x,y,room); },1);
         }
 
-        for(var i=0; i<room.width*room.height; i++)
-        {
-            
-            if(room.matris[i].isFloor)break;
-        }
         
-        var n=0;
-        while(true)
-        {
-            n = parseInt( Math.random()*14 )+1;
-            if(room.matris[i+room.width*(n+1)].isFloor)break; 
-        }
-        var s = i+room.width*n;
- 
-        for(var t=s; t<s+100; t++)
-        {
-            if(room.matris[t].isFloor) room.matris[t] = new Water(); 
-            else break;
-        }
-
         this.fillRoomsWith(room, function(x,y,room){ return new Chest(x,y,room); },1);
         this.fillRoomsWith(room, function(x,y,room){ return new StoneBlock(x,y,room); },5);
 
