@@ -34,6 +34,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.strafeDir = -1;
     this.walkDir = -1;
     this.shootCooldown = 0;
+    this.pickupEffect = 0;
 
     this.getHeight = function()
     {
@@ -56,6 +57,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.update2 = function()
     {
         if(this.blinkTime>0) this.blinkTime--;
+        if(this.pickupEffect>0) this.pickupEffect--;
         if(this.shootCooldown>0) this.shootCooldown--;
 
         if(this.action[76]==true && this.jump==0)
@@ -269,25 +271,37 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         if(this.inWater && this.jump==0)return new Point(9,8);
 
         var f = this.u();
-        if(!this.hasGun) return f;
-        if(this.dir==0)
+        if(this.hasGun)
         {
-            f.o = new Point(0,9);
-            f.of = new Point(2,0);
+            if(this.dir==0)
+            {
+                f.o = new Point(0,9);
+                f.of = new Point(2,0);
+            }
+            if(this.dir==1)
+            {
+                f.o = new Point(4,9);
+                f.of = new Point(-2,0);
+            }
+            if(this.dir==2){}
+            if(this.dir==3)
+            {
+                f.o = new Point(5,9);
+                f.of = new Point(-2,6);
+            }
         }
-         if(this.dir==1)
+
+        if(this.pickupEffect>0)
         {
-            f.o = new Point(4,9);
-            f.of = new Point(-2,0);
+            f.o2 = new Point(2,1);
+            f.o2f = new Point(0,-35-Math.sin(this.pickupEffect/5)*6);       
         }
-         if(this.dir==2)
+        else
         {
+            f.o2 = null;
+            f.o2f = null;
         }
-         if(this.dir==3)
-        {
-            f.o = new Point(5,9);
-            f.of = new Point(-2,6);
-        }
+
         return f;
     }
 
@@ -320,7 +334,7 @@ this.shoot = function()
 
 Human.prototype.pieceEvent = function(piece)
 {
-    if(piece instanceof Ammobox){piece.currentRoom = null; game.ammo=game.ammo+3; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
+    if(piece instanceof Ammobox){this.pickupEffect = 20; piece.currentRoom = null; game.ammo=game.ammo+3; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     if(piece instanceof Key){piece.currentRoom = null; game.human.hasKey=true; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     if(piece instanceof RunningShoes){piece.currentRoom = null; game.human.runlength=2; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     if(piece instanceof Health){piece.currentRoom = null; game.human.health++; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
