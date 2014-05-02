@@ -43,7 +43,11 @@ function Fishman(x,y,room)
         if(this.hurtFrame==100) { this.currentRoom = null;  game.pieces.push ( new Ammobox( parseInt(this.x2/28),  parseInt(this.y2/38),   room) ); }
         this.updateLight(6);
         if(this.cooldown>0){this.cooldown--; return;}
-        
+       
+        if(Math.random()<0.1)
+        {
+            game.pieces.push ( new Axe( parseInt(this.x2/28)+0.5, parseInt(this.y2/38)+0.5,room,this,new Point(parseInt(game.human.x2/28),parseInt(game.human.y2/38))) );
+        }
         var t = this.currentRoom.getTile( parseInt(this.x2/28), parseInt(this.y2/38));
         
         //console.log("-------");
