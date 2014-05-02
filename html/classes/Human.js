@@ -339,7 +339,7 @@ Human.prototype.pieceEvent = function(piece)
     if(piece instanceof RunningShoes){piece.currentRoom = null; game.human.runlength=2; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     if(piece instanceof Health){piece.currentRoom = null; game.human.health++; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     if(piece instanceof Gun){ piece.currentRoom = null; game.human.hasGun = true; this.animation = new Animation(2); }
-    if(piece instanceof Chest)return true;
+    if(piece instanceof Chest) { if(this.dir == 2 && piece.open == false) { piece.open = true; this.pickupEffect =20; } return true; }
     if(piece instanceof StoneBlock)return true;
     return false;
 }

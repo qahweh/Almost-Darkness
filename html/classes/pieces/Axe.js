@@ -10,8 +10,8 @@ function Axe(x,y,room, thrower,aim)
     this.topHeight = 120;
     if(aim)
     {
-        aim.x += parseInt(Math.random()*3)-1;
-        aim.y += parseInt(Math.random()*3)-1;
+        aim.x += parseInt(Math.random()*3)-1; //do not spread this much if hard to hit
+        aim.y += parseInt(Math.random()*3)-1; //
 
         var dx = aim.x - x;
         var dy = aim.y - y;
@@ -47,7 +47,7 @@ function Axe(x,y,room, thrower,aim)
         //TODO: get by height
         var t= this.currentRoom.getPiece2(this.x2,this.y2,this.thrower);
        
-        if(t && t!=this && t.getHit //TODO: make sure that axe never hit other axe if from same thrower)
+        if(t && t!=this && t.getHit) //TODO: make sure that axe never hit other axe if from same thrower
         {
             this.currentRoom = null;
             t.getHit();
