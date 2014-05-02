@@ -35,6 +35,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.walkDir = -1;
     this.shootCooldown = 0;
     this.pickupEffect = 0;
+    this.pickupImg = new Point(0,0);
 
     this.getHeight = function()
     {
@@ -293,7 +294,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
 
         if(this.pickupEffect>0)
         {
-            f.o2 = new Point(2,1);
+            f.o2 = this.pickupImg;
             f.o2f = new Point(0,-35-Math.sin(this.pickupEffect/5)*6);       
         }
         else
@@ -339,7 +340,7 @@ Human.prototype.pieceEvent = function(piece)
     if(piece instanceof RunningShoes){piece.currentRoom = null; game.human.runlength=2; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     if(piece instanceof Health){piece.currentRoom = null; game.human.health++; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     if(piece instanceof Gun){ piece.currentRoom = null; game.human.hasGun = true; this.animation = new Animation(2); }
-    if(piece instanceof Chest) { if(this.dir == 2 && piece.open == false) { piece.open = true; this.pickupEffect =20; } return true; }
+    if(piece instanceof Chest) { if(this.dir == 2 && piece.open == false) { piece.openFunction(); } return true; }
     if(piece instanceof StoneBlock)return true;
     return false;
 }

@@ -8,4 +8,34 @@ function Chest(x,y,room)
 
     this.getImage = function() { if(this.open) return new Point(10,7);  return new Point(9,7); }
     this.update = function() {} //TODO: must have update to be drawn. not well. look over this logic.
+
+    this.openFunction = function()
+    {
+        if(this.open)return;
+        this.open = true;
+
+        var g = parseInt(Math.random()*100);
+        game.human.pickupEffect = 20;
+        if(g<20)
+        {
+            game.human.pickupImg = new Point(6,1);
+            return;
+        }
+        if(g<40)
+        {
+            game.human.pickupImg = new Point(9,4);
+            return;
+        }
+        if(g<65)
+        {
+            game.human.pickupImg = new Point(10,4);
+            return;
+        }
+        if(g<80)
+        {
+            game.human.pickupImg = new Point(2,1);
+            return;
+        }
+        game.human.pickupEffect = 0;
+    }
 } 
