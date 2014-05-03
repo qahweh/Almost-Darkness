@@ -47,6 +47,7 @@ function Bullet(x,y,room, shooter)
     this.collisionEvent = function(p)
     {
         if(p==shooter)return;
+        if(p instanceof Lamp)return;
         if(p.getHit) { p.getHit(); }
         this.remove();
     }

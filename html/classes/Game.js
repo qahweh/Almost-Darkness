@@ -13,7 +13,7 @@ function Game()
         this.gameState = 1;
         this.option = 0;
         this.sleep = 0;
-        this.frameskip = 1;
+        this.frameskip = 0;
         this.noLightEffect = false;
         this.menu = 0;
         this.rooms = new Array();

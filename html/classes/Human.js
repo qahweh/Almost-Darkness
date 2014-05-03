@@ -130,16 +130,21 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
 
     this.updateLight = function(effect)
     {
+		var starty = ( this.jump>0 || this.pickupEffect>0 ? -1 : -2);
         var p = parseInt(Math.random()*7);
         for(var x=-1; x<2; x++)
         {
-            for(var y=-1; y<2; y++)
+            for(var y=-2; y<2; y++)
             {
+				var b = 1;
+				if(y!=-2)
+				{
                 var r = Math.abs(x)+Math.abs(y);
-                var b = 8*effect;
+                b = 8*effect;
                 if(r==1)b = 4*effect;
                 if(r==2)b = 1*effect;
-
+			     }
+			     
 
                 var t = this.currentRoom.getTile( parseInt(  ((this.x2)/28)+x) ,parseInt((this.y2)/38)+y );
                 if(t instanceof Object)
@@ -335,7 +340,7 @@ this.shoot = function()
 
 Human.prototype.pieceEvent = function(piece)
 {
-    if(piece instanceof Ammobox){this.pickupEffect = 20; piece.currentRoom = null; game.ammo=game.ammo+3; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
+    if(piece instanceof Ammobox){this.pickupEffect = 20; this.pickupImg = new Point(2,1); piece.currentRoom = null; game.ammo=game.ammo+3; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     if(piece instanceof Key){piece.currentRoom = null; game.human.hasKey=true; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     if(piece instanceof RunningShoes){piece.currentRoom = null; game.human.runlength=2; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     if(piece instanceof Health){piece.currentRoom = null; game.human.health++; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
