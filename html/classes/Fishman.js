@@ -44,7 +44,7 @@ function Fishman(x,y,room)
         this.updateLight(6);
         if(this.cooldown>0){this.cooldown--; return;}
        
-        if(Math.random()<0.1)
+        if(Math.random()<0.03 && common.getDistanceByPoints(new Point(this.x2,this.y2),new Point(game.human.x2,game.human.y2))>100)
         {
             game.pieces.push ( new Axe( parseInt(this.x2/28)+0.5, parseInt(this.y2/38)+0.5,room,this,new Point(parseInt(game.human.x2/28),parseInt(game.human.y2/38))) );
         }

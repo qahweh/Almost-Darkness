@@ -25,7 +25,16 @@ function Bullet(x,y,room, shooter)
         if(this.currentRoom==null)return;
         for(var i=0; i<2; i++)
         {
-            var t = this.currentRoom.getTile( parseInt(  ((this.x2)/28)-i) ,parseInt((this.y2)/38) );
+			var dx=0;
+			var dy=0;
+			if(i==1)
+			{
+				if(this.dir==0)dx=-1;
+				if(this.dir==1)dx=1;
+				if(this.dir==2)dy=1;
+				if(this.dir==3)dy=-1;
+			}
+            var t = this.currentRoom.getTile( parseInt(  ((this.x2)/28)+dx) ,parseInt((this.y2)/38)+dy );
             if(t instanceof Object)
             {
                 t.brightness += (4+(this.frame%2)*2)-i*3;

@@ -52,6 +52,18 @@ function Axe(x,y,room, thrower,aim)
             this.currentRoom = null;
             t.getHit();
         }
+        
+        for(var u=1; u<2; u++)
+        {
+        for(var i=0; i<5; i++)
+        {
+            var t = this.currentRoom.getTile( parseInt(  ((this.x2)/28)+u) ,parseInt((this.y2)/38)-i );
+            if(t instanceof Object)
+            {
+                t.brightness += (4+(this.frame%2)*2);
+            }
+        }
+	    }
     }
     this.getHeight = function()
     {
