@@ -24,7 +24,12 @@ function Fishman(x,y,room)
     r.collideTileEvent = function(t)
     {
         if(this.canWalkOn(t)) return;
-        this.action[65] = false;
+        this.randomTurn();
+    }
+
+    r.randomTurn = function()
+    {
+		this.action[65] = false;
         this.action[68] = false;
         this.action[87] = false;
         this.action[83] = false;
@@ -33,7 +38,7 @@ function Fishman(x,y,room)
         if(x==DirType.LEFT) this.action[65] = true;
         if(x==DirType.DOWN) this.action[83] = true;
         if(x==DirType.UP) this.action[87] = true;
-    }
+	}
 
     r.update = function()
     {
@@ -119,7 +124,9 @@ function Fishman(x,y,room)
 
     r.pieceEvent = function(piece)
     {
-        if(piece.isHuman && !this.hurt)piece.getHit(60);
+        if(piece.isHuman && !this.hurt) { piece.getHit(60); return false; }
+        if(piece instanceof Chest) { this.randomTurn(); return true;}
+        if(piece instanceof StoneBlock) { this.randomTurn(); return true;}
         return false;
     }
 

@@ -309,7 +309,7 @@ Room.prototype.getTile = function(x,y,ignoreFunction)
         r.canWalkOn = !( or==1 || or==2 );
         if(r.canWalkOn) r.setFeel = tileFactory.setFeel;
 
-        if(or==4 || or==5 || or==14 || or==15 || or==24 || or==25) r.isFloor = true;
+        if(or==0 || or==4 || or==5 || or==14 || or==15 || or==24 || or==25) r.isFloor = true;
         if(or==1 || or==2) r.isWall = true; 
         r.currentRoom = this;
         r.x = x;
