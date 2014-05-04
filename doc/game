@@ -10,8 +10,14 @@ Klara spelet om besökt ett visst antal rum. visa antal rum.
 Ny fiende typ, starkare. så att instället för många fiender längre fram så kan dom bli starkare.
 Inga fiender i för små rum. om isf bara 1 kanske och då svår ifall långt in i spelet.
 Stäng dörrar ibland och öppna enbart om alla fiender är rensade.
+Slå eller skjuta bort block.
 
+Yxa:
+Yxa träffar på rätt höjd. Tänk på att olika objekt kan ha olika höjd. tänk också på att objekt kan vara på samma tile så hantera träff på flera.
+Ska kunna träffa vanliga block. kanske se till att dom kan gå sönder lite. träffar yxa annan fishman så ta inte lika mycket skada. ska kunna skjuta bort eller använda whip för att slå bort yxa.
 
+Köpman:
+Kompisar är köpmän. Ganska självklart, hittar mynt eller vin och byter mot items. kanske kan göra så köpmänen följer med en.
 
 Riddarerum:
 innehåller ett bra item som man får välja att plocka upp. Om man gör det stängs dörren eller dörrarna och man måste besegra riddaren/riddarna.

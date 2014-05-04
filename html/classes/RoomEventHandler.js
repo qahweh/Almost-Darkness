@@ -38,12 +38,12 @@ function RoomEventHandler()
         {           
             if(game.level==1)
             {
-                this.pieces.push ( new Fishman(13,8,room) );
-                this.pieces.push ( new Fishman(13,13,room) );
-           //     this.pieces.push ( new Fishman(16,8,room) );
-                this.pieces.push ( new Lamp(13,9,room) );
-                this.pieces.push ( new Lamp(22,13,room) );
-                this.pieces.push ( new Lamp(11,16,room) );
+                this.pieces.push ( new Chest(13,8,room) );
+                this.pieces.push ( new Chest(13,13,room) );
+                this.pieces.push ( new Chest(16,8,room) );
+               // this.pieces.push ( new Lamp(13,9,room) );
+               // this.pieces.push ( new Lamp(22,13,room) );
+               // this.pieces.push ( new Lamp(11,16,room) );
                 this.pieces.push ( new Gun(22,14,room) );
             }
             else
@@ -66,7 +66,7 @@ function RoomEventHandler()
             
             if(room.matris[i].isFloor)break;
         }
-
+        console.log(i);
         var n=0;
         while(true)
         {
@@ -128,7 +128,7 @@ function RoomEventHandler()
 
 
         var r = Math.random();
-        if(r<0.8)
+        if(r<0.7)
         {
             var diff = this.fishmanRoomLevel-this.ammoRoomLevel;
             if(diff<-2)this.fishmanRoomLevel+=5;

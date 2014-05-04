@@ -45,11 +45,13 @@ function Fishman(x,y,room)
         this.update2 = characterFactory.update2;
         this.update2();
         if(this.hurt)this.hurtFrame++;
-        if(this.hurtFrame==100) { this.currentRoom = null;  game.pieces.push ( new Ammobox( parseInt(this.x2/28),  parseInt(this.y2/38),   room) ); }
+        if(this.hurtFrame==100) { this.currentRoom = null;  game.pieces.push ( 
+        (Math.random()<0.5 ? new Ammobox( parseInt(this.x2/28), parseInt(this.y2/38), room) 
+                           :  new Health( parseInt(this.x2/28), parseInt(this.y2/38), room ))); }
         this.updateLight(6);
         if(this.cooldown>0){this.cooldown--; return;}
        
-        if(Math.random()<0.03 && common.getDistanceByPoints(new Point(this.x2,this.y2),new Point(game.human.x2,game.human.y2))>100)
+        if(Math.random()<0.03 && !this.hurt && common.getDistanceByPoints(new Point(this.x2,this.y2),new Point(game.human.x2,game.human.y2))>100)
         {
             game.pieces.push ( new Axe( parseInt(this.x2/28)+0.5, parseInt(this.y2/38)+0.5,room,this,new Point(parseInt(game.human.x2/28),parseInt(game.human.y2/38))) );
         }

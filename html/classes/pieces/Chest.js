@@ -16,17 +16,17 @@ function Chest(x,y,room)
 
         var g = parseInt(Math.random()*100);
         game.human.pickupEffect = 20;
-        if(g<20)
+        if(g<5)
         {
             game.human.pickupImg = new Point(6,1);
             return;
         }
-        if(g<40)
+        if(g<10)
         {
             game.human.pickupImg = new Point(9,4);
             return;
         }
-        if(g<65)
+        if(g<15)
         {
             game.human.pickupImg = new Point(10,4);
             return;
@@ -34,6 +34,7 @@ function Chest(x,y,room)
         if(g<80)
         {
             game.human.pickupImg = new Point(2,1);
+            game.ammo += 12;
             return;
         }
         game.human.pickupEffect = 0;
