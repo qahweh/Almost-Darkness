@@ -70,7 +70,7 @@
                 else if(event.keyCode==13) game.doAction(13);
                 else if(event.keyCode==87) game.doAction(87);
                 else if(event.keyCode==83) game.doAction(83);
-                else if(event.keyCode==74 && game.ammo>0 && !game.human.hurt) { game.human.shoot();} // J
+                else if(event.keyCode==74) game.doAction(74) // J
                 else if(event.keyCode==75) game.doAction(75); //K
                 else if(event.keyCode==76) game.doAction(76); //L
             }

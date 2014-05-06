@@ -36,6 +36,8 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.shootCooldown = 0;
     this.pickupEffect = 0;
     this.pickupImg = new Point(0,0);
+    this.whipframe = 0;
+    this.currentWeapon = 0;
 
     this.getHeight = function()
     {
@@ -60,6 +62,27 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         if(this.blinkTime>0) this.blinkTime--;
         if(this.pickupEffect>0) this.pickupEffect--;
         if(this.shootCooldown>0) this.shootCooldown--;
+        if(this.whipframe>0) this.whipframe--;
+        if(this.whipframe==1)
+        {
+			var wdx = 0;
+			var wdy = 0;
+			if(this.dir==0)var wdx = 20;
+			if(this.dir==1)var wdx = -20;
+			if(this.dir==2)var wdy = 20;
+			if(this.dir==3)var wdy = -20;
+			 
+			var p = this.currentRoom.getPiece2( this.x2, this.y2+0, this );
+			console.log(p);
+			if(p!=null && p.getHit)p.getHit();
+		}
+
+
+        if(this.hasGun && game.ammo>0)
+        {
+			this.currentWeapon = 2;
+		}
+		else this.currentWeapon = 1;
 
         if(this.action[76]==true && this.jump==0)
         {
@@ -163,6 +186,18 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.doAction = function(c)
     {
         this.action[c]=true;
+        if(c==74)
+        {
+            if(this.currentWeapon==1)
+            {
+				this.whipframe = 30;
+				return;
+			}
+			else if(this.currentWeapon==2)
+			{
+				if(game.ammo>0 && !this.hurt) this.shoot();
+			}
+	    }
     }
 
     this.getTilePos = function()
@@ -277,8 +312,100 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         if(this.inWater && this.jump==0)return new Point(9,8);
 
         var f = this.u();
-        if(this.hasGun)
+        
+        if(this.currentWeapon==1)
         {
+			
+        if(this.whipframe>0)
+        {
+			this.animation = new Animation(2);
+			var h = parseInt((29-this.whipframe)/10);
+			
+			if(this.dir==0)
+			{
+			    if(h%3==0)
+			    {
+			    f.o = new Point(11,7);
+                f.of = new Point(-8,0);
+		        }
+			    if(h%3==1)
+			    {
+			    f.o = new Point(11,8);
+                f.of = new Point(-2,0);
+                }
+			    if(h%3==2)
+			    {
+			    f.o = new Point(11,9);
+                f.of = new Point(18,6);
+                }
+		    }
+		    else if(this.dir==1)
+		    {
+			    if(h%3==0)
+			    {
+			    f.o = new Point(11,10);
+                f.of = new Point(8,0);
+		        }
+			    if(h%3==1)
+			    {
+			    f.o = new Point(11,11);
+                f.of = new Point(2,0);
+                }
+			    if(h%3==2)
+			    {
+			    f.o = new Point(11,12);
+                f.of = new Point(-18,6);
+                }
+			}
+		    else if(this.dir==2)
+		    {
+			    if(h%3==0)
+			    {
+			    f.o = new Point(11,7);
+                f.of = new Point(-8,0);
+		        }
+			    if(h%3==1)
+			    {
+			    f.o = new Point(11,8);
+                f.of = new Point(-2,0);
+                }
+			    if(h%3==2)
+			    {
+			    f.o = new Point(11,9);
+                f.of = new Point(18,6);
+                }
+			}
+		    else if(this.dir==3)
+		    {
+			    if(h%3==0)
+			    {
+			    f.o = new Point(11,7);
+                f.of = new Point(-8,0);
+		        }
+			    if(h%3==1)
+			    {
+			    f.o = new Point(11,8);
+                f.of = new Point(-2,0);
+                }
+			    if(h%3==2)
+			    {
+			    f.o = new Point(11,9);
+                f.of = new Point(18,6);
+                }
+			}
+		}
+		else
+		{
+			this.animation = new Animation(3);
+			f.o=false;
+			return f;
+		}
+		
+		}
+        
+        if(this.currentWeapon==2)
+        {
+			this.animation = new Animation(2); //code should goes faster if not re-create this object all the time. TODO. THat gpes for every new Animation i getImage
             if(this.dir==0)
             {
                 f.o = new Point(0,9);
@@ -344,7 +471,7 @@ Human.prototype.pieceEvent = function(piece)
     if(piece instanceof Key){piece.currentRoom = null; game.human.hasKey=true; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     if(piece instanceof RunningShoes){piece.currentRoom = null; game.human.runlength=2; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
     if(piece instanceof Health){this.pickupEffect = 20; this.pickupImg = new Point(6,0); piece.currentRoom = null; game.human.health++; return false;} //todo: remove from piece list. fishman should not pickup ammobox.
-    if(piece instanceof Gun){ piece.currentRoom = null; game.human.hasGun = true; this.animation = new Animation(2); }
+    if(piece instanceof Gun){ piece.currentRoom = null; game.human.hasGun = true; }
     if(piece instanceof Chest) { if(this.dir == 2 && piece.open == false) { piece.openFunction(); } return true; }
     if(piece instanceof StoneBlock)return true;
     return false;

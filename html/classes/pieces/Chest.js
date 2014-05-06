@@ -18,15 +18,25 @@ function Chest(x,y,room)
         game.human.pickupEffect = 20;
         if(g<5)
         {
+			game.human.pickupImg = new Point(10,6);
+			return;
+		}
+        if(g<10)
+        {
+			game.human.pickupImg = new Point(11,6);
+			return;
+		}
+        if(g<15)
+        {
             game.human.pickupImg = new Point(6,1);
             return;
         }
-        if(g<10)
+        if(g<18)
         {
             game.human.pickupImg = new Point(9,4);
             return;
         }
-        if(g<15)
+        if(g<12)
         {
             game.human.pickupImg = new Point(10,4);
             return;
