@@ -267,6 +267,11 @@
                 if(game.human.runlength==2)gamecanvasC.drawImage(img,6*28,3*38,28,38,0,38*2,28,38);
                 if(game.human.hasKey)gamecanvasC.drawImage(img,6*28,1*38,28,38,0,38*3,28,38);
                 if(game.human.hasGun)gamecanvasC.drawImage(img,6*28,9*38,28,38,28,38*3,28,38);
+
+
+                if(game.human.magicFreeze) gamecanvasC.drawImage(img,10*28,6*38,28,38,0,38*8,28,38);
+                if(game.human.magicPoison) gamecanvasC.drawImage(img,11*28,6*38,28,38,0,38*9,28,38);
+
                 gamecanvasC.drawImage(img,6*28,0*38,28,38,0,38*4,28,38);
                 drawText(1,4,""+( game.human.health>0 ? game.human.health : 0),gamecanvasC);
             }

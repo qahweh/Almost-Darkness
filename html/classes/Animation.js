@@ -57,5 +57,19 @@ function Animation(type)
         this.images.push(new Point( 2,  12));
         this.images.push(new Point( 10, 12));
     }
+    if(type==5) // fish man frozen
+    {
+        this.images.push(new Point( 1,  13));
+        this.images.push(new Point( 0,  13));
+        this.images.push(new Point( 9,  13));
+        this.images.push(new Point( 3,  13));
+        this.images.push(new Point( 4,  13));
+        this.images.push(new Point( 5,  13));
+        this.images.push(new Point( 6,  13));
+        this.images.push(new Point( 7,  13));
+        this.images.push(new Point( 8,  13));
+        this.images.push(new Point( 2,  13));
+        this.images.push(new Point( 10, 13));
+    }
 
 }

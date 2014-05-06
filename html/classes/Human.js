@@ -38,7 +38,10 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.pickupImg = new Point(0,0);
     this.whipframe = 0;
     this.currentWeapon = 0;
-
+    this.freeze = 0;
+    this.magicFreeze = false;
+    this.magicPoison = false;
+    
     this.getHeight = function()
     {
         if(this.jump>0) return ( this.height<0.8 ? 0 : this.height);
@@ -74,7 +77,11 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
 			 
 			var p = this.currentRoom.getPiece2( this.x2, this.y2+0, this );
 			console.log(p);
-			if(p!=null && p.getHit)p.getHit();
+			if(p!=null && p.getHit)
+			{
+				p.getHit();
+				if(this.magicFreeze) p.freeze = 200; 
+			}
 		}
 
 
@@ -398,7 +405,6 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
 		{
 			this.animation = new Animation(3);
 			f.o=false;
-			return f;
 		}
 		
 		}

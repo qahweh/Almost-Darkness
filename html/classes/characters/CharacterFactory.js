@@ -8,6 +8,20 @@ function CharacterFactory()
             return;
         }
 
+        if(this.canBeFreezed)
+        {
+			if(this.freeze>0)
+			{
+				this.freeze--;
+				if(this.freeze>100)
+				{
+				    this.animation = new Animation(5);
+				}
+				else this.animation = ( parseInt(this.freeze/7)%2==0 ? new Animation(5) : this.normalanimation);
+				return;
+		    }
+			else this.animation = this.normalanimation;
+	    }
        if(this.startrunningCooldown>0){ this.startrunningCooldown--; } else this.steplength = this.walklength;
 
         var k = -1;

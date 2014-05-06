@@ -8,11 +8,13 @@ function Fishman(x,y,room,level)
     r.cooldown = 10;
     r.offsetImg = new Point(14,35);
     r.level = level;
-    
+    r.canBeFreezed = true;
     r.animation = new Animation(1);
+    r.normalanimation = new Animation(1);
     if(r.level==2)
     {
 		r.animation = new Animation(4);
+		r.normalanimation = new Animation(4);
         r.health = 5;
     }
     r.hurtFrame = 0;
@@ -58,7 +60,7 @@ function Fishman(x,y,room,level)
         this.updateLight(6);
         if(this.cooldown>0){this.cooldown--; return;}
        
-        if(Math.random()<0.03 && !this.hurt && common.getDistanceByPoints(new Point(this.x2,this.y2),new Point(game.human.x2,game.human.y2))>100)
+        if(Math.random()<0.03 && !this.hurt && this.freeze==0 && common.getDistanceByPoints(new Point(this.x2,this.y2),new Point(game.human.x2,game.human.y2))>100)
         {
             game.pieces.push ( new Axe( parseInt(this.x2/28)+0.5, parseInt(this.y2/38)+0.5,room,this,new Point(parseInt(game.human.x2/28),parseInt(game.human.y2/38))) );
         }

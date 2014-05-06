@@ -48,9 +48,11 @@ function Bullet(x,y,room, shooter)
     {
         if(p==shooter)return;
         if(p instanceof Lamp)return;
+        if(p instanceof Ammobox)return;
+        if(p instanceof Health)return;
         if(p instanceof StoneBlock){p.health--;};
         if(p instanceof Chest){p.health--;};
-        if(p.getHit) { p.getHit(); }
+        if(p.getHit) { if(this.shooter.magicFreeze) p.freeze = 200; p.getHit(); }
         this.remove();
     }
 } 
