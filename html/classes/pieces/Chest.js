@@ -8,7 +8,7 @@ function Chest(x,y,room)
     this.health = 4;
     this.getImage = function() { if(this.open) return new Point(10,7);  return new Point(9,7); }
     this.update = function() { if(this.health<=0)this.currentRoom = null } 
-
+this.tall=50;
 
 
     this.openFunction = function()
@@ -18,8 +18,7 @@ function Chest(x,y,room)
 
         var g = parseInt(Math.random()*100);
         game.human.pickupEffect = 20;
-        g = 2;
-        if(g<5)
+        if(g<3)
         {
 			game.human.pickupImg = new Point(10,6);
 			game.human.magicFreeze = true;
@@ -28,6 +27,7 @@ function Chest(x,y,room)
         if(g<10)
         {
 			game.human.pickupImg = new Point(11,6);
+			game.human.magicPoison = true;
 			return;
 		}
         if(g<15)

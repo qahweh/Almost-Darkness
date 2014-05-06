@@ -9,6 +9,7 @@ function Bullet(x,y,room, shooter)
     this.shooter = shooter;
     this.ignoreTileCollision = function(t){ return (t.canWalkOn || t.canThrowOver); }
     this.ignorePieceCollision = function(p) { return (p.hurt)  }
+   
     this.getImage = function()
     {
         return new Point(1,1);
@@ -50,9 +51,15 @@ function Bullet(x,y,room, shooter)
         if(p instanceof Lamp)return;
         if(p instanceof Ammobox)return;
         if(p instanceof Health)return;
+        if(p instanceof Axe){ p.speedX = -p.speedX; p.speedY = -p.speedY; }
         if(p instanceof StoneBlock){p.health--;};
         if(p instanceof Chest){p.health--;};
         if(p.getHit) { if(this.shooter.magicFreeze) p.freeze = 200; p.getHit(); }
         this.remove();
     }
+    
+    this.getHeight = function()
+    {
+		return 0;
+	}
 } 

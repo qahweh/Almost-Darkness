@@ -95,15 +95,16 @@ function Room(roomType,random, buildRoom, deep)
     }
 
 
-    this.getPiece2 = function(x,y,not,ignorePiece)
+    this.getPiece2 = function(x,y,not,ignorePiece,z)
     {
+		if(!z)z=0;
         var nx = parseInt(x/28);
         var ny = parseInt(y/38);
 //        console.log(nx+","+ny);
         for(var index = 0; index < game.pieces.length; index++)
         {
             var p = game.pieces[index];
-            if(p.currentRoom == this && p!=not && parseInt(p.x2/28)==nx && parseInt(p.y2/38)==ny)
+            if(p.currentRoom == this && p!=not && parseInt(p.x2/28)==nx && parseInt(p.y2/38)==ny && (!p.tall || (p.tall && z<p.tall))) //TODO: check tall+height
             {
                 if(!ignorePiece || !ignorePiece(p)) return p;
             }

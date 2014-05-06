@@ -41,7 +41,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.freeze = 0;
     this.magicFreeze = false;
     this.magicPoison = false;
-    
+    this.tall = 30;
     this.getHeight = function()
     {
         if(this.jump>0) return ( this.height<0.8 ? 0 : this.height);
