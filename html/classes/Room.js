@@ -28,6 +28,13 @@ function Room(roomType,random, buildRoom, deep)
     this.deep = deep;
     if(buildRoom)this._makeRoomMatrisByRandom();
 
+    this.getNumberOfFloorTiles = function()
+    {
+        var x = 0;
+        for(var i=0; i<this.width*this.height; i++) if(this.matris[i] && this.matris[i].isFloor) x++;
+        return x;		
+	}
+
     this.getNumberOfDoors = function()
     {
         var x = 0;

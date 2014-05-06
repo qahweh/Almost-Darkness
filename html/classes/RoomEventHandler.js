@@ -24,7 +24,7 @@ function RoomEventHandler()
     obj.f = function(x,y,room){ return new Key(x,y,room)};
     obj.w = 4;
 
-    this.itemsToCome.push( obj)
+    this.itemsToCome.push( obj);
 
     this.handleRoom = function(room, doNotBuildHere)
     {
@@ -128,12 +128,27 @@ function RoomEventHandler()
 
 
         var r = Math.random();
-        if(r<0.7)
+        if(r<0.75)
         {
             var diff = this.fishmanRoomLevel-this.ammoRoomLevel;
             if(diff<-2)this.fishmanRoomLevel+=5;
             else this.fishmanRoomLevel++;
-            this.fillRoomsWith(room, function(x,y,room){ return new Fishman(x,y,room); },this.fishmanRoomLevel)
+
+            var noft = room.getNumberOfFloorTiles();
+            var h = parseInt(noft / this.fishmanRoomLevel);
+            if(h>6)
+            {
+                this.fillRoomsWith(room, function(x,y,room){ return new Fishman(x,y,room,1); },this.fishmanRoomLevel)
+            }
+            else if(h>3)
+            {
+                this.fillRoomsWith(room, function(x,y,room){ return new Fishman(x,y,room,1); },parseInt(this.fishmanRoomLevel/3))
+                this.fillRoomsWith(room, function(x,y,room){ return new Fishman(x,y,room,2); },parseInt(this.fishmanRoomLevel/3))
+            }
+            else
+            {
+                this.fillRoomsWith(room, function(x,y,room){ return new Fishman(x,y,room,2); },parseInt(this.fishmanRoomLevel/2))				
+			}
         }
         else if(r<0.9)
         {
@@ -152,7 +167,7 @@ function RoomEventHandler()
 
         
         this.fillRoomsWith(room, function(x,y,room){ return new Chest(x,y,room); },1);
-        this.fillRoomsWith(room, function(x,y,room){ return new StoneBlock(x,y,room); },5);
+        this.fillRoomsWith(room, function(x,y,room){ return new StoneBlock(x,y,room); },parseInt(room.getNumberOfFloorTiles()/10));
 
     }
 

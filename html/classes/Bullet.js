@@ -48,6 +48,8 @@ function Bullet(x,y,room, shooter)
     {
         if(p==shooter)return;
         if(p instanceof Lamp)return;
+        if(p instanceof StoneBlock){p.health--;};
+        if(p instanceof Chest){p.health--;};
         if(p.getHit) { p.getHit(); }
         this.remove();
     }

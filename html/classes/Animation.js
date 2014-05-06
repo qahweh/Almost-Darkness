@@ -43,4 +43,19 @@ function Animation(type)
         this.images.push(new Point(2,5));
         this.images.push(new Point(4,5));
     }
+    if(type==4) // fish man lv2
+    {
+        this.images.push(new Point( 1,  12));
+        this.images.push(new Point( 0,  12));
+        this.images.push(new Point( 9,  12));
+        this.images.push(new Point( 3,  12));
+        this.images.push(new Point( 4,  12));
+        this.images.push(new Point( 5,  12));
+        this.images.push(new Point( 6,  12));
+        this.images.push(new Point( 7,  12));
+        this.images.push(new Point( 8,  12));
+        this.images.push(new Point( 2,  12));
+        this.images.push(new Point( 10, 12));
+    }
+
 }

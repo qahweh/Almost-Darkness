@@ -1,4 +1,4 @@
-function Fishman(x,y,room)
+function Fishman(x,y,room,level)
 {
     var r = new Human(x,y,room);
     r.imgx = 1;
@@ -7,7 +7,14 @@ function Fishman(x,y,room)
     r.health = 2;
     r.cooldown = 10;
     r.offsetImg = new Point(14,35);
+    r.level = level;
+    
     r.animation = new Animation(1);
+    if(r.level==2)
+    {
+		r.animation = new Animation(4);
+        r.health = 5;
+    }
     r.hurtFrame = 0;
     r.steplength=0.8;
     r.walklength = 0.75;

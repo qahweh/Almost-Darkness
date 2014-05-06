@@ -5,9 +5,9 @@ function Chest(x,y,room)
     this.y2 = y*38;
     this.offsetImg = new Point(0,0);
     this.open = false;
-
+    this.health = 4;
     this.getImage = function() { if(this.open) return new Point(10,7);  return new Point(9,7); }
-    this.update = function() {} //TODO: must have update to be drawn. not well. look over this logic.
+    this.update = function() { if(this.health<=0)this.currentRoom = null } 
 
     this.openFunction = function()
     {

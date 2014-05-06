@@ -3,14 +3,14 @@ game
 
 Alpha:
 Ha whip
-Fiender kasta yxa
-Öppna kista, få item
+** Fiender kasta yxa
+** Öppna kista, få item
 Fler nycklar, antal nycklar och dörr låst med samma typ på båda sidor. (såklart låses båda sidor upp)
 Klara spelet om besökt ett visst antal rum. visa antal rum.
-Ny fiende typ, starkare. så att instället för många fiender längre fram så kan dom bli starkare.
-Inga fiender i för små rum. om isf bara 1 kanske och då svår ifall långt in i spelet.
+** Ny fiende typ, starkare. så att instället för många fiender längre fram så kan dom bli starkare.
+() Inga fiender i för små rum. om isf bara 1 kanske och då svår ifall långt in i spelet.
 Stäng dörrar ibland och öppna enbart om alla fiender är rensade.
-Slå eller skjuta bort block.
+* Slå eller skjuta bort block.
 
 Yxa:
 Yxa träffar på rätt höjd. Tänk på att olika objekt kan ha olika höjd. tänk också på att objekt kan vara på samma tile så hantera träff på flera.
