@@ -42,9 +42,10 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.magicFreeze = false;
     this.magicPoison = false;
     this.tall = 30;
+    this.getTall = function(){ return 30;}
     this.getHeight = function()
     {
-        if(this.jump>0) return ( this.height<0.8 ? 0 : this.height);
+        if(this.jump>0) return ( this.height<0.8 ? 0 : parseInt(this.height));
         return 0;
     }
 
@@ -237,7 +238,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
 
         if(this.hurt && !force)return;
         var t = this.currentRoom.getTile( parseInt(  ((this.x2+dx)/28)) ,parseInt((this.y2+dy)/38) );
-        var p = this.currentRoom.getPiece2( this.x2+dx, this.y2+dy, this );
+        var p = this.currentRoom.getPiece2( this.x2+dx, this.y2+dy, this,false,this.getHeight(),this.getTall() );
         var t = this.currentRoom.getTile(  parseInt((this.x2+dx2)/28) ,parseInt((this.y2+dy2)/38)  );
 
         var b = false;

@@ -95,18 +95,37 @@ function Room(roomType,random, buildRoom, deep)
     }
 
 
-    this.getPiece2 = function(x,y,not,ignorePiece,z)
+    this.getPiece2 = function(x,y,not,ignorePiece,height,tall)
     {
-		if(!z)z=0;
         var nx = parseInt(x/28);
         var ny = parseInt(y/38);
 //        console.log(nx+","+ny);
         for(var index = 0; index < game.pieces.length; index++)
         {
             var p = game.pieces[index];
-            if(p.currentRoom == this && p!=not && parseInt(p.x2/28)==nx && parseInt(p.y2/38)==ny && (!p.tall || (p.tall && z<p.tall))) //TODO: check tall+height
+            if(p.currentRoom == this && p!=not && parseInt(p.x2/28)==nx && parseInt(p.y2/38)==ny) //TODO: check tall+height
             {
-                if(!ignorePiece || !ignorePiece(p)) return p;
+                if(!ignorePiece || !ignorePiece(p))
+                {
+					if(!p.getHeight) { console.log(p); throw "aaa"; }
+					if(!p.getTall) { console.log(p); throw "aaa"; }
+                    var pHeight = p.getHeight();
+                    var pTall = p.getTall();
+                    
+                    if( !(parseInt(pHeight)===pHeight && parseInt(height)===height && parseInt(tall)===tall && parseInt(pTall)===pTall) )
+                    {
+						console.log(p);
+						console.log(pHeight);
+						console.log(height);
+						console.log(tall);
+						console.log(pTall);
+						throw "Not all Z-values are numeric ";
+					}
+					if(common.pointsMerge(pHeight,pTall+pHeight,height,tall+height))
+					{
+					    return p;
+				    }
+                }
             }
         }
         return null;
@@ -311,7 +330,7 @@ Room.prototype.getTile = function(x,y,ignoreFunction)
 
        r.getPiece = function()
         {
-            return this.currentRoom.getPiece2( this.x*28, this.y*38 );
+            return this.currentRoom.getPiece2( this.x*28, this.y*38, false, false,0,10000 );
         }
 
         r.canWalkOn = !( or==1 || or==2 );

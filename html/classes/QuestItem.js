@@ -7,6 +7,8 @@ function QuestItem(x,y,room)
     this.y2 = y*38;
     this.offsetImg = new Point(0,0);
     this.type = parseInt(Math.random()*3);
+    this.getHeight = function(){ return 0;}
+    this.getTall = function(){ return 35;}
     this.getImage = function()
     {
         if(this.type==0)return new Point(4,4);

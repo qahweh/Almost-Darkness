@@ -7,7 +7,8 @@ function Lamp(x,y,room)
     this.y2 = y*38+19;
     this.offsetImg = new Point(14,0);
     this.frame = 0;
-
+    this.getTall = function(){ return 10;}
+    
     this.getImage = function()
     {
         return new Point(0,8);

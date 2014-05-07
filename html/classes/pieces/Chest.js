@@ -8,8 +8,9 @@ function Chest(x,y,room)
     this.health = 4;
     this.getImage = function() { if(this.open) return new Point(10,7);  return new Point(9,7); }
     this.update = function() { if(this.health<=0)this.currentRoom = null } 
-this.tall=50;
-
+this.tall=20;
+    this.getHeight = function(){ return 0;}
+    this.getTall = function(){ return 20;}
 
     this.openFunction = function()
     {

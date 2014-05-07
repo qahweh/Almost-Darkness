@@ -45,7 +45,7 @@ function Axe(x,y,room, thrower,aim)
         this.y2+=this.speedY;
        
         //TODO: get by height
-        var t= this.currentRoom.getPiece2(this.x2,this.y2,this.thrower,function(){},this.getHeight());
+        var t= this.currentRoom.getPiece2(this.x2,this.y2,this.thrower,function(){},this.getHeight(),this.getTall());
        
         if(t && t!=this && t.getHit) //TODO: make sure that axe never hit other axe if from same thrower
         {
@@ -65,8 +65,12 @@ function Axe(x,y,room, thrower,aim)
         }
 	    }
     }
+    this.getTall = function()
+	{
+		return 10;
+	}
     this.getHeight = function()
     {
-        return 3+Math.sin(this.frame/20)*this.topHeight;
+        return parseInt(3+Math.sin(this.frame/20)*this.topHeight);
     }
 }

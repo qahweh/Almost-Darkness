@@ -20,6 +20,10 @@ Yxa träffar på rätt höjd. Tänk på att olika objekt kan ha olika höjd. tä
 Ska kunna träffa vanliga block. kanske se till att dom kan gå sönder lite. träffar yxa annan fishman så ta inte lika mycket skada. ska kunna skjuta bort eller använda whip för att slå bort yxa.
 Bättre reflektion då yxa kolliderar med exmpelvis skott
 
+Sanity effecter:
+* Spegvänd rum. runt zxel man kom ifrån för att inte avsljö för mycket att rumet blev spegelvänt.
+* Ser fiender som inte finns. det ger ingen skada och tar ingen skada försvinner efter en stund.
+
 Köpman:
 Kompisar är köpmän. Ganska självklart, hittar mynt eller vin och byter mot items. kanske kan göra så köpmänen följer med en.
 

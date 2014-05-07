@@ -57,9 +57,9 @@ function Bullet(x,y,room, shooter)
         if(p.getHit) { if(this.shooter.magicFreeze) p.freeze = 200; p.getHit(); }
         this.remove();
     }
-    
-    this.getHeight = function()
-    {
-		return 0;
-	}
+
+    // values are unrealistic but will make bullet more easy hit for example hit axes i air and that makes game better
+    this.getTall = function(){ return 20; }    
+    this.getHeight = function(){ return 13; }
+    // ----------
 } 
