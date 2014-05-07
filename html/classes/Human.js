@@ -276,6 +276,12 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
                 game.human.currentRoom = room;
                 drawRoom(true);
                 game.reh.handleRoom(room, function(x,y){ return (  (Math.abs(x-parseInt(game.human.x2/28)) + Math.abs(y-parseInt(game.human.y2/38)))<4   ||    room.nextToDoor(x,y)  ) });
+
+                if(room.hasEnemy() && Math.random() < 0.3)
+                {
+					room.forceCloseAllDoors();
+				}
+
             }
         }
     }

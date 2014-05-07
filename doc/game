@@ -1,4 +1,37 @@
+#--------------------
+|
+| Bra gameplay nu! 
+|
+| Med denna commit tycker jag att gameplayet är bra. Ändra inte för mycket i gameplayet IMO. Om du ändå skulle göra det så återgå till denna 
+| commit och se vad som var bra om gameplayet skulle gå mot något sämre.
+|
+| Det som gör gameplayet bra nu är att balansen är rätt bra. Man klarar sig ganska långt utan tur. 
+| Man kan vara taktiskt och gömma sig och vänta ut att fishman har ihjäl varandra. Man kan vara taktiskt med att placera sig bra så man lätt träffar med skotten.
+| 
+| Det som gör spelet intressant är hur man spelar för att spara ammo. Man är noga med sikta och skjuta rätt antal skott. För den ammo man spara är väldigt viktig för att 
+| komma långt i spelet. Spelet bjuder också på plötsliga bonusar där man får mycket ammo så även om det skulle gå dåligt med ammo spelar man för att hitta den där bonusen.
+| Alltså, bonusen kombinerat nogrannheten med ammo redan från start ger spelet ett intressant gameplay. Just nu är den balansen också bra.
+|
+| Piskan i spelet behöver bli bättre men inte såpass bra så att ammo känns överflödigt. Piskan ska användas för kanske ta ner sista fishman:en i rummet (lätt eftersom då är man inte omringad),
+| för spara ammo, eller för att faktiskt ha en chans att klara sig liten stund efter då ammon tar slut.
+|
+| Att stänga dörrarna i rum med fiender är dåligt eftersom då försvinner hela den där grejen med att fly och leta ammo innan man går in i strid.
+| Funktion ska vara kvar tycker jag men ska vara ovanlig att inträffa och gärna att varje gång man får ner en fiende så är det en 50/50 chans att dörrarna öppnas 
+| för att ge spelaren ett hopp om att det går komma ut ett "omöjligt" rum med enbart piskan eller lite ammo.
+|
+| Utöver ammo bonus så finns även chansen att hitta nya items som gör spelet en möjlighet att klara av. Detta gör spelet spännande på så sätt att man "bara måste"
+| Ha det där item:et för att komma vidare och varje gång man ser kistan får man det hoppet och chansen. Har man fått många items så är spelet spännande på så sätt
+| att det känns som att det är nu eller aldrig man klarar spelet. (risken finns att spelaren avslutar om han/hon inte hittat några items långt i spelet. Detta gör att jag
+| till viss del vill få in att chansen ökar att hitta items om man haft otur men känner att det tar bort lite av charmen att ha obalanserad tur :) )
+|
+| Quest, level (uppgradera) och nivår vill jag få in men de får inte förstöra gameplayet jag har nu. En bra idé angående level är att man hittar olika saker att uppgrader och man får anpassa vad man uppgraderar när man ser vad det finns för typer av fiender i olika nivår. Man kan vara taktiskt med att välja mellan Fire-class eller Ice-class innan man gått ner ett par nivåer och sett vad för typ av fiender som slumpats ska vara den mest dominanta. detta gör man och uppoffrar tidig hög level, som sparar ammo och liv, för att ha högra chans längre fram i spelet.
+| Detta gör även spelet roligt på så sätt att vissa väljer att chansa tidigt vad dom tror den dominanta fienden typen är för någon.
+ 
+ 
+
 game
+
+Byt liv mot chash
 
 
 Alpha:
@@ -11,6 +44,7 @@ Klara spelet om besökt ett visst antal rum. visa antal rum.
 () Inga fiender i för små rum. om isf bara 1 kanske och då svår ifall långt in i spelet.
 Stäng dörrar ibland och öppna enbart om alla fiender är rensade.
 * Slå eller skjuta bort block.
+Poison
 
 Allt ska ha höjd och längd så att kollision med exempelvis yxa och bullet bara träffar om dessa överlappas i Z.
 getPiece2 ska nog returnera en lista av objekt så att om man träffar flera objekt ska båda hanteras

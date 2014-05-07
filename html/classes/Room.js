@@ -47,8 +47,29 @@ function Room(roomType,random, buildRoom, deep)
         for(var i=0; i<this.width*this.height; i++) if( !this.matris[i].feel && this.matris[i].canWalkOn )this.matris[i].feel = 0;
     }
 
+    this.forceCloseAllDoors = function()
+    {
+		for(var i=0; i<this.width*this.height; i++) if(this.matris[i] instanceof Door) this.matris[i].isForcedClosed = true;
+	}
+
+    this.unForceCloseAllDoors = function()
+    {
+		for(var i=0; i<this.width*this.height; i++) if(this.matris[i] instanceof Door) this.matris[i].isForcedClosed = false;
+	}
 
 
+    this.hasEnemy = function()
+    {
+        for(index = 0; index < game.pieces.length; index++)
+        {
+            var p = game.pieces[index];
+            if(p.currentRoom == game.human.currentRoom)
+            {
+                if(p.isFishman && !p.hurt) return true;
+            }
+        }
+        return false;
+	}
 
     this.getCameraOnCenter = function()
     {

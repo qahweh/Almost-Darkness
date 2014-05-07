@@ -75,8 +75,11 @@ function CharacterFactory()
         }
         this.updateLight(10);
 
-        if(this.health<=0)this.hurt = true;  
- 
+        if(this.health<=0)
+        {
+			this.hurt = true;  
+			if(!this.currentRoom.hasEnemy()) this.currentRoom.unForceCloseAllDoors();
+		}
     }
 
     this.forceToCenter = function(close)

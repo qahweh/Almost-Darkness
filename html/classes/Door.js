@@ -13,8 +13,13 @@ function Door()
     this.counter = 1;
     this.locked = ( parseInt(Math.random()*15)==3 ? true : false);
     this.isWall = true;
+    
+    this.isForcedClosed = false;
+    
     this.getImage = function()
     {
+		if(this.isForcedClosed)return new Point(0,1);
+		
         if(this.locked) return new Point(6,2);
         return new Point(4,0);
     }

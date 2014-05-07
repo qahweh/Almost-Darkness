@@ -1,7 +1,7 @@
 function RoomEventHandler()
 {
     this.ammoRoomLevel = 0;
-    this.fishmanRoomLevel = 10;
+    this.fishmanRoomLevel = 0;
     this.beenHandled = new Array();
 
     this.itemsToCome = new Array();
