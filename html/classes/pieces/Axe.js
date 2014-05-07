@@ -19,7 +19,7 @@ function Axe(x,y,room, thrower,aim)
         var a = Math.atan( f );
 
         var l = common.getDistanceByPoints(aim,new Point(x,y))/1.9;
-        if(l<5)this.topHeight = 70;
+	        if(l<5)this.topHeight = 70;
 
         this.speedX = Math.sin(a)*l;
         this.speedY = Math.cos(a)*l;
@@ -50,13 +50,15 @@ function Axe(x,y,room, thrower,aim)
         if(t && t!=this && t.getHit) //TODO: make sure that axe never hit other axe if from same thrower
         {
             this.currentRoom = null;
-            t.getHit();
+            t.getHit(60);
+            return;
         }
         
         for(var u=1; u<2; u++)
         {
         for(var i=0; i<5; i++)
         {
+			
             var t = this.currentRoom.getTile( parseInt(  ((this.x2)/28)+u) ,parseInt((this.y2)/38)-i );
             if(t instanceof Object)
             {

@@ -34,16 +34,19 @@ this.tall=20;
         if(g<15)
         {
             game.human.pickupImg = new Point(6,1);
+            game.human.inventory.push(new Key(0,0,null,1));
             return;
         }
         if(g<18)
         {
             game.human.pickupImg = new Point(9,4);
+            game.human.inventory.push(new Key(0,0,null,2));
             return;
         }
         if(g<24)
         {
             game.human.pickupImg = new Point(10,4);
+            game.human.inventory.push(new Key(0,0,null,3));
             return;
         }
         if(g<80)

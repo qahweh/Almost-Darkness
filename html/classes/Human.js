@@ -43,6 +43,9 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.magicPoison = false;
     this.tall = 30;
     this.getTall = function(){ return 30;}
+    
+    this.inventory = new Array();
+    
     this.getHeight = function()
     {
         if(this.jump>0) return ( this.height<0.8 ? 0 : parseInt(this.height));
@@ -163,6 +166,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     {
 		var starty = ( this.jump>0 || this.pickupEffect>0 ? -1 : -2);
         var p = parseInt(Math.random()*7);
+        if(this.currentRoom == null) return;
         for(var x=-1; x<2; x++)
         {
             for(var y=-2; y<2; y++)
@@ -466,6 +470,16 @@ this.shoot = function()
     game.ammo--;
     mixer.play(1);
     game.pieces.push( new Bullet(this.x2,this.y2,this.currentRoom, this) );
+}
+
+this.getNumberOfKeys = function(type)
+{
+	var c = 0;
+	for(var i=0; i<this.inventory.length; i++)
+	{
+		if( this.inventory[i] instanceof Key && this.inventory[i].type==type) c++;
+	}
+	return c;
 }
 
 };

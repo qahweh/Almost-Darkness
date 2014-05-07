@@ -282,6 +282,10 @@
                 if(game.human.magicFreeze) gamecanvasC.drawImage(img,10*28,6*38,28,38,0,38*8,28,38);
                 if(game.human.magicPoison) gamecanvasC.drawImage(img,11*28,6*38,28,38,0,38*9,28,38);
 
+                gamecanvasC.drawImage(img,6*28,1*38,28,38,0,38*11,28,38); drawText(1,11,""+game.human.getNumberOfKeys(1),gamecanvasC);
+                gamecanvasC.drawImage(img,9*28,4*38,28,38,0,38*12,28,38); drawText(1,12,""+game.human.getNumberOfKeys(2),gamecanvasC);
+                gamecanvasC.drawImage(img,10*28,4*38,28,38,0,38*13,28,38); drawText(1,13,""+game.human.getNumberOfKeys(3),gamecanvasC);
+
                 gamecanvasC.drawImage(img,6*28,0*38,28,38,0,38*4,28,38);
                 drawText(1,4,""+( game.human.health>0 ? game.human.health : 0),gamecanvasC);
             }

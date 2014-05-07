@@ -134,10 +134,10 @@ function HouseBuilder(level)
         else if(r==1)
         {
             var x2 = 7+parseInt(this.randomObject.nextInt(10));
-            if(!(room.matris[x2+2*room.width]==2 && room.matris[x2+16*room.width]==2)){ x2 = 7+this.randomObject.nextInt(10); console.log("!!");}
+            if(!(room.matris[x2+2*room.width]==2 && room.matris[x2+16*room.width]==2)){ x2 = 7+this.randomObject.nextInt(10); }
 
             var x3 = x2+this.randomObject.nextInt(11)+6;
-            if(!(room.matris[x3+2*room.width]==2 && room.matris[x3+16*room.width]==2)){ x3 = x2+this.randomObject.nextInt(11)+6; console.log("!!"); }
+            if(!(room.matris[x3+2*room.width]==2 && room.matris[x3+16*room.width]==2)){ x3 = x2+this.randomObject.nextInt(11)+6; }
 
 
             x=x2;
@@ -148,7 +148,7 @@ function HouseBuilder(level)
             for(x=3; x<x2; x++){for(y=3; y<16; y++){room.matris[x+y*room.width]=0;}}
 
             var height = 6+this.randomObject.nextInt(7);
-            while( room.matris[2+height*room.width] !=1 ) { height = 6+this.randomObject.nextInt(7); console.log("??1");}
+            while( room.matris[2+height*room.width] !=1 ) { height = 6+this.randomObject.nextInt(7); }
 
             var c = 0;
             var h = 2;
@@ -161,7 +161,7 @@ function HouseBuilder(level)
                     room.matris[x+height*room.width] = 2;
                     h--;
                     height = 6+this.randomObject.nextInt(7);
-                    while( room.matris[2+height*room.width] !=1) { height = 6+this.randomObject.nextInt(7); console.log("??2");}
+                    while( room.matris[2+height*room.width] !=1) { height = 6+this.randomObject.nextInt(7); }
                     c = 0;
                 }
                 if(c!=3)room.matris[x+height*room.width] = 2;
@@ -566,15 +566,14 @@ function HouseBuilder(level)
             else
             {
                 initr++;
-                console.log(initr);
+                
                 this.randomObject = new Random(initr);
             }
             first = false;
 
             //this.randomObject = new Random(60);
             this.rootBuild();
-            console.log(this.roomCounter);
-            console.log(game.rooms.length);
+
         }
    // }
 

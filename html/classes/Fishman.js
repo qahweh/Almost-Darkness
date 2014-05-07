@@ -51,6 +51,7 @@ function Fishman(x,y,room,level)
 
     r.update = function()
     {
+		this.blinkTime = 0;
         this.update2 = characterFactory.update2;
         this.update2();
         if(this.hurt)this.hurtFrame++;

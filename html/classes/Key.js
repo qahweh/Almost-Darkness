@@ -1,5 +1,6 @@
-function Key(x,y,room)
+function Key(x,y,room,type)
 {
+	this.type = type;
     this.x = x;
     this.y = y;
     this.imgx = 2;

@@ -1,7 +1,7 @@
 function RoomEventHandler()
 {
     this.ammoRoomLevel = 0;
-    this.fishmanRoomLevel = 0;
+    this.fishmanRoomLevel = 10;
     this.beenHandled = new Array();
 
     this.itemsToCome = new Array();
@@ -66,7 +66,7 @@ function RoomEventHandler()
             
             if(room.matris[i].isFloor)break;
         }
-        console.log(i);
+
         var n=0;
         while(true)
         {
