@@ -42,10 +42,17 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
     this.magicFreeze = false;
     this.magicPoison = false;
     this.tall = 30;
+    this.loseItemEffect = 0;
+    this.loseItemEffectImg = new Point(9,4);
     this.getTall = function(){ return 30;}
     
     this.inventory = new Array();
     
+
+this.inventory.push(new Key(0,0,null,1));
+this.inventory.push(new Key(0,0,null,2));
+this.inventory.push(new Key(0,0,null,3));
+
     this.getHeight = function()
     {
         if(this.jump>0) return ( this.height<0.8 ? 0 : parseInt(this.height));
@@ -70,6 +77,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         if(this.pickupEffect>0) this.pickupEffect--;
         if(this.shootCooldown>0) this.shootCooldown--;
         if(this.whipframe>0) this.whipframe--;
+        if(this.loseItemEffect>0) this.loseItemEffect--;
         if(this.whipframe==1)
         {
 			var wdx = 0;
@@ -263,7 +271,7 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
         if(t instanceof Door && this == game.human)
         {
             var door = t;
-            var room = door.openDoor(game.human);
+            var room = door.openDoor(false);
             if(room!==false)
             {
                 gamecanvasC.clearRect(0,0,1120,722);
@@ -446,6 +454,11 @@ function Human(x,y,room) //should be called Piece or Character to be a common cl
             f.o2 = this.pickupImg;
             f.o2f = new Point(0,-35-Math.sin(this.pickupEffect/5)*6);       
         }
+        else if(this.loseItemEffect>0)
+        {
+            f.o2 = this.loseItemEffectImg;
+            f.o2f = new Point(0,-45+this.loseItemEffect/3);       
+        }
         else
         {
             f.o2 = null;
@@ -486,6 +499,21 @@ this.getNumberOfKeys = function(type)
 		if( this.inventory[i] instanceof Key && this.inventory[i].type==type) c++;
 	}
 	return c;
+}
+
+this.removeOneKey = function(type)
+{
+    var i = 0;
+	for(i=0; i<this.inventory.length; i++)
+	{
+		if( this.inventory[i] instanceof Key && this.inventory[i].type==type) break;
+	}
+    this.loseItemEffect = 30;
+    if(type===1)this.loseItemEffectImg = new Point(6,1);
+    else if(type===2)this.loseItemEffectImg = new Point(9,4);
+    else if(type===3)this.loseItemEffectImg = new Point(10,4);
+    else throw "lll";
+    this.inventory.splice(i,1);
 }
 
 };

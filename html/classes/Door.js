@@ -41,7 +41,16 @@ function Door()
         if(!forceOpen)
         {
             if(this.isForcedClosed) return false;
-            if(this.locked && !game.human.hasKey)return false;
+            if(this.locked)
+            {
+                if(game.human.getNumberOfKeys(this.otherDoor.lockedType)>0)
+                {
+                    game.human.removeOneKey(this.otherDoor.lockedType);
+                    this.locked = false;
+                    this.lockedtype = false;
+                }
+                else return false;
+            }
         }
         var d = this.getToRoom();
         if(d===true)return;
