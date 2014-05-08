@@ -529,6 +529,19 @@ function HouseBuilder(level)
                 
             }
         }
+
+        for(var i = 0; i<this.width*this.height; i++)
+        {
+            var spot = this.house[i];
+            spot[0].openAllDoors();
+            spot[1].openAllDoors();
+            spot[2].openAllDoors();
+            spot[3].openAllDoors();
+            spot[4].openAllDoors();
+            spot[5].openAllDoors();
+            spot[6].openAllDoors();
+        }
+
         var room = this.getStartRoom();
         room.entered = true;
         game.rooms.push(room);

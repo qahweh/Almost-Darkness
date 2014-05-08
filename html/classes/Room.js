@@ -35,6 +35,11 @@ function Room(roomType,random, buildRoom, deep)
         return x;		
 	}
 
+    this.openAllDoors = function()
+    {
+        for(var i=0; i<this.width*this.height; i++) if(this.matris[i] instanceof Door) this.matris[i].openDoor(true);
+    }
+
     this.getNumberOfDoors = function()
     {
         var x = 0;
