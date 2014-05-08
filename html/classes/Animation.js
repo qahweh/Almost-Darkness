@@ -71,5 +71,19 @@ function Animation(type)
         this.images.push(new Point( 2,  13));
         this.images.push(new Point( 10, 13));
     }
+    if(type==6) // fish man poison
+    {
+        this.images.push(new Point( 1,  14));
+        this.images.push(new Point( 0,  14));
+        this.images.push(new Point( 9,  14));
+        this.images.push(new Point( 3,  14));
+        this.images.push(new Point( 4,  14));
+        this.images.push(new Point( 5,  14));
+        this.images.push(new Point( 6,  14));
+        this.images.push(new Point( 7,  14));
+        this.images.push(new Point( 8,  14));
+        this.images.push(new Point( 2,  14));
+        this.images.push(new Point( 10, 14));
+    }
 
 }

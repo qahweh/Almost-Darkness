@@ -22,6 +22,14 @@ function CharacterFactory()
 		    }
 			else this.animation = this.normalanimation;
 	    }
+        if(this.isPoison)
+        {
+			if(!this.poisonFrame) this.poisonFrame = 0;
+			this.poisonFrame++;
+			if(this.poisonFrame%200==0) this.getHit();
+            this.animation = ( parseInt(this.poisonFrame/29)%2==0 ? new Animation(6) : this.normalanimation);
+        }	    
+	    
        if(this.startrunningCooldown>0){ this.startrunningCooldown--; } else this.steplength = this.walklength;
 
         var k = -1;

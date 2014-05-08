@@ -54,7 +54,12 @@ function Bullet(x,y,room, shooter)
         if(p instanceof Axe){ p.speedX = -p.speedX; p.speedY = -p.speedY; }
         if(p instanceof StoneBlock){p.health--;};
         if(p instanceof Chest){p.health--;};
-        if(p.getHit) { if(this.shooter.magicFreeze) p.freeze = 200; p.getHit(); }
+        if(p.getHit)
+        {
+			if(this.shooter.magicFreeze) p.freeze = 200; 
+			if(this.shooter.magicPoison) p.isPoison = true; 
+			p.getHit();
+		}
         this.remove();
     }
 

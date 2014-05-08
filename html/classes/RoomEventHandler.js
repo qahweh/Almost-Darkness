@@ -128,7 +128,7 @@ function RoomEventHandler()
 
 
         var r = Math.random();
-        if(r<0.85)
+        if(r<0.77)
         {
             var diff = this.fishmanRoomLevel-this.ammoRoomLevel;
             if(diff<-2)this.fishmanRoomLevel+=5;
@@ -179,7 +179,7 @@ function RoomEventHandler()
             while(true)
             {
                 c++;
-                if(c>1000) throw "loop freeze";
+                if(c>1000) return;
                 var x = parseInt(Math.random()*room.width);
                 var y = parseInt(Math.random()*room.height);
                 var t = room.getTile(x,y);
