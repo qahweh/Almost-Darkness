@@ -86,6 +86,7 @@ function CharacterFactory()
         if(this.health<=0)
         {
 			this.hurt = true;  
+			if(this.isFishman && Math.random()<0.5) this.currentRoom.unForceCloseAllDoors();
 			if(!this.currentRoom.hasEnemy()) this.currentRoom.unForceCloseAllDoors();
 		}
     }

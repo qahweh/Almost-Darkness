@@ -51,6 +51,7 @@ function Fishman(x,y,room,level)
 
     r.update = function()
     {
+        if(this.currentRoom==null)return;
 		this.blinkTime = 0;
         this.update2 = characterFactory.update2;
         this.update2();
@@ -65,6 +66,7 @@ function Fishman(x,y,room,level)
         {
             game.pieces.push ( new Axe( parseInt(this.x2/28)+0.5, parseInt(this.y2/38)+0.5,room,this,new Point(parseInt(game.human.x2/28),parseInt(game.human.y2/38))) );
         }
+        if(this.currentRoom==null)return;
         var t = this.currentRoom.getTile( parseInt(this.x2/28), parseInt(this.y2/38));
         
         //console.log("-------");

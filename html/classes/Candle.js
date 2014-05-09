@@ -8,6 +8,8 @@ function Candle(x,y,room)
     this.offsetImg = new Point(parseInt(Math.random()*5)-2,14-parseInt(Math.random()*3));
     this.frame = 0;
     this.currentImg = new Point(6,4)
+    this.getHeight = function(){ return 0;}
+    this.getTall = function(){ return 0;}
 
     this.getImage = function()
     {

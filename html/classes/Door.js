@@ -11,7 +11,7 @@ function Door()
     this.belongToRoom = null;
     this.position = null;
     this.counter = 1;
-    this.locked = ( parseInt(Math.random()*3)==1 ? true : false);
+    this.locked = ( parseInt(Math.random()*9)==1 ? true : false);
 
     if(this.locked)
     {
@@ -53,7 +53,7 @@ function Door()
             }
         }
         var d = this.getToRoom();
-        if(d===true)return;
+        if(d===true)return false;
         var dx = 0;
         var dy = 0;
         if(this.doorDir == DirType.UP) dy = 1;

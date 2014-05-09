@@ -131,6 +131,7 @@
                     if(text[i]=="z"){imgx=1; imgy=9;}
                     if(text[i]=="."){imgx=2; imgy=9;}
                     if(text[i]=="w"){imgx=3; imgy=9;}
+                    if(text[i]=="/"){imgx=11; imgy=0;}
 
 
                     if(text[i]==";"){canvas.clearRect(x*28,y*38,28,38); imgx=parseInt(game.frame/7)%3; imgy=7;}
@@ -272,7 +273,7 @@
                 gamecanvasC.drawImage(img,2*28,1*38,28,38,0,0,28,38);
                 gamecanvasC.drawImage(img,4*28,0*38,28,38,0,38,28,38);
                 drawText(1,0,""+game.ammo,gamecanvasC);
-                drawText(1,1,""+game.reh.beenHandled.length,gamecanvasC);
+                drawText(1,1,""+game.reh.beenHandled.length+"/"+game.rooms.length,gamecanvasC);
 
                 if(game.human.runlength==2)gamecanvasC.drawImage(img,6*28,3*38,28,38,0,38*2,28,38);
                 if(game.human.hasKey)gamecanvasC.drawImage(img,6*28,1*38,28,38,0,38*3,28,38);

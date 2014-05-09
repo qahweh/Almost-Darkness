@@ -21,6 +21,7 @@ function Game()
         this.config = new Object();
         this.config.light = 1;
         this.zLevel=3;
+        this.totalNumberOfRooms = false;
     }
 
     this.getRandomRoom = function(random)
@@ -227,7 +228,7 @@ function Game()
             dt.push(this.human);
             var pu = this.updatePieces();
             dt = dt.concat(pu);                    
-
+/*
             for(var i=0; i<dt.length; i++)
             {
                 var p = dt[i];
@@ -246,7 +247,7 @@ function Game()
                     updateTile.push(c-this.human.currentRoom.width-1);
                 }
             }
-
+*/
             if(this.frame%(this.frameskip+1)!=0)return;
 
             drawRoom(updateTile);

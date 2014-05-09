@@ -8,7 +8,7 @@ function Chest(x,y,room)
     this.health = 4;
     this.getImage = function() { if(this.open) return new Point(10,7);  return new Point(9,7); }
     this.update = function() { if(this.health<=0)this.currentRoom = null } 
-this.tall=20;
+    this.tall=20;
     this.getHeight = function(){ return 0;}
     this.getTall = function(){ return 20;}
 
@@ -126,6 +126,7 @@ this.tall=20;
 		if(i==0)
 		{
 			game.human.pickupEffect = 0;
+            return;
 		}
 		if(i==1)
 		{
@@ -163,6 +164,6 @@ this.tall=20;
             game.ammo += 12;
             return;
         }
-        throw "not set value";
+        throw "not set value "+i;
 	}
 } 
