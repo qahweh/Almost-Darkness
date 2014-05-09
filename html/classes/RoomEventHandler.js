@@ -169,6 +169,37 @@ function RoomEventHandler()
         this.fillRoomsWith(room, function(x,y,room){ return new Chest(x,y,room); },1);
         this.fillRoomsWith(room, function(x,y,room){ return new StoneBlock(x,y,room); },parseInt(room.getNumberOfFloorTiles()/10));
 
+        var t = parseInt(Math.random()*room.width*room.height);
+        while(!room.matris[t].isFloor)
+        {
+            t = parseInt(Math.random()*room.width*room.height);
+        }
+        room.matris[t] = new Carpet(room,t);
+        var dx = ( Math.random()<0.5 ? -1 : 1 );
+        while(room.matris[t+dx].isFloor)
+        {
+            room.matris[t+dx] = new Carpet(room,t+dx);
+            if(dx<0)dx--;
+            else if(dx>0)dx++;
+        }
+
+        var j = function(i) { return i;  };
+        var j2 = function(i) { return i+room.width;  };
+
+        if(Math.random()<0.5)
+        {
+            var j = function(i) { return room.width*room.height-i-1;  };
+            var j2 = function(i) { return        (room.width*room.height-i-1) - room.width;         };
+        }
+        for(var i = 0; i<room.width*room.height; i++)
+        {
+            if(room.matris[j(i)] instanceof Carpet)
+            {
+                if(room.matris[j2(i)].isFloor) room.matris[j2(i)] = new Carpet(room,j2(i));
+            }
+        }
+
+
     }
 
     this.fillRoomsWith = function(room,withWhat,q)

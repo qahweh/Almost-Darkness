@@ -35,16 +35,12 @@ Byt liv mot chash
 
 
 Alpha:
-Ha whip
-** Fiender kasta yxa
-** Öppna kista, få item
-Fler nycklar, antal nycklar och dörr låst med samma typ på båda sidor. (såklart låses båda sidor upp)
-Klara spelet om besökt ett visst antal rum. visa antal rum.
-** Ny fiende typ, starkare. så att instället för många fiender längre fram så kan dom bli starkare.
-() Inga fiender i för små rum. om isf bara 1 kanske och då svår ifall långt in i spelet.
-Stäng dörrar ibland och öppna enbart om alla fiender är rensade.
-* Slå eller skjuta bort block.
-Poison
+Whip bättre. slå upp och ner.
+Klara spelet om alla rum är besökta.
+Matta.
+Öppna stängda dörrar ifall man får ner en fiende 50/50 chans. om alla borta såklart 100% att dom ska öppnas.
+Bättre kontroll. bättre imgs.
+
 
 Allt ska ha höjd och längd så att kollision med exempelvis yxa och bullet bara träffar om dessa överlappas i Z.
 getPiece2 ska nog returnera en lista av objekt så att om man träffar flera objekt ska båda hanteras
@@ -106,3 +102,14 @@ Clocktower
 ZombieU
 StarTropics
 Sweet home. team. någon är mullvad.
+
+
+
+påverkar hur fiender ska utvecklas genom att välja magic "typ eternal darkness"
+fiender kan ta över och styra en. bra om team.
+
+Man hittar böcker i huset som beskriver andra spelare som man kan spela "typ eternal darkness".
+
+Huset är en hub och man spelar med att röra sig neråt i grottor och återvänder starkare för fortsätta längr in i huset. Ju svårare det blir i huset desto läskigare ska huset se ut.
+
+
