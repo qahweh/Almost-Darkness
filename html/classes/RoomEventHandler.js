@@ -19,13 +19,6 @@ function RoomEventHandler()
     obj.w = 2;
     this.itemsToCome.push( obj);
 
-
-    var obj = new Object();
-    obj.f = function(x,y,room){ return new Key(x,y,room)};
-    obj.w = 4;
-
-    this.itemsToCome.push( obj);
-
     this.handleRoom = function(room, doNotBuildHere)
     {
         this.doNotBuildHere = doNotBuildHere;
@@ -122,7 +115,11 @@ function RoomEventHandler()
         var itemsToComeHandled = false;
         if(this.itemsToCome.length>0)
         {
-            while(this.itemsToCome[0].w < this.beenHandled.length){ this.fillRoomsWith(room, this.itemsToCome[0].f, 1); this.itemsToCome.splice(0,1);itemsToComeHandled = true;  }
+            while(this.itemsToCome[0].w < this.beenHandled.length)
+            {
+                this.fillRoomsWith(room, this.itemsToCome[0].f, 1); this.itemsToCome.splice(0,1);itemsToComeHandled = true;
+                if(!this.itemsToCome[0])return;
+            }
         }
         if(itemsToComeHandled)return;        
 

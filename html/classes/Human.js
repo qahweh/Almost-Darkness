@@ -87,7 +87,7 @@ this.inventory.push(new Key(0,0,null,3));
 			if(this.dir==2)var wdy = 20;
 			if(this.dir==3)var wdy = -20;
 			 
-			var p = this.currentRoom.getPiece2( this.x2, this.y2+0, this );
+			var p = this.currentRoom.getPiece2( this.x2, this.y2+0, this,function(){},1,20 );
 			console.log(p);
 			if(p!=null && p.getHit)
 			{

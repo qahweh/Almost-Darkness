@@ -5,7 +5,11 @@ function Carpet(room,pos)
 
     this.room = room;
     this.pos = pos;
+    this.currentRoom = room;
     this.canWalkOn = true;
+    this.x = pos%room.width;
+    this.y = parseInt(pos/room.width);
+
     this.getImage = function()
     {
         if( this.connect(this.pos-1) && this.connect(this.pos+1) )
@@ -39,5 +43,6 @@ function Carpet(room,pos)
     }
 
     this.skipDraw = tileFactory.skipDraw;
+    this.getNextToTile = tileFactory.getNextToTile;
 };
 
